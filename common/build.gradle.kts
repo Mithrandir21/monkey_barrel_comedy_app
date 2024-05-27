@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -24,7 +23,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "domain"
+            baseName = "common"
             isStatic = true
         }
     }
@@ -35,39 +34,32 @@ kotlin {
 
         commonMain.dependencies {
             //put your multiplatform dependencies here
+            implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
 
             implementation(libs.koin.core)
 
             implementation(libs.napier)
-
-            implementation(libs.sqldelight.extensions.coroutines)
-
-            implementation(project(":common"))
-            implementation(project(":remote"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
 
         androidMain.dependencies {
-            implementation(libs.sqldelight.android)
         }
 
         iosMain.dependencies {
-            implementation(libs.sqldelight.native)
         }
 
         val desktopMain by getting {
             dependencies {
-                implementation(libs.sqldelight.jvm)
             }
         }
     }
 }
 
 android {
-    namespace = "pm.bam.mbc.domain"
+    namespace = "pm.bam.mbc.common"
     compileSdk = 34
     defaultConfig {
         minSdk = 24
@@ -75,13 +67,5 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-}
-
-sqldelight {
-    databases {
-        create("Database") {
-            packageName.set("pm.bam.mbc.domain")
-        }
     }
 }

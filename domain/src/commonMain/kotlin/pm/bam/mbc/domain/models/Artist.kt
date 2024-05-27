@@ -1,9 +1,9 @@
-package pm.bam.mbc.remote.models
+package pm.bam.mbc.domain.models
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RemoteArtist(
+data class Artist(
     val id: Long,
     val name: String,
     val description: String,
@@ -12,16 +12,16 @@ data class RemoteArtist(
     val showsIds: List<Long>? = null,
     val podcastsIds: List<Long>? = null,
     val blogPostsIds: List<Long>? = null,
-    val externalLinks: List<RemoteArtistExternalLink>? = null
+    val externalLinks: List<ArtistExternalLink>? = null
 )
 
 @Serializable
-data class RemoteArtistExternalLink(
+data class ArtistExternalLink(
     val url: String,
-    val type: RemoteArtistExternalLinkType
+    val type: ArtistExternalLinkType
 )
 
-enum class RemoteArtistExternalLinkType {
+enum class ArtistExternalLinkType {
     INSTAGRAM,
     FACEBOOK,
     TWITTER,

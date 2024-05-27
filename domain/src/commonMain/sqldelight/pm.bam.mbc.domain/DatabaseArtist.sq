@@ -1,0 +1,32 @@
+CREATE TABLE DatabaseArtist (
+    id INTEGER PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    images TEXT NOT NULL,
+    genres TEXT NOT NULL,
+    showsIds TEXT,
+    podcastsIds TEXT,
+    blogPostsIds TEXT,
+    externalLinks TEXT
+);
+
+
+selectAll:
+SELECT *
+FROM DatabaseArtist;
+
+selectById:
+SELECT *
+FROM DatabaseArtist
+WHERE id = ?;
+
+insert:
+INSERT INTO DatabaseArtist(id, name, description, images, genres, showsIds, podcastsIds, blogPostsIds, externalLinks)
+VALUES ?;
+
+delete:
+DELETE FROM DatabaseArtist
+WHERE id = ?;
+
+deleteAll:
+DELETE FROM DatabaseArtist;

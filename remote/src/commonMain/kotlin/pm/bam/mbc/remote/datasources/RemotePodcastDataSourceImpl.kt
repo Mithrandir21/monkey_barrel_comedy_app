@@ -12,7 +12,7 @@ class RemotePodcastDataSourceImpl : RemotePodcastDataSource {
                 id = 1,
                 name = "Steve Bugeja",
                 description = "Description 1",
-                image = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/6514670741fad31755da03c7/scaled_768.jpg"),
+                images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/6514670741fad31755da03c7/scaled_768.jpg"),
                 links = listOf(
                     RemotePodcastEpisodeExternalLink(
                         url = "https://example.com/episode1",
@@ -26,7 +26,7 @@ class RemotePodcastDataSourceImpl : RemotePodcastDataSource {
                 id = 2,
                 name = "Larry Dean",
                 description = "Description 2",
-                image = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/65e61b47221ef91eed7e2435/scaled_768.jpg"),
+                images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/65e61b47221ef91eed7e2435/scaled_768.jpg"),
                 links = listOf(
                     RemotePodcastEpisodeExternalLink(
                         url = "https://example.com/episode2",

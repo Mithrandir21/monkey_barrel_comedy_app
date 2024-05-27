@@ -1,0 +1,30 @@
+CREATE TABLE DatabasePodcastEpisode (
+    id INTEGER PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    images TEXT NOT NULL,
+    links TEXT NOT NULL,
+    duration TEXT NOT NULL,
+    releaseDate TEXT NOT NULL,
+    showId INTEGER
+);
+
+selectAll:
+SELECT *
+FROM DatabasePodcastEpisode;
+
+selectById:
+SELECT *
+FROM DatabasePodcastEpisode
+WHERE id = ?;
+
+insert:
+INSERT INTO DatabasePodcastEpisode(id, name, description, images, links, duration, releaseDate, showId)
+VALUES ?;
+
+delete:
+DELETE FROM DatabasePodcastEpisode
+WHERE id = ?;
+
+deleteAll:
+DELETE FROM DatabasePodcastEpisode;

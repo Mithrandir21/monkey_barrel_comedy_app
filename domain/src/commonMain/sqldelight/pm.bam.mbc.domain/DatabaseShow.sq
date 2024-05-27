@@ -1,0 +1,33 @@
+CREATE TABLE DatabaseShow (
+    id INTEGER PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    url TEXT NOT NULL,
+    venue TEXT NOT NULL,
+    images TEXT NOT NULL,
+    eventStatus TEXT NOT NULL,
+    description TEXT NOT NULL,
+    startDate TEXT NOT NULL,
+    endDate TEXT NOT NULL,
+    category TEXT,
+    artistIds TEXT
+);
+
+selectAll:
+SELECT *
+FROM DatabaseShow;
+
+selectById:
+SELECT *
+FROM DatabaseShow
+WHERE id = ?;
+
+insert:
+INSERT INTO DatabaseShow(id, name, description, images, url, venue, eventStatus, startDate, endDate, category, artistIds)
+VALUES ?;
+
+delete:
+DELETE FROM DatabaseShow
+WHERE id = ?;
+
+deleteAll:
+DELETE FROM DatabaseShow;

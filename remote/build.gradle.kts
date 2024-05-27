@@ -30,6 +30,8 @@ kotlin {
         }
     }
 
+    task("testClasses") // Required because of bug in KMM plugin
+
     sourceSets {
 
         commonMain.dependencies {

@@ -16,7 +16,7 @@ import pm.bam.mbc.remote.datasources.RemoteShowsDataSourceImpl
 import pm.bam.mbc.remote.logic.RemoteBuildType
 import pm.bam.mbc.remote.logic.getRemoteBuildUtil
 
-val module = module {
+val remoteModule = module {
     single<RemoteBuildType> { getRemoteBuildUtil().buildType() }
     single<HttpClient> { ClientProviderImpl(get()).client() }
     single<Ktorfit> { createKtorfit(get()) }

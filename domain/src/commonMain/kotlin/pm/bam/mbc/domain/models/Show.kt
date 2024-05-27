@@ -1,15 +1,15 @@
-package pm.bam.mbc.remote.models
+package pm.bam.mbc.domain.models
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RemoteShow(
+data class Show(
     val id: Long,
     val name: String,
     val url: String,
     val venue: String,
     val images: List<String>,
-    val eventStatus: RemoteEventStatus,
+    val eventStatus: EventStatus,
     val description: String,
     val category: List<String>? = null,
     val artistIds: List<Long>? = null,
@@ -18,7 +18,7 @@ data class RemoteShow(
 )
 
 
-enum class RemoteEventStatus {
+enum class EventStatus {
     ACTIVE,
     CANCELLED,
 }
