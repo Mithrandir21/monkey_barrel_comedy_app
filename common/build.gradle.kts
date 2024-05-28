@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -34,6 +36,10 @@ kotlin {
 
         commonMain.dependencies {
             //put your multiplatform dependencies here
+            implementation(compose.components.resources)
+            implementation(compose.foundation)
+            implementation(compose.material)
+
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
 
