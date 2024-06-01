@@ -36,12 +36,17 @@ kotlin {
 
         commonMain.dependencies {
             //put your multiplatform dependencies here
-            implementation(compose.components.resources)
+            implementation(compose.ui)
+            implementation(compose.runtime)
+            implementation(compose.material3)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
 
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
+
+            implementation(libs.jetbrains.androidx.lifecycle.runtime.compose)
 
             implementation(libs.koin.core)
 
@@ -52,13 +57,31 @@ kotlin {
         }
 
         androidMain.dependencies {
+            implementation(libs.kotlinx.coroutines.android)
         }
 
         iosMain.dependencies {
         }
 
+        val iosX64Main by getting {
+            dependencies {
+                implementation(libs.kotlinx.coroutines.iosx64)
+            }
+        }
+        val iosArm64Main by getting {
+            dependencies {
+                implementation(libs.kotlinx.coroutines.iosarm64)
+            }
+        }
+        val iosSimulatorArm64Main by getting {
+            dependencies {
+                implementation(libs.kotlinx.coroutines.iossimulatorarm64)
+            }
+        }
+
         val desktopMain by getting {
             dependencies {
+                implementation(libs.kotlinx.coroutines.swing)
             }
         }
     }
@@ -66,9 +89,9 @@ kotlin {
 
 android {
     namespace = "pm.bam.mbc.common"
-    compileSdk = 34
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = 24
+        minSdk = libs.versions.android.minSdk.get().toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

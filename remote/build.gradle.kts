@@ -62,6 +62,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(libs.ktor.client.apache5)
+                implementation(libs.slf4j.simple)
             }
         }
     }
@@ -79,9 +80,9 @@ dependencies {
 
 android {
     namespace = "pm.bam.mbc.remote"
-    compileSdk = 34
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = 24
+        minSdk = libs.versions.android.minSdk.get().toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

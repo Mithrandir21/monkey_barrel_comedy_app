@@ -2,6 +2,7 @@ package pm.bam.mbc.domain.di
 
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import pm.bam.mbc.common.di.commonModule
 import pm.bam.mbc.domain.Database
 import pm.bam.mbc.domain.db.DriverFactory
 import pm.bam.mbc.domain.db.createDatabase
@@ -13,6 +14,7 @@ import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
 import pm.bam.mbc.domain.repositories.podcast.PodcastRepositoryImpl
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepositoryImpl
+import pm.bam.mbc.remote.di.remoteModule
 import pmbammbcdomain.DatabaseArtistQueries
 import pmbammbcdomain.DatabaseBlogPostQueries
 import pmbammbcdomain.DatabasePodcastEpisodeQueries
@@ -22,6 +24,7 @@ import pmbammbcdomain.DatabaseShowQueries
 expect val platformModule: Module
 
 val domainModule = module {
+    includes(remoteModule, commonModule)
 
     single<Database> { createDatabase(get<DriverFactory>()) }
 

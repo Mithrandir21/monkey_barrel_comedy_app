@@ -29,26 +29,67 @@ kotlin {
             isStatic = true
         }
     }
+
+    task("testClasses") // Required because of bug in KMM plugin
     
     sourceSets {
-        val desktopMain by getting
-        
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-        }
         commonMain.dependencies {
+            implementation(compose.ui)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
-            implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
+            implementation(libs.kotlinx.coroutines.core)
+
+            implementation(libs.koin.core)
+
+            implementation(libs.jetbrains.androidx.lifecycle.runtime.compose)
+            implementation(libs.jetbrains.androidx.lifecycle.viewmodel.compose)
+            implementation(libs.jetbrains.androidx.navigation.compose)
+
             implementation(project(":common"))
+            implementation(project(":feature:home"))
+            implementation(project(":feature:shows"))
+            implementation(project(":feature:webview"))
         }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
+
+        androidMain.dependencies {
+            implementation(compose.preview)
+
+            implementation(libs.kotlinx.coroutines.android)
+
+            implementation(libs.koin.android)
+        }
+
+        iosMain.dependencies {
+        }
+
+        val iosX64Main by getting {
+            dependencies {
+                implementation(libs.kotlinx.coroutines.iosx64)
+            }
+        }
+        val iosArm64Main by getting {
+            dependencies {
+                implementation(libs.kotlinx.coroutines.iosarm64)
+            }
+        }
+        val iosSimulatorArm64Main by getting {
+            dependencies {
+                implementation(libs.kotlinx.coroutines.iossimulatorarm64)
+            }
+        }
+
+        val desktopMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation(libs.kotlinx.coroutines.swing)
+            }
         }
     }
 }
@@ -71,6 +112,7 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "DebugProbesKt.bin"
         }
     }
     buildTypes {
