@@ -9,5 +9,7 @@ interface ShowsRepository {
 
     fun getShow(showId: Long): Show
 
+    fun getShows(vararg showId: Long): List<Show>
+
     fun refreshShows()
 }

@@ -25,6 +25,11 @@ internal class ArtistRepositoryImpl(
             .mapToList(Dispatchers.IO)
             .map { databaseArtists -> databaseArtists.map { it.toArtist(serializer) } }
 
+    override fun getArtist(artistId: Long): Artist =
+        artistQueries.selectById(artistId)
+            .executeAsOne()
+            .toArtist(serializer)
+
     override fun getArtists(vararg artistId: Long): List<Artist> =
         artistQueries.selectByIds(artistId.toList())
             .executeAsList()

@@ -30,6 +30,11 @@ internal class ShowsRepositoryImpl(
             .executeAsOne()
             .toShow(serializer)
 
+    override fun getShows(vararg showId: Long): List<Show> =
+        showQueries.selectByIds(showId.toList())
+            .executeAsList()
+            .map { it.toShow(serializer) }
+
     override fun refreshShows() =
         remoteShowDataSource.getAllShows()
             .map { it.toDatabaseShow(serializer) }

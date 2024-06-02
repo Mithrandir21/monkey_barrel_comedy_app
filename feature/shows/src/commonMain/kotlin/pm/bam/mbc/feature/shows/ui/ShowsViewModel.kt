@@ -66,7 +66,7 @@ internal class ShowsViewModel(
         flowOf(showId)
             .flatMapLatest { showsRepository.getShow(it).toFlow() }
             .flatMapLatest<Show, ShowScreenData> { show ->
-                show.artistIds?.let { artistIds -> artistRepository.getArtists(*artistIds.toLongArray()) }
+                show.artistIds?.let { artistRepository.getArtists(*it.toLongArray()) }
                     ?.toFlow()
                     ?.map { ShowScreenData.Data(show, it) }
                     ?: flowOf(ShowScreenData.Data(show))

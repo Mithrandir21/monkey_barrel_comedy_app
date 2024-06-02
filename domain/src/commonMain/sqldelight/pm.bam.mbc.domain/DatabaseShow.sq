@@ -21,6 +21,12 @@ SELECT *
 FROM DatabaseShow
 WHERE id = ?;
 
+selectByIds:
+SELECT *
+FROM DatabaseShow
+WHERE id
+IN ?;
+
 insert:
 INSERT INTO DatabaseShow(id, name, description, images, url, venue, eventStatus, startDate, endDate, category, artistIds)
 VALUES ?;

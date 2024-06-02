@@ -54,6 +54,8 @@ kotlin {
             implementation(project(":feature:home"))
             implementation(project(":feature:shows"))
             implementation(project(":feature:webview"))
+            implementation(project(":feature:artists"))
+            implementation(project(":feature:artist"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

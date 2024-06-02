@@ -6,6 +6,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import pm.bam.mbc.feature.artist.navigation.artistScreen
+import pm.bam.mbc.feature.artists.navigation.artistsScreen
 import pm.bam.mbc.feature.home.navigation.homeScreen
 import pm.bam.mbc.feature.shows.navigation.showScreen
 import pm.bam.mbc.feature.webview.navigation.webviewScreen
@@ -25,18 +27,34 @@ internal fun NavGraph(
         homeScreen(
             route = NavigationDestinations.HOME_SCREEN_ROUTE,
             goToShow = { navActions.navigateToShow(it) },
+            goToArtists = { navActions.navigateToArtists() }
         )
 
         showScreen(
             navController = navController,
             route = NavigationDestinations.SHOW_ROUTE,
             showIdArg = NavigationDestinationsArgs.SHOW_ID_ARG,
-            goToWeb = { url: String, showTitle: String -> navActions.navigateToWeb(url, showTitle) }
+            goToArtists = { navActions.navigateToArtist(it) },
+            goToWeb = { url: String, title: String -> navActions.navigateToWeb(url, title) }
         )
 
         webviewScreen(
             navController = navController,
             route = NavigationDestinations.WEBVIEW_ROUTE
+        )
+
+        artistsScreen(
+            navController = navController,
+            route = NavigationDestinations.ARTISTS_ROUTE,
+            onViewArtist = { navActions.navigateToArtist(it) }
+        )
+
+        artistScreen(
+            navController = navController,
+            route = NavigationDestinations.ARTIST_ROUTE,
+            artistIdArg = NavigationDestinationsArgs.ARTIST_ID_ARG,
+            onViewShow = { navActions.navigateToShow(it) },
+            goToWeb = { url: String, title: String -> navActions.navigateToWeb(url, title) }
         )
     }
 }

@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import monkeybarrelcomey.common.generated.resources.image_placeholder
 import monkeybarrelcomey.feature.shows.generated.resources.Res
-import monkeybarrelcomey.feature.shows.generated.resources.home_screen_artists_image_content_description
+import monkeybarrelcomey.feature.shows.generated.resources.show_screen_artists_image_content_description
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_msg
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_loading_label
@@ -70,6 +70,7 @@ import pm.bam.mbc.feature.shows.ui.ShowsViewModel.ShowScreenData
 internal fun ShowsScreen(
     showId: Long,
     onBack: () -> Unit,
+    goToArtists: (artistId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
     viewModel: ShowsViewModel = koinViewModel<ShowsViewModel>()
 ) {
@@ -82,6 +83,7 @@ internal fun ShowsScreen(
     ScreenScaffold(
         data = data.value,
         onBack = onBack,
+        goToArtists = goToArtists,
         goToWeb = goToWeb,
         onRetry = onRetry
     )
@@ -93,6 +95,7 @@ internal fun ShowsScreen(
 private fun ScreenScaffold(
     data: ShowScreenData,
     onBack: () -> Unit,
+    goToArtists: (artistId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
     onRetry: () -> Unit
 ) {
@@ -155,7 +158,7 @@ private fun ScreenScaffold(
                         }
                     }
 
-                    is ShowScreenData.Data -> ShowDetails(Modifier.padding(innerPadding), data, goToWeb)
+                    is ShowScreenData.Data -> ShowDetails(Modifier.padding(innerPadding), data, goToArtists, goToWeb)
                 }
             }
         }
@@ -167,6 +170,7 @@ private fun ScreenScaffold(
 private fun ShowDetails(
     modifier: Modifier,
     data: ShowScreenData.Data,
+    goToArtists: (artistId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
 ) {
     Column(
@@ -246,7 +250,7 @@ private fun ShowDetails(
         HorizontalDivider()
 
         data.artists.forEach { artist ->
-            ArtistRow(artist = artist) {}
+            ArtistRow(artist = artist, onArtistSelected = goToArtists)
         }
     }
 }
@@ -267,7 +271,7 @@ private fun ArtistRow(
     ) {
         AsyncImage(
             model = artist.images.firstOrNull(),
-            contentDescription = stringResource(Res.string.home_screen_artists_image_content_description, artist.name),
+            contentDescription = stringResource(Res.string.show_screen_artists_image_content_description, artist.name),
             contentScale = ContentScale.Fit,
             error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
             modifier = Modifier

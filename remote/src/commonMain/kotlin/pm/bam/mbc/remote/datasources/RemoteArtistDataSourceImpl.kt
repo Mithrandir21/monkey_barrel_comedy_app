@@ -48,7 +48,7 @@ class RemoteArtistDataSourceImpl : RemoteArtistDataSource {
                 description = "Description",
                 images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/64ff19a560b4d9491b6329ac/scaled_768.jpg"),
                 genres = listOf("Comedy", "Standup"),
-                showsIds = listOf(5),
+                showsIds = listOf(1, 5),
                 podcastsIds = emptyList(),
                 externalLinks = listOf(
                     RemoteArtistExternalLink("https://www.instagram.com/vittorioangelone/", RemoteArtistExternalLinkType.INSTAGRAM),
@@ -82,7 +82,7 @@ class RemoteArtistDataSourceImpl : RemoteArtistDataSource {
                 description = "Description",
                 images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/65e60d82221ef91eed7e133f/scaled_768.jpg"),
                 genres = listOf("Comedy", "Standup"),
-                showsIds = listOf(7),
+                showsIds = listOf(1, 7),
                 podcastsIds = emptyList(),
                 externalLinks = listOf(
                     RemoteArtistExternalLink("https://www.instagram.com/amymatthews/", RemoteArtistExternalLinkType.INSTAGRAM),
@@ -99,7 +99,7 @@ class RemoteArtistDataSourceImpl : RemoteArtistDataSource {
                 description = "Description",
                 images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/6514670741fad31755da03c7/scaled_768.jpg"),
                 genres = listOf("Comedy", "Standup"),
-                showsIds = listOf(8),
+                showsIds = listOf(2, 8),
                 podcastsIds = listOf(1),
                 externalLinks = listOf(
                     RemoteArtistExternalLink("https://www.instagram.com/stevebugeja/", RemoteArtistExternalLinkType.INSTAGRAM),
@@ -116,7 +116,7 @@ class RemoteArtistDataSourceImpl : RemoteArtistDataSource {
                 description = "Description",
                 images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/65bbb1219785342c8514328a/scaled_768.jpg"),
                 genres = listOf("Comedy", "Standup"),
-                showsIds = listOf(9),
+                showsIds = listOf(2, 9),
                 podcastsIds = emptyList(),
                 externalLinks = listOf(
                     RemoteArtistExternalLink("https://www.instagram.com/lauralexx/", RemoteArtistExternalLinkType.INSTAGRAM),
@@ -150,7 +150,7 @@ class RemoteArtistDataSourceImpl : RemoteArtistDataSource {
                 description = "Description",
                 images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/656de2d5b5190741cb4a9a6a/scaled_768.jpg"),
                 genres = listOf("Comedy", "Standup"),
-                showsIds = listOf(11),
+                showsIds = listOf(1, 11),
                 podcastsIds = emptyList(),
                 externalLinks = listOf(
                     RemoteArtistExternalLink("https://www.instagram.com/pierrenovellie/", RemoteArtistExternalLinkType.INSTAGRAM),
@@ -167,7 +167,7 @@ class RemoteArtistDataSourceImpl : RemoteArtistDataSource {
                 description = "Description",
                 images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/65e61b47221ef91eed7e2435/scaled_768.jpg"),
                 genres = listOf("Comedy", "Standup"),
-                showsIds = listOf(12),
+                showsIds = listOf(2, 12),
                 podcastsIds = listOf(2),
                 externalLinks = listOf(
                     RemoteArtistExternalLink("https://www.instagram.com/larrydean/", RemoteArtistExternalLinkType.INSTAGRAM),

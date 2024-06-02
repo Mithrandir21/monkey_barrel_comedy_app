@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="artists_screen_navigation_back_button">Back</string>
+
+    <string name="artists_screen_artists_header_label">Comedians</string>
+    <string name="artists_screen_artists_image_content_description">%1$s Artist image</string>
+
+    <string name="artists_screen_loading_label">Loading…</string>
+
+    <string name="artists_screen_data_loading_error_msg">Something went wrong. Please try again.</string>
+    <string name="artists_screen_data_loading_error_retry">Retry</string>
+
+</resources>
