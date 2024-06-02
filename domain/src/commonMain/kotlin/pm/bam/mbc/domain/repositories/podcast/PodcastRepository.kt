@@ -1,13 +1,20 @@
 package pm.bam.mbc.domain.repositories.podcast
 
 import kotlinx.coroutines.flow.Flow
+import pm.bam.mbc.domain.models.Podcast
 import pm.bam.mbc.domain.models.PodcastEpisode
 
 interface PodcastRepository {
 
-    fun observeEpisodes(): Flow<List<PodcastEpisode>>
+    fun observePodcasts(): Flow<List<Podcast>>
 
-    fun getEpisode(episodeId: Long): PodcastEpisode
+    fun getPodcasts(podcastId: Long): Podcast
+
+    fun observeEpisodes(podcastId: Long): Flow<List<PodcastEpisode>>
+
+    fun getEpisode(podcastId: Long, episodeId: Long): PodcastEpisode
+
+    fun refreshPodcasts()
 
     fun refreshEpisodes()
 

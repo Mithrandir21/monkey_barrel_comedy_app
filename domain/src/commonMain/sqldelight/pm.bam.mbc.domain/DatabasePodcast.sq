@@ -1,0 +1,27 @@
+CREATE TABLE DatabasePodcast (
+    id INTEGER PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    images TEXT NOT NULL,
+    links TEXT NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM DatabasePodcast;
+
+selectById:
+SELECT *
+FROM DatabasePodcast
+WHERE id = ?;
+
+insert:
+INSERT INTO DatabasePodcast(id, name, description, images, links)
+VALUES ?;
+
+delete:
+DELETE FROM DatabasePodcast
+WHERE id = ?;
+
+deleteAll:
+DELETE FROM DatabasePodcast;

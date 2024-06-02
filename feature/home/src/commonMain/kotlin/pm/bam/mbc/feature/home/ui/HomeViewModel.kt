@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import pm.bam.mbc.common.onError
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.repositories.artist.ArtistRepository
+import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
 import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.logging.fatal
@@ -24,7 +25,8 @@ internal const val LIMIT_SHOWS = 5
 internal class HomeViewModel(
     private val logger: Logger,
     private val showsRepository: ShowsRepository,
-    private val artistRepository: ArtistRepository
+    private val artistRepository: ArtistRepository,
+    private val podcastRepository: PodcastRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeScreenData())
@@ -61,6 +63,8 @@ internal class HomeViewModel(
         viewModelScope.launch {
             showsRepository.refreshShows()
             artistRepository.refreshArtists()
+            podcastRepository.refreshPodcasts()
+            podcastRepository.refreshEpisodes()
         }
 
     internal data class HomeScreenData(

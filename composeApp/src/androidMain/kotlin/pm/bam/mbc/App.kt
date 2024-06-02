@@ -9,6 +9,7 @@ import org.koin.dsl.module
 import pm.bam.mbc.feature.artist.di.ArtistModule
 import pm.bam.mbc.feature.artists.di.ArtistsModule
 import pm.bam.mbc.feature.home.di.HomeModule
+import pm.bam.mbc.feature.podcasts.di.PodcastsModule
 import pm.bam.mbc.feature.shows.di.ShowsModule
 
 class App : Application() {
@@ -24,6 +25,7 @@ class App : Application() {
                 ShowsModule,
                 ArtistsModule,
                 ArtistModule,
+                PodcastsModule,
                 module {
                     single { this@App } binds arrayOf(Context::class, Application::class)
                 })

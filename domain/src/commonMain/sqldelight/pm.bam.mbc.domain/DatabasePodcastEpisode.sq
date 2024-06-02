@@ -6,7 +6,8 @@ CREATE TABLE DatabasePodcastEpisode (
     links TEXT NOT NULL,
     duration TEXT NOT NULL,
     releaseDate TEXT NOT NULL,
-    showId INTEGER
+    showId INTEGER,
+    artistId INTEGER
 );
 
 selectAll:
@@ -19,7 +20,7 @@ FROM DatabasePodcastEpisode
 WHERE id = ?;
 
 insert:
-INSERT INTO DatabasePodcastEpisode(id, name, description, images, links, duration, releaseDate, showId)
+INSERT INTO DatabasePodcastEpisode(id, name, description, images, links, duration, releaseDate, showId, artistId)
 VALUES ?;
 
 delete:

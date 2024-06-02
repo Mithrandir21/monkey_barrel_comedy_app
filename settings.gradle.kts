@@ -30,6 +30,7 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":logging")
 include(":remote")
 include(":domain")
 include(":common")
@@ -38,6 +39,5 @@ include(":feature:home")
 include(":feature:webview")
 include(":feature:blogs")
 include(":feature:artists")
-include(":feature:podcast")
-include(":logging")
 include(":feature:artist")
+include(":feature:podcasts")

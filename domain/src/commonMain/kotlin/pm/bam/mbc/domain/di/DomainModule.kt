@@ -19,6 +19,7 @@ import pm.bam.mbc.remote.di.remoteModule
 import pmbammbcdomain.DatabaseArtistQueries
 import pmbammbcdomain.DatabaseBlogPostQueries
 import pmbammbcdomain.DatabasePodcastEpisodeQueries
+import pmbammbcdomain.DatabasePodcastQueries
 import pmbammbcdomain.DatabaseShowQueries
 
 
@@ -32,10 +33,11 @@ val domainModule = module {
     single<DatabaseShowQueries> { get<Database>().databaseShowQueries }
     single<DatabaseArtistQueries> { get<Database>().databaseArtistQueries }
     single<DatabaseBlogPostQueries> { get<Database>().databaseBlogPostQueries }
+    single<DatabasePodcastQueries> { get<Database>().databasePodcastQueries }
     single<DatabasePodcastEpisodeQueries> { get<Database>().databasePodcastEpisodeQueries }
 
     single<ArtistRepository> { ArtistRepositoryImpl(get(), get(), get()) }
     single<BlogRepository> { BlogRepositoryImpl(get(), get(), get()) }
-    single<PodcastRepository> { PodcastRepositoryImpl(get(), get(), get()) }
+    single<PodcastRepository> { PodcastRepositoryImpl(get(), get(), get(), get()) }
     single<ShowsRepository> { ShowsRepositoryImpl(get(), get(), get()) }
 }

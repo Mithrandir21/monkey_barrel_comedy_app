@@ -32,7 +32,7 @@ class RemoteArtistDataSourceImpl : RemoteArtistDataSource {
                 images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/65f6e307cb58760cffce27d8/scaled_768.jpg"),
                 genres = listOf("Comedy", "Standup"),
                 showsIds = listOf(1, 2, 4),
-                podcastsIds = emptyList(),
+                podcastsIds = listOf(3),
                 externalLinks = listOf(
                     RemoteArtistExternalLink("https://www.instagram.com/marcjennings/", RemoteArtistExternalLinkType.INSTAGRAM),
                     RemoteArtistExternalLink("https://www.facebook.com/marcjennings", RemoteArtistExternalLinkType.FACEBOOK),
@@ -66,7 +66,7 @@ class RemoteArtistDataSourceImpl : RemoteArtistDataSource {
                 images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/65ee4734e318f152be0264c7/scaled_768.jpg"),
                 genres = listOf("Comedy", "Standup"),
                 showsIds = listOf(6),
-                podcastsIds = emptyList(),
+                podcastsIds = listOf(4),
                 externalLinks = listOf(
                     RemoteArtistExternalLink("https://www.instagram.com/samlake/", RemoteArtistExternalLinkType.INSTAGRAM),
                     RemoteArtistExternalLink("https://www.facebook.com/samlake", RemoteArtistExternalLinkType.FACEBOOK),
@@ -83,7 +83,7 @@ class RemoteArtistDataSourceImpl : RemoteArtistDataSource {
                 images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/65e60d82221ef91eed7e133f/scaled_768.jpg"),
                 genres = listOf("Comedy", "Standup"),
                 showsIds = listOf(1, 7),
-                podcastsIds = emptyList(),
+                podcastsIds = listOf(5),
                 externalLinks = listOf(
                     RemoteArtistExternalLink("https://www.instagram.com/amymatthews/", RemoteArtistExternalLinkType.INSTAGRAM),
                     RemoteArtistExternalLink("https://www.facebook.com/amymatthews", RemoteArtistExternalLinkType.FACEBOOK),
@@ -151,7 +151,7 @@ class RemoteArtistDataSourceImpl : RemoteArtistDataSource {
                 images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/656de2d5b5190741cb4a9a6a/scaled_768.jpg"),
                 genres = listOf("Comedy", "Standup"),
                 showsIds = listOf(1, 11),
-                podcastsIds = emptyList(),
+                podcastsIds = listOf(6),
                 externalLinks = listOf(
                     RemoteArtistExternalLink("https://www.instagram.com/pierrenovellie/", RemoteArtistExternalLinkType.INSTAGRAM),
                     RemoteArtistExternalLink("https://www.facebook.com/pierrenovellie", RemoteArtistExternalLinkType.FACEBOOK),

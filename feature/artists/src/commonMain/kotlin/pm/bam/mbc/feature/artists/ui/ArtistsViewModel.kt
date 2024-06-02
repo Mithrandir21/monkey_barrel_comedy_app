@@ -32,19 +32,19 @@ internal class ArtistsViewModel(
 
     init {
         viewModelScope.launch {
-            loadHomeScreenData()
+            loadArtistsScreenData()
                 .collect { _uiState.emit(it) }
         }
     }
 
     fun loadData() =
         viewModelScope.launch {
-            loadHomeScreenData()
+            loadArtistsScreenData()
                 .onStart { emit(_uiState.value.copy(state = ArtistsScreenStatus.LOADING)) }
                 .collect { _uiState.emit(it) }
         }
 
-    private fun loadHomeScreenData() =
+    private fun loadArtistsScreenData() =
         flow { emitAll(artistRepository.observeArtists()) }
             .map { shows -> shows.sortedBy { it.id } }
             .map { ArtistsScreenData(state = ArtistsScreenStatus.SUCCESS, artists = it) }

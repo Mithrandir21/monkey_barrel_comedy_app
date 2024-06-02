@@ -69,6 +69,7 @@ import pm.bam.mbc.feature.home.ui.HomeViewModel.HomeScreenStatus.ERROR
 internal fun HomeScreen(
     onViewShow: (showId: Long) -> Unit,
     goToArtists: () -> Unit,
+    goToPodcasts: () -> Unit,
     viewModel: HomeViewModel = koinViewModel<HomeViewModel>()
 ) {
     val data = viewModel.uiState.collectAsStateWithLifecycleFix()
@@ -78,7 +79,7 @@ internal fun HomeScreen(
         onViewShow = onViewShow,
         onViewShows = { },
         onViewArtists = goToArtists,
-        onViewEpisodes = { },
+        onViewPodcasts = goToPodcasts,
         onViewBlogs = { },
         onRetry = { viewModel.loadData() }
     )
@@ -91,7 +92,7 @@ private fun Screen(
     onViewShow: (showId: Long) -> Unit,
     onViewShows: () -> Unit,
     onViewArtists: () -> Unit,
-    onViewEpisodes: () -> Unit,
+    onViewPodcasts: () -> Unit,
     onViewBlogs: () -> Unit,
     onRetry: () -> Unit
 ) {
@@ -124,7 +125,7 @@ private fun Screen(
                                 MainCards(
                                     onViewShows = onViewShows,
                                     onViewArtists = onViewArtists,
-                                    onViewEpisodes = onViewEpisodes,
+                                    onViewPodcasts = onViewPodcasts,
                                     onViewBlogs = onViewBlogs
                                 )
                             }
@@ -226,7 +227,7 @@ private fun ShowRow(
 private fun MainCards(
     onViewShows: () -> Unit,
     onViewArtists: () -> Unit,
-    onViewEpisodes: () -> Unit,
+    onViewPodcasts: () -> Unit,
     onViewBlogs: () -> Unit
 ) {
     Column(
@@ -247,7 +248,7 @@ private fun MainCards(
             HomeCard(
                 modifier = Modifier.weight(1f),
                 title = stringResource(Res.string.home_screen_data_card_podcast_episodes_title),
-                onClick = { onViewEpisodes() },
+                onClick = { onViewPodcasts() },
                 backgroundDrawableRes = Res.drawable.podcast
             )
         }

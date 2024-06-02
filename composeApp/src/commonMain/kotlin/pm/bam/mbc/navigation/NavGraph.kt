@@ -9,6 +9,9 @@ import androidx.navigation.compose.rememberNavController
 import pm.bam.mbc.feature.artist.navigation.artistScreen
 import pm.bam.mbc.feature.artists.navigation.artistsScreen
 import pm.bam.mbc.feature.home.navigation.homeScreen
+import pm.bam.mbc.feature.podcasts.navigation.podcastEpisodeScreen
+import pm.bam.mbc.feature.podcasts.navigation.podcastScreen
+import pm.bam.mbc.feature.podcasts.navigation.podcastsScreen
 import pm.bam.mbc.feature.shows.navigation.showScreen
 import pm.bam.mbc.feature.webview.navigation.webviewScreen
 
@@ -27,7 +30,8 @@ internal fun NavGraph(
         homeScreen(
             route = NavigationDestinations.HOME_SCREEN_ROUTE,
             goToShow = { navActions.navigateToShow(it) },
-            goToArtists = { navActions.navigateToArtists() }
+            goToArtists = { navActions.navigateToArtists() },
+            goToPodcasts = { navActions.navigateToPodcasts() }
         )
 
         showScreen(
@@ -55,6 +59,26 @@ internal fun NavGraph(
             artistIdArg = NavigationDestinationsArgs.ARTIST_ID_ARG,
             onViewShow = { navActions.navigateToShow(it) },
             goToWeb = { url: String, title: String -> navActions.navigateToWeb(url, title) }
+        )
+
+        podcastsScreen(
+            navController = navController,
+            route = NavigationDestinations.PODCASTS_ROUTE,
+            onViewPodcast = { navActions.navigateToPodcast(it) }
+        )
+
+        podcastScreen(
+            navController = navController,
+            route = NavigationDestinations.PODCAST_ROUTE,
+            podcastIdArg = NavigationDestinationsArgs.PODCAST_ID_ARG,
+            onViewPodcastEpisode = { podcastId, podcastEpisodeId -> navActions.navigateToPodcastEpisode(podcastId, podcastEpisodeId) }
+        )
+
+        podcastEpisodeScreen(
+            navController = navController,
+            route = NavigationDestinations.PODCAST_EPISODE_ROUTE,
+            podcastIdArg = NavigationDestinationsArgs.PODCAST_ID_ARG,
+            podcastEpisodeIdArg = NavigationDestinationsArgs.PODCAST_EPISODE_ID_ARG
         )
     }
 }

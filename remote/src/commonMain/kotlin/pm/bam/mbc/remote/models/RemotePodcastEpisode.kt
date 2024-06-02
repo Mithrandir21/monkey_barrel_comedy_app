@@ -11,7 +11,9 @@ data class RemotePodcastEpisode(
     val links: List<RemotePodcastEpisodeExternalLink>,
     val duration: String,
     val releaseDate: String,
-    val showId: Long? = null
+    val podcastId: Long,
+    val showId: Long? = null,
+    val artistId: Long? = null
 )
 
 @Serializable
