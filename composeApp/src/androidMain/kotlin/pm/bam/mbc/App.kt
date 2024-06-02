@@ -7,6 +7,7 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.binds
 import org.koin.dsl.module
 import pm.bam.mbc.feature.home.di.HomeModule
+import pm.bam.mbc.feature.shows.di.ShowsModule
 
 class App : Application() {
     override fun onCreate() {
@@ -18,6 +19,7 @@ class App : Application() {
             // androidContext(this@App)
             modules(
                 HomeModule,
+                ShowsModule,
                 module {
                     single { this@App } binds arrayOf(Context::class, Application::class)
                 })

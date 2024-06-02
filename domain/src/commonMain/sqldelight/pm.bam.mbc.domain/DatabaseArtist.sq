@@ -20,6 +20,12 @@ SELECT *
 FROM DatabaseArtist
 WHERE id = ?;
 
+selectByIds:
+SELECT *
+FROM DatabaseArtist
+WHERE id
+IN ?;
+
 insert:
 INSERT INTO DatabaseArtist(id, name, description, images, genres, showsIds, podcastsIds, blogPostsIds, externalLinks)
 VALUES ?;

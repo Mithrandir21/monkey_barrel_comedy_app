@@ -14,6 +14,7 @@ import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
 import pm.bam.mbc.domain.repositories.podcast.PodcastRepositoryImpl
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepositoryImpl
+import pm.bam.mbc.logging.di.LoggingModule
 import pm.bam.mbc.remote.di.remoteModule
 import pmbammbcdomain.DatabaseArtistQueries
 import pmbammbcdomain.DatabaseBlogPostQueries
@@ -21,10 +22,10 @@ import pmbammbcdomain.DatabasePodcastEpisodeQueries
 import pmbammbcdomain.DatabaseShowQueries
 
 
-expect val platformModule: Module
+expect val domainPlatformModule: Module
 
 val domainModule = module {
-    includes(remoteModule, commonModule)
+    includes(LoggingModule, remoteModule, commonModule)
 
     single<Database> { createDatabase(get<DriverFactory>()) }
 

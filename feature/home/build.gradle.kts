@@ -61,6 +61,7 @@ kotlin {
 
             implementation(libs.napier)
 
+            implementation(project(":logging"))
             implementation(project(":common"))
             implementation(project(":domain"))
         }

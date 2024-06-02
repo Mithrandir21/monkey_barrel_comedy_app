@@ -51,8 +51,19 @@ kotlin {
             implementation(libs.jetbrains.androidx.navigation.compose)
 
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+
+            implementation(libs.coil.mp)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.compose.core)
+            implementation(libs.coil.network.ktor)
 
             implementation(libs.napier)
+
+            implementation(project(":logging"))
+            implementation(project(":common"))
+            implementation(project(":domain"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

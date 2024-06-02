@@ -7,7 +7,7 @@ interface ArtistRepository {
 
     fun observeArtists(): Flow<List<Artist>>
 
-    fun getArtist(artistId: Long): Artist
+    fun getArtists(vararg artistId: Long): List<Artist>
 
     fun refreshArtists()
 

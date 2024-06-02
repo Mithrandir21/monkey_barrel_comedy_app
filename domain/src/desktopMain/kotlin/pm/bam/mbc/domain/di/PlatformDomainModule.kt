@@ -5,6 +5,6 @@ import org.koin.dsl.module
 import pm.bam.mbc.domain.db.DriverFactory
 
 
-actual val platformModule: Module = module {
+actual val domainPlatformModule: Module = module {
     single<DriverFactory> { DriverFactory() }
 }

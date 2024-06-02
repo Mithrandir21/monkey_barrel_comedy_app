@@ -29,7 +29,9 @@ internal fun NavGraph(
 
         showScreen(
             navController = navController,
-            route = NavigationDestinations.SHOW_ROUTE
+            route = NavigationDestinations.SHOW_ROUTE,
+            showIdArg = NavigationDestinationsArgs.SHOW_ID_ARG,
+            goToWeb = { url: String, showTitle: String -> navActions.navigateToWeb(url, showTitle) }
         )
 
         webviewScreen(

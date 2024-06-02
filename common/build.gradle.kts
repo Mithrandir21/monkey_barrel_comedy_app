@@ -87,6 +87,10 @@ kotlin {
     }
 }
 
+compose.resources {
+    publicResClass = true // Allows resources in this module to be accessed from other modules
+}
+
 android {
     namespace = "pm.bam.mbc.common"
     compileSdk = libs.versions.android.compileSdk.get().toInt()

@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import monkeybarrelcomey.common.generated.resources.image_placeholder
 import monkeybarrelcomey.feature.home.generated.resources.Res
 import monkeybarrelcomey.feature.home.generated.resources.artists
 import monkeybarrelcomey.feature.home.generated.resources.blog
@@ -50,7 +51,6 @@ import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_loadi
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_show_image_content_description
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_show_section_title_upcoming_shows
-import monkeybarrelcomey.feature.home.generated.resources.image_placeholder
 import monkeybarrelcomey.feature.home.generated.resources.microphone
 import monkeybarrelcomey.feature.home.generated.resources.podcast
 import org.jetbrains.compose.resources.DrawableResource
@@ -183,14 +183,14 @@ private fun ShowRow(
             .fillMaxWidth()
             .clickable { onShowSelected(show.id) }
             .padding(vertical = MonkeyCustomTheme.spacing.small)
-            .testTag(HomeScreenReleaseRowTag.plus(show.id)),
+            .testTag(HomeScreenShowRowTag.plus(show.id)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
             model = show.images.firstOrNull(),
             contentDescription = stringResource(Res.string.home_screen_show_image_content_description, show.name),
             contentScale = ContentScale.Fit,
-            error = painterResource(Res.drawable.image_placeholder),
+            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
             modifier = Modifier
                 .padding(MonkeyCustomTheme.spacing.small)
                 .height(60.dp)
@@ -308,4 +308,4 @@ private fun HomeCard(
 }
 
 
-internal const val HomeScreenReleaseRowTag = "HomeScreenReleaseRowTag"
+internal const val HomeScreenShowRowTag = "HomeScreenShowRowTag"

@@ -15,7 +15,7 @@ class RemoteShowsDataSourceImpl : RemoteShowsDataSource {
                 images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/6234b7d30a7e076f31526fda/scaled_768.jpg"),
                 eventStatus = RemoteEventStatus.ACTIVE,
                 description = "Top stand-up Comedy at Scotland's Best Comedy Venue (Chortle Awards 2023), Edinburgh's #1 rated Comedy Club and home to the Best Comedy Show at this year's Edinburgh Fringe.",
-                artistIds = listOf(5, 2, 9, 5),
+                artistIds = listOf(5, 2, 9, 3),
                 startDate = "2024-05-01T19:00:00+0000",
                 endDate = "2024-05-01T20:00:00+0000"
             ),

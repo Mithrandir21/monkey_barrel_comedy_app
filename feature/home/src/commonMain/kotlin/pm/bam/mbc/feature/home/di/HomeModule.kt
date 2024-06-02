@@ -3,11 +3,12 @@ package pm.bam.mbc.feature.home.di
 import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import pm.bam.mbc.domain.di.domainModule
-import pm.bam.mbc.domain.di.platformModule
+import pm.bam.mbc.domain.di.domainPlatformModule
 import pm.bam.mbc.feature.home.ui.HomeViewModel
+import pm.bam.mbc.logging.di.LoggingModule
 
 val HomeModule = module {
-    includes(domainModule, platformModule)
+    includes(LoggingModule, domainModule, domainPlatformModule)
 
-    viewModel { HomeViewModel(get()) }
+    viewModel<HomeViewModel> { HomeViewModel(get(), get(), get()) }
 }

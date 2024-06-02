@@ -14,12 +14,17 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pm.bam.mbc.common.onError
 import pm.bam.mbc.domain.models.Show
+import pm.bam.mbc.domain.repositories.artist.ArtistRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
+import pm.bam.mbc.logging.Logger
+import pm.bam.mbc.logging.fatal
 
 internal const val LIMIT_SHOWS = 5
 
 internal class HomeViewModel(
-    private val showsRepository: ShowsRepository
+    private val logger: Logger,
+    private val showsRepository: ShowsRepository,
+    private val artistRepository: ArtistRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeScreenData())
@@ -30,6 +35,8 @@ internal class HomeViewModel(
     )
 
     init {
+        refreshAllData()
+
         viewModelScope.launch {
             loadHomeScreenData()
                 .collect { _uiState.emit(it) }
@@ -45,12 +52,16 @@ internal class HomeViewModel(
 
     private fun loadHomeScreenData() =
         flow { emitAll(showsRepository.observeShows()) }
-            .onStart { showsRepository.refreshShows() }
             .map { shows -> shows.sortedBy { it.startDate }.take(LIMIT_SHOWS) }
             .map { HomeScreenData(state = HomeScreenStatus.SUCCESS, topUpcomingShows = it) }
-            .onError { }
+            .onError { fatal(logger, it) }
             .catch { emit(HomeScreenData(state = HomeScreenStatus.ERROR)) }
 
+    private fun refreshAllData() =
+        viewModelScope.launch {
+            showsRepository.refreshShows()
+            artistRepository.refreshArtists()
+        }
 
     internal data class HomeScreenData(
         val state: HomeScreenStatus = HomeScreenStatus.LOADING,

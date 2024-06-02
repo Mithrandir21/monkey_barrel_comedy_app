@@ -43,6 +43,7 @@ kotlin {
 
             implementation(libs.sqldelight.extensions.coroutines)
 
+            implementation(project(":logging"))
             implementation(project(":common"))
             implementation(project(":remote"))
         }

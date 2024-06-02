@@ -49,6 +49,7 @@ kotlin {
             implementation(libs.jetbrains.androidx.lifecycle.viewmodel.compose)
             implementation(libs.jetbrains.androidx.navigation.compose)
 
+            implementation(project(":logging"))
             implementation(project(":common"))
             implementation(project(":feature:home"))
             implementation(project(":feature:shows"))
