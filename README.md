@@ -1,5 +1,5 @@
 # Monkey Barrel Comedy app
-Repo for Monkey Barrel Comedy app (Android and iOS)
+Repo for Monkey Barrel Comedy app (Android, iOS and Desktop) using Kotlin Multiplatform and Jetpack Compose.
 
 This is a Kotlin Multiplatform project targeting Android, iOS, Desktop.
 
