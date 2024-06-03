@@ -13,6 +13,6 @@ val PodcastsModule = module {
     includes(LoggingModule, domainModule, domainPlatformModule)
 
     viewModel<PodcastsViewModel> { PodcastsViewModel(get(), get()) }
-    viewModel<PodcastViewModel> { PodcastViewModel(get(), get(), get()) }
-    viewModel<PodcastEpisodeViewModel> { PodcastEpisodeViewModel(get(), get(), get()) }
+    viewModel<PodcastViewModel> { PodcastViewModel(get(), get()) }
+    viewModel<PodcastEpisodeViewModel> { PodcastEpisodeViewModel(get(), get(), get(), get()) }
 }

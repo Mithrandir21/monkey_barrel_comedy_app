@@ -15,6 +15,7 @@ internal fun RemotePodcastEpisode.toDatabasePodcastEpisode(serializer: Serialize
     links = serializer.serialize(links),
     duration = duration,
     releaseDate = releaseDate,
+    podcastId = podcastId,
     showId = showId,
     artistId = artistId
 )
@@ -27,6 +28,7 @@ internal fun DatabasePodcastEpisode.toPodcastEpisode(serializer: Serializer): Po
     links = serializer.deserialize(links),
     duration = duration,
     releaseDate = releaseDate,
+    podcastId = podcastId,
     showId = showId,
     artistId = artistId
 )

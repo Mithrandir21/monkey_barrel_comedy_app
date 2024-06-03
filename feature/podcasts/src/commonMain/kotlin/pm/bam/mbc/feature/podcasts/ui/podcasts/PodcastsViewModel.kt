@@ -47,14 +47,14 @@ internal class PodcastsViewModel(
     private fun loadPodcastsScreenData() =
         flow { emitAll(podcastRepository.observePodcasts()) }
             .map { shows -> shows.sortedBy { it.id } }
-            .map { PodcastsScreenData(state = PodcastsScreenStatus.SUCCESS, artists = it) }
+            .map { PodcastsScreenData(state = PodcastsScreenStatus.SUCCESS, podcasts = it) }
             .onError { fatal(logger, it) }
             .catch { emit(PodcastsScreenData(state = PodcastsScreenStatus.ERROR)) }
 
 
     internal data class PodcastsScreenData(
         val state: PodcastsScreenStatus = PodcastsScreenStatus.LOADING,
-        val artists: List<Podcast> = emptyList(),
+        val podcasts: List<Podcast> = emptyList(),
     )
 
     internal enum class PodcastsScreenStatus {

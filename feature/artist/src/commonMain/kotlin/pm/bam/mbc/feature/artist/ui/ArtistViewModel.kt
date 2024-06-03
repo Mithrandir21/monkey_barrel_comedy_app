@@ -78,7 +78,7 @@ internal class ArtistViewModel(
 
     fun loadArtistDetails(artistId: Long) = artistIdFlow.update { artistId }
 
-    sealed class ArtistScreenData {
+    internal sealed class ArtistScreenData {
         data object Loading : ArtistScreenData()
         data object Error : ArtistScreenData()
         data class Data(

@@ -7,6 +7,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import pm.bam.mbc.common.serializer.Serializer
+import pm.bam.mbc.common.toFlow
 import pm.bam.mbc.domain.db.transformations.toDatabasePodcast
 import pm.bam.mbc.domain.db.transformations.toDatabasePodcastEpisode
 import pm.bam.mbc.domain.db.transformations.toPodcast
@@ -36,13 +37,13 @@ internal class PodcastRepositoryImpl(
             .toPodcast(serializer)
 
     override fun observeEpisodes(podcastId: Long): Flow<List<PodcastEpisode>> =
-        podcastEpisodeQueries.selectAll()
+        podcastEpisodeQueries.selectByPodcastId(podcastId)
             .asFlow()
             .mapToList(Dispatchers.IO)
             .map { databaseEpisodes -> databaseEpisodes.map { it.toPodcastEpisode(serializer) } }
 
-    override fun getEpisode(podcastId: Long, episodeId: Long): PodcastEpisode =
-        podcastEpisodeQueries.selectById(episodeId.toLong())
+    override fun getEpisode(episodeId: Long): PodcastEpisode =
+        podcastEpisodeQueries.selectById(episodeId)
             .executeAsOne()
             .toPodcastEpisode(serializer)
 

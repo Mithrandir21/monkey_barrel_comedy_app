@@ -6,6 +6,7 @@ import pm.bam.mbc.navigation.NavigationDestinations.HOME_SCREEN_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinations.PODCASTS_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.ARTIST_ID_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.PODCAST_EPISODE_ID_ARG
+import pm.bam.mbc.navigation.NavigationDestinationsArgs.PODCAST_HEADER_TITLE_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.PODCAST_ID_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.SHOW_ID_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.WEB_TITLE_ARG
@@ -37,6 +38,7 @@ internal object NavigationDestinationsArgs {
     const val SHOW_ID_ARG = "showId"
     const val ARTIST_ID_ARG = "artistId"
     const val PODCAST_ID_ARG = "podcastId"
+    const val PODCAST_HEADER_TITLE_ARG = "podcastHeaderTitle"
     const val PODCAST_EPISODE_ID_ARG = "podcastEpisodeId"
 
     const val WEB_URL_ARG = "url"
@@ -52,8 +54,8 @@ internal object NavigationDestinations {
     const val ARTISTS_ROUTE = ARTISTS_SCREEN
     const val ARTIST_ROUTE = "$ARTIST_SCREEN?$ARTIST_ID_ARG={$ARTIST_ID_ARG}"
     const val PODCASTS_ROUTE = PODCASTS_SCREEN
-    const val PODCAST_ROUTE = "$PODCAST_SCREEN?$PODCAST_ID_ARG={$PODCAST_ID_ARG}"
-    const val PODCAST_EPISODE_ROUTE = "$PODCAST_EPISODE_SCREEN?$PODCAST_ID_ARG={$PODCAST_ID_ARG}&$PODCAST_EPISODE_ID_ARG={$PODCAST_EPISODE_ID_ARG}"
+    const val PODCAST_ROUTE = "$PODCAST_SCREEN?$PODCAST_ID_ARG={$PODCAST_ID_ARG}&$PODCAST_HEADER_TITLE_ARG={$PODCAST_HEADER_TITLE_ARG}"
+    const val PODCAST_EPISODE_ROUTE = "$PODCAST_EPISODE_SCREEN?$PODCAST_EPISODE_ID_ARG={$PODCAST_EPISODE_ID_ARG}"
 }
 
 
@@ -105,14 +107,14 @@ internal class NavigationActions(private val navController: NavHostController) {
         }
     }
 
-    fun navigateToPodcast(podcastId: Long) {
-        navController.navigate("$PODCAST_SCREEN?$PODCAST_ID_ARG=${podcastId}") {
+    fun navigateToPodcast(podcastId: Long, podcastHeaderTitle: String) {
+        navController.navigate("$PODCAST_SCREEN?$PODCAST_ID_ARG=${podcastId}&$PODCAST_HEADER_TITLE_ARG=${podcastHeaderTitle}") {
             restoreState = true
         }
     }
 
-    fun navigateToPodcastEpisode(podcastId: Long, podcastEpisodeId: Long) {
-        navController.navigate("$PODCAST_EPISODE_SCREEN?$PODCAST_ID_ARG=${podcastId}&$PODCAST_EPISODE_ID_ARG=${podcastEpisodeId}") {
+    fun navigateToPodcastEpisode(podcastEpisodeId: Long) {
+        navController.navigate("$PODCAST_EPISODE_SCREEN?$PODCAST_EPISODE_ID_ARG=${podcastEpisodeId}") {
             restoreState = true
         }
     }

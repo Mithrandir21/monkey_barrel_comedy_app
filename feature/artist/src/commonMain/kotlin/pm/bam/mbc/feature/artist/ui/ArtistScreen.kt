@@ -76,7 +76,7 @@ internal fun ArtistScreen(
 
     val data = viewModel.uiState.collectAsStateWithLifecycleFix()
 
-    val onRetry: () -> Unit = { viewModel.loadArtistDetails(artistId) }
+    val onRetry: () -> Unit = { viewModel.reloadArtists(artistId) }
 
     ScreenScaffold(
         data = data.value,

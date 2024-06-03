@@ -12,7 +12,7 @@ interface PodcastRepository {
 
     fun observeEpisodes(podcastId: Long): Flow<List<PodcastEpisode>>
 
-    fun getEpisode(podcastId: Long, episodeId: Long): PodcastEpisode
+    fun getEpisode(episodeId: Long): PodcastEpisode
 
     fun refreshPodcasts()
 

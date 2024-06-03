@@ -11,6 +11,7 @@ data class PodcastEpisode(
     val links: List<PodcastEpisodeExternalLink>,
     val duration: String,
     val releaseDate: String,
+    val podcastId: Long,
     val showId: Long? = null,
     val artistId: Long? = null
 )

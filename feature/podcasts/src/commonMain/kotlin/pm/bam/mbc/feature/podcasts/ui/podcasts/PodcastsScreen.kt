@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -36,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import coil3.compose.AsyncImage
 import monkeybarrelcomey.common.generated.resources.image_placeholder
@@ -61,7 +63,7 @@ import pm.bam.mbc.feature.podcasts.ui.podcasts.PodcastsViewModel.PodcastsScreenS
 @Composable
 internal fun PodcastsScreen(
     onBack: () -> Unit,
-    onViewPodcast: (podcastId: Long) -> Unit,
+    onViewPodcast: (podcastId: Long, title: String) -> Unit,
     viewModel: PodcastsViewModel = koinViewModel<PodcastsViewModel>()
 ) {
     val data = viewModel.uiState.collectAsStateWithLifecycleFix()
@@ -81,7 +83,7 @@ internal fun PodcastsScreen(
 @Composable
 private fun Screen(
     data: PodcastsScreenData,
-    onViewPodcast: (podcastId: Long) -> Unit,
+    onViewPodcast: (podcastId: Long, title: String) -> Unit,
     onBack: () -> Unit,
     onRetry: () -> Unit
 ) {
@@ -129,8 +131,8 @@ private fun Screen(
                         modifier = Modifier.padding(innerPadding),
                         columns = GridCells.Fixed(1),
                         content = {
-                            items(data.artists.size) { index ->
-                                PodcastCard(data.artists[index], onViewPodcast)
+                            items(data.podcasts.size) { index ->
+                                PodcastCard(data.podcasts[index], onViewPodcast)
                             }
                         }
                     )
@@ -169,22 +171,25 @@ private fun Screen(
 @Composable
 private fun PodcastCard(
     podcast: Podcast,
-    onViewPodcast: (podcastId: Long) -> Unit
+    onViewPodcast: (podcastId: Long, title: String) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(MonkeyCustomTheme.spacing.medium)
             .clip(RoundedCornerShape(MonkeyCustomTheme.spacing.medium))
-            .clickable(onClick = { onViewPodcast(podcast.id) })
+            .clickable(onClick = { onViewPodcast(podcast.id, podcast.name) })
     ) {
         Column {
-            AsyncImage(
-                model = podcast.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.podcasts_screen_podcasts_image_content_description, podcast.name),
-                contentScale = ContentScale.Fit,
-                error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
-            )
+            Box(modifier = Modifier.aspectRatio(1f).fillMaxWidth()) {
+                AsyncImage(
+                    model = podcast.images.firstOrNull(),
+                    contentDescription = stringResource(Res.string.podcasts_screen_podcasts_image_content_description, podcast.name),
+                    contentScale = ContentScale.Fit,
+                    error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+                )
+            }
+
             Text(
                 modifier = Modifier
                     .wrapContentSize()
@@ -192,6 +197,15 @@ private fun PodcastCard(
                 text = podcast.name,
                 style = MaterialTheme.typography.titleLarge,
                 maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(MonkeyCustomTheme.spacing.medium),
+                textAlign = TextAlign.Start,
+                text = podcast.description,
+                maxLines = 3,
                 overflow = TextOverflow.Ellipsis
             )
         }

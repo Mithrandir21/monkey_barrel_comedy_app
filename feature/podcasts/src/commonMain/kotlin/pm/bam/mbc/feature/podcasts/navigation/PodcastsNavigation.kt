@@ -13,7 +13,7 @@ import pm.bam.mbc.feature.podcasts.ui.podcasts.PodcastsScreen
 fun NavGraphBuilder.podcastsScreen(
     navController: NavController,
     route: String,
-    onViewPodcast: (podcast: Long) -> Unit
+    onViewPodcast: (podcast: Long, title: String) -> Unit
 ) {
     composable(route) {
         PodcastsScreen(
@@ -28,14 +28,16 @@ fun NavGraphBuilder.podcastScreen(
     navController: NavController,
     route: String,
     podcastIdArg: String,
-    onViewPodcastEpisode: (podcast: Long, podcastEpisode: Long) -> Unit
+    podcastHeaderTitleArg: String,
+    onViewPodcastEpisode: (podcastEpisode: Long) -> Unit
 ) {
     composable(
         route = route,
-        arguments = listOf(navArgument(podcastIdArg) { type = NavType.LongType })
+        arguments = listOf(navArgument(podcastIdArg) { type = NavType.LongType }, navArgument(podcastHeaderTitleArg) { type = NavType.StringType })
     ) { entry ->
         PodcastScreen(
             podcastId = entry.arguments?.getLong(podcastIdArg)!!,
+            headerTitle = entry.arguments?.getString(podcastHeaderTitleArg)!!,
             onBack = { navController.popBackStack() },
             onViewPodcastEpisode = onViewPodcastEpisode
         )
@@ -46,17 +48,19 @@ fun NavGraphBuilder.podcastScreen(
 fun NavGraphBuilder.podcastEpisodeScreen(
     navController: NavController,
     route: String,
-    podcastIdArg: String,
-    podcastEpisodeIdArg: String
+    podcastEpisodeIdArg: String,
+    onViewShow: (showId: Long) -> Unit,
+    onViewArtist: (artistId: Long) -> Unit,
 ) {
     composable(
         route = route,
-        arguments = listOf(navArgument(podcastIdArg) { type = NavType.LongType }, navArgument(podcastEpisodeIdArg) { type = NavType.LongType })
+        arguments = listOf(navArgument(podcastEpisodeIdArg) { type = NavType.LongType })
     ) { entry ->
         PodcastEpisodeScreen(
-            podcastId = entry.arguments?.getLong(podcastIdArg)!!,
             podcastEpisodeId = entry.arguments?.getLong(podcastEpisodeIdArg)!!,
-            onBack = { navController.popBackStack() }
+            onBack = { navController.popBackStack() },
+            onViewShow = onViewShow,
+            onViewArtist = onViewArtist
         )
     }
 }

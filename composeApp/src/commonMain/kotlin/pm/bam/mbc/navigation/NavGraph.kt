@@ -64,21 +64,23 @@ internal fun NavGraph(
         podcastsScreen(
             navController = navController,
             route = NavigationDestinations.PODCASTS_ROUTE,
-            onViewPodcast = { navActions.navigateToPodcast(it) }
+            onViewPodcast = { id, title -> navActions.navigateToPodcast(id, title) }
         )
 
         podcastScreen(
             navController = navController,
             route = NavigationDestinations.PODCAST_ROUTE,
             podcastIdArg = NavigationDestinationsArgs.PODCAST_ID_ARG,
-            onViewPodcastEpisode = { podcastId, podcastEpisodeId -> navActions.navigateToPodcastEpisode(podcastId, podcastEpisodeId) }
+            podcastHeaderTitleArg = NavigationDestinationsArgs.PODCAST_HEADER_TITLE_ARG,
+            onViewPodcastEpisode = { podcastEpisodeId -> navActions.navigateToPodcastEpisode(podcastEpisodeId) }
         )
 
         podcastEpisodeScreen(
             navController = navController,
             route = NavigationDestinations.PODCAST_EPISODE_ROUTE,
-            podcastIdArg = NavigationDestinationsArgs.PODCAST_ID_ARG,
-            podcastEpisodeIdArg = NavigationDestinationsArgs.PODCAST_EPISODE_ID_ARG
+            podcastEpisodeIdArg = NavigationDestinationsArgs.PODCAST_EPISODE_ID_ARG,
+            onViewShow = { navActions.navigateToShow(it) },
+            onViewArtist = { navActions.navigateToArtist(it) }
         )
     }
 }

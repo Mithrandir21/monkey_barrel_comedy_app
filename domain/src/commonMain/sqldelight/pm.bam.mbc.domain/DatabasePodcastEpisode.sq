@@ -6,6 +6,7 @@ CREATE TABLE DatabasePodcastEpisode (
     links TEXT NOT NULL,
     duration TEXT NOT NULL,
     releaseDate TEXT NOT NULL,
+    podcastId INTEGER NOT NULL,
     showId INTEGER,
     artistId INTEGER
 );
@@ -19,8 +20,13 @@ SELECT *
 FROM DatabasePodcastEpisode
 WHERE id = ?;
 
+selectByPodcastId:
+SELECT *
+FROM DatabasePodcastEpisode
+WHERE podcastId = ?;
+
 insert:
-INSERT INTO DatabasePodcastEpisode(id, name, description, images, links, duration, releaseDate, showId, artistId)
+INSERT INTO DatabasePodcastEpisode(id, name, description, images, links, duration, releaseDate, podcastId, showId, artistId)
 VALUES ?;
 
 delete:
