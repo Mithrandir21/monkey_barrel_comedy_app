@@ -1,4 +1,4 @@
-package pm.bam.mbc.feature.artists.ui
+package pm.bam.mbc.feature.artists.ui.artists
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -34,7 +34,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
@@ -54,9 +53,9 @@ import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.common.theme.MonkeyCustomTheme
 import pm.bam.mbc.common.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Artist
-import pm.bam.mbc.feature.artists.ui.ArtistsViewModel.ArtistsScreenData
-import pm.bam.mbc.feature.artists.ui.ArtistsViewModel.ArtistsScreenStatus.ERROR
-import pm.bam.mbc.feature.artists.ui.ArtistsViewModel.ArtistsScreenStatus.LOADING
+import pm.bam.mbc.feature.artists.ui.artists.ArtistsViewModel.ArtistsScreenData
+import pm.bam.mbc.feature.artists.ui.artists.ArtistsViewModel.ArtistsScreenStatus.ERROR
+import pm.bam.mbc.feature.artists.ui.artists.ArtistsViewModel.ArtistsScreenStatus.LOADING
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable

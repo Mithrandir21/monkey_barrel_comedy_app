@@ -1,4 +1,4 @@
-package pm.bam.mbc.feature.artist.ui
+package pm.bam.mbc.feature.artists.ui.artist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,14 +45,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import monkeybarrelcomey.common.generated.resources.image_placeholder
-import monkeybarrelcomey.feature.artist.generated.resources.Res
-import monkeybarrelcomey.feature.artist.generated.resources.artist_screen_artists_image_content_description
-import monkeybarrelcomey.feature.artist.generated.resources.artist_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.artist.generated.resources.artist_screen_data_loading_error_retry
-import monkeybarrelcomey.feature.artist.generated.resources.artist_screen_loading_label
-import monkeybarrelcomey.feature.artist.generated.resources.artist_screen_navigation_back_button
-import monkeybarrelcomey.feature.artist.generated.resources.artist_screen_show_venue_label
-import monkeybarrelcomey.feature.artist.generated.resources.artist_screen_shows_label
+import monkeybarrelcomey.feature.artists.generated.resources.Res
+import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_artists_image_content_description
+import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_data_loading_error_msg
+import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_data_loading_error_retry
+import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_loading_label
+import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_navigation_back_button
+import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_show_venue_label
+import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_shows_label
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -61,7 +61,7 @@ import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.common.theme.MonkeyCustomTheme
 import pm.bam.mbc.common.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Show
-import pm.bam.mbc.feature.artist.ui.ArtistViewModel.ArtistScreenData
+import pm.bam.mbc.feature.artists.ui.artist.ArtistViewModel.ArtistScreenData
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -101,7 +101,7 @@ private fun ScreenScaffold(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val title = when (data) {
-        ArtistScreenData.Loading, ArtistScreenData.Error -> stringResource(Res.string.artist_screen_loading_label)
+        ArtistScreenData.Loading, ArtistScreenData.Error -> stringResource(Res.string.artists_screen_loading_label)
         is ArtistScreenData.Data -> data.artist.name
     }
 
@@ -123,7 +123,7 @@ private fun ScreenScaffold(
                             ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = stringResource(Res.string.artist_screen_navigation_back_button)
+                                    contentDescription = stringResource(Res.string.artists_screen_navigation_back_button)
                                 )
                             }
                         },
@@ -142,8 +142,8 @@ private fun ScreenScaffold(
                     )
 
                     ArtistScreenData.Error -> {
-                        val message = stringResource(Res.string.artist_screen_data_loading_error_msg)
-                        val actionLabel = stringResource(Res.string.artist_screen_data_loading_error_retry)
+                        val message = stringResource(Res.string.artists_screen_data_loading_error_msg)
+                        val actionLabel = stringResource(Res.string.artists_screen_data_loading_error_retry)
 
                         LaunchedEffect(snackbarHostState) {
                             val results = snackbarHostState.showSnackbar(
@@ -185,7 +185,7 @@ private fun ArtistDetails(
         ) {
             AsyncImage(
                 model = data.artist.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.artist_screen_artists_image_content_description, data.artist.name),
+                contentDescription = stringResource(Res.string.artists_screen_artists_image_content_description, data.artist.name),
                 contentScale = ContentScale.Fit,
                 error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
                 modifier = Modifier
@@ -223,7 +223,7 @@ private fun ArtistDetails(
                 .fillMaxWidth()
                 .padding(horizontal = MonkeyCustomTheme.spacing.large),
             textAlign = TextAlign.Start,
-            text = stringResource(Res.string.artist_screen_shows_label),
+            text = stringResource(Res.string.artists_screen_shows_label),
             style = MaterialTheme.typography.titleLarge,
         )
 
@@ -251,7 +251,7 @@ private fun ShowRow(
     ) {
         AsyncImage(
             model = show.images.firstOrNull(),
-            contentDescription = stringResource(Res.string.artist_screen_artists_image_content_description, show.name),
+            contentDescription = stringResource(Res.string.artists_screen_artists_image_content_description, show.name),
             contentScale = ContentScale.Fit,
             error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
             modifier = Modifier
@@ -286,7 +286,7 @@ private fun ShowRow(
                     .fillMaxWidth()
                     .padding(horizontal = MonkeyCustomTheme.spacing.small),
                 textAlign = TextAlign.Start,
-                text = stringResource(Res.string.artist_screen_show_venue_label, show.venue)
+                text = stringResource(Res.string.artists_screen_show_venue_label, show.venue)
             )
         }
     }

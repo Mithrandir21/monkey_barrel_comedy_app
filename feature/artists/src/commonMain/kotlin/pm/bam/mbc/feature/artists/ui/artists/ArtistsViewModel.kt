@@ -1,4 +1,4 @@
-package pm.bam.mbc.feature.artists.ui
+package pm.bam.mbc.feature.artists.ui.artists
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

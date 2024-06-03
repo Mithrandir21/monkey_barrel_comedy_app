@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import pm.bam.mbc.feature.artist.navigation.artistScreen
+import pm.bam.mbc.feature.artists.navigation.artistScreen
 import pm.bam.mbc.feature.artists.navigation.artistsScreen
 import pm.bam.mbc.feature.home.navigation.homeScreen
 import pm.bam.mbc.feature.podcasts.navigation.podcastEpisodeScreen
