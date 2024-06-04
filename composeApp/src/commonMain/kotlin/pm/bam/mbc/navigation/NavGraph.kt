@@ -12,7 +12,7 @@ import pm.bam.mbc.feature.home.navigation.homeScreen
 import pm.bam.mbc.feature.podcasts.navigation.podcastEpisodeScreen
 import pm.bam.mbc.feature.podcasts.navigation.podcastScreen
 import pm.bam.mbc.feature.podcasts.navigation.podcastsScreen
-import pm.bam.mbc.feature.shows.navigation.showScreen
+import pm.bam.mbc.feature.show.navigation.showScreen
 import pm.bam.mbc.feature.webview.navigation.webviewScreen
 
 @Composable

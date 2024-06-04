@@ -1,4 +1,4 @@
-package pm.bam.mbc.feature.shows.ui
+package pm.bam.mbc.feature.show.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -62,17 +62,16 @@ import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.common.theme.MonkeyCustomTheme
 import pm.bam.mbc.common.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Artist
-import pm.bam.mbc.domain.models.Show
-import pm.bam.mbc.feature.shows.ui.ShowsViewModel.ShowScreenData
+import pm.bam.mbc.feature.show.ui.ShowViewModel.ShowScreenData
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-internal fun ShowsScreen(
+internal fun ShowScreen(
     showId: Long,
     onBack: () -> Unit,
     goToArtists: (artistId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
-    viewModel: ShowsViewModel = koinViewModel<ShowsViewModel>()
+    viewModel: ShowViewModel = koinViewModel<ShowViewModel>()
 ) {
     viewModel.loadShowDetails(showId)
 

@@ -1,4 +1,4 @@
-package pm.bam.mbc.feature.shows.ui
+package pm.bam.mbc.feature.show.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,7 +27,7 @@ import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.logging.fatal
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class ShowsViewModel(
+internal class ShowViewModel(
     private val logger: Logger,
     private val showsRepository: ShowsRepository,
     private val artistRepository: ArtistRepository
