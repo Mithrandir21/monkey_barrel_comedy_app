@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
 }
@@ -25,7 +24,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "podcasts"
+            baseName = "compose"
             isStatic = true
         }
     }
@@ -43,28 +42,14 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
-            implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.serialization.json)
-
-            implementation(libs.jetbrains.androidx.lifecycle.runtime.compose)
-            implementation(libs.jetbrains.androidx.lifecycle.viewmodel.compose)
-            implementation(libs.jetbrains.androidx.navigation.compose)
-
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-
             implementation(libs.coil.mp)
             implementation(libs.coil.compose)
             implementation(libs.coil.compose.core)
             implementation(libs.coil.network.ktor)
 
-            implementation(libs.napier)
-
             implementation(project(":logging"))
             implementation(project(":common"))
             implementation(project(":domain"))
-            implementation(project(":compose"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -102,7 +87,7 @@ kotlin {
 }
 
 android {
-    namespace = "pm.bam.mbc.feature.podcasts"
+    namespace = "pm.bam.mbc.compose"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

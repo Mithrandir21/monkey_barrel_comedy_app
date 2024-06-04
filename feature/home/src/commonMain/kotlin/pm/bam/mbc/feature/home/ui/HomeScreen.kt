@@ -61,6 +61,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.common.theme.MonkeyCustomTheme
 import pm.bam.mbc.common.theme.MonkeyTheme
+import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.feature.home.ui.HomeViewModel.HomeScreenStatus.ERROR
 
@@ -115,7 +116,11 @@ private fun Screen(
                                 item { SectionHeader(stringResource(Res.string.home_screen_show_section_title_upcoming_shows)) }
 
                                 items(data.topUpcomingShows.size) { index ->
-                                    ShowRow(data.topUpcomingShows[index], onViewShow)
+                                    ShowRow(
+                                        modifier = Modifier.testTag(HomeScreenShowRowTag.plus(data.topUpcomingShows[index].id)),
+                                        show = data.topUpcomingShows[index],
+                                        onShowSelected = onViewShow
+                                    )
                                 }
                             }
 
@@ -170,56 +175,6 @@ private fun SectionHeader(text: String) {
             color = MaterialTheme.colorScheme.onPrimary,
             style = MaterialTheme.typography.headlineSmall
         )
-    }
-}
-
-
-@Composable
-private fun ShowRow(
-    show: Show,
-    onShowSelected: (showId: Long) -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onShowSelected(show.id) }
-            .padding(vertical = MonkeyCustomTheme.spacing.small)
-            .testTag(HomeScreenShowRowTag.plus(show.id)),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        AsyncImage(
-            model = show.images.firstOrNull(),
-            contentDescription = stringResource(Res.string.home_screen_show_image_content_description, show.name),
-            contentScale = ContentScale.Fit,
-            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
-            modifier = Modifier
-                .padding(MonkeyCustomTheme.spacing.small)
-                .height(60.dp)
-                .width(100.dp)
-                .clip(RoundedCornerShape(MonkeyCustomTheme.spacing.extraSmall))
-        )
-        Column {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
-                textAlign = TextAlign.Start,
-                text = show.name,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
-                textAlign = TextAlign.Start,
-                text = show.startDate,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
     }
 }
 

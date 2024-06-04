@@ -65,6 +65,8 @@ import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.common.theme.MonkeyCustomTheme
 import pm.bam.mbc.common.theme.MonkeyTheme
+import pm.bam.mbc.compose.ArtistRow
+import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.domain.models.Artist
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.feature.podcasts.ui.episode.PodcastEpisodeViewModel.PodcastEpisodeScreenData
@@ -239,7 +241,11 @@ private fun PodcastEpisodeDetails(
                 style = MaterialTheme.typography.titleLarge,
             )
 
-            ShowRow(show = it, onShowSelected = onViewShow)
+            ShowRow(
+                modifier = Modifier.testTag(PodcastEpisodeScreenArtistRowTag.plus(it.id)),
+                show = it,
+                onShowSelected = onViewShow
+            )
         }
 
         HorizontalDivider()
@@ -254,105 +260,13 @@ private fun PodcastEpisodeDetails(
                 style = MaterialTheme.typography.titleLarge,
             )
 
-            ArtistRow(artist = it, onViewArtist = onViewArtist)
-        }
-
-    }
-}
-
-
-@Composable
-private fun ShowRow(
-    show: Show,
-    onShowSelected: (showId: Long) -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onShowSelected(show.id) }
-            .padding(vertical = MonkeyCustomTheme.spacing.small)
-            .testTag(PodcastEpisodeScreenArtistRowTag.plus(show.id)),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        AsyncImage(
-            model = show.images.firstOrNull(),
-            contentDescription = stringResource(Res.string.podcasts_screen_show_image_content_description, show.name),
-            contentScale = ContentScale.Fit,
-            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
-            modifier = Modifier
-                .padding(MonkeyCustomTheme.spacing.small)
-                .height(60.dp)
-                .width(100.dp)
-                .clip(RoundedCornerShape(MonkeyCustomTheme.spacing.extraSmall))
-        )
-        Column(modifier = Modifier.wrapContentHeight(align = Alignment.CenterVertically)) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
-                textAlign = TextAlign.Start,
-                text = show.name,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
-                textAlign = TextAlign.Start,
-                text = show.startDate,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
-                textAlign = TextAlign.Start,
-                text = stringResource(Res.string.podcasts_screen_show_venue_label, show.venue)
+            ArtistRow(
+                modifier = Modifier.testTag(PodcastEpisodeScreenArtistRowTag.plus(it.id)),
+                artist = it,
+                onViewArtist = onViewArtist
             )
         }
-    }
-}
 
-
-@Composable
-private fun ArtistRow(
-    artist: Artist,
-    onViewArtist: (artistId: Long) -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onViewArtist(artist.id) }
-            .padding(vertical = MonkeyCustomTheme.spacing.small)
-            .testTag(PodcastEpisodeScreenArtistRowTag.plus(artist.id)),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        AsyncImage(
-            model = artist.images.firstOrNull(),
-            contentDescription = stringResource(Res.string.podcasts_screen_artist_image_content_description, artist.name),
-            contentScale = ContentScale.Fit,
-            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
-            modifier = Modifier
-                .padding(MonkeyCustomTheme.spacing.small)
-                .height(60.dp)
-                .width(100.dp)
-                .clip(RoundedCornerShape(MonkeyCustomTheme.spacing.extraSmall))
-        )
-        Column {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
-                textAlign = TextAlign.Start,
-                text = artist.name,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
     }
 }
 

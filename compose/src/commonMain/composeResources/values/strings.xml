@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="artist_image_content_description">%1$s Artist image</string>
+
+    <string name="show_image_content_description">%1$s Show image</string>
+    <string name="show_venue_label">Venue: %1$s</string>
+
+</resources>

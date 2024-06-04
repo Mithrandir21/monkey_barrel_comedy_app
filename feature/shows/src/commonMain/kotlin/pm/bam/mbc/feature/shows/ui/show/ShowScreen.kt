@@ -61,6 +61,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.common.theme.MonkeyCustomTheme
 import pm.bam.mbc.common.theme.MonkeyTheme
+import pm.bam.mbc.compose.ArtistRow
 import pm.bam.mbc.domain.models.Artist
 import pm.bam.mbc.feature.shows.ui.show.ShowViewModel.ShowScreenData
 
@@ -249,45 +250,10 @@ private fun ShowDetails(
         HorizontalDivider()
 
         data.artists.forEach { artist ->
-            ArtistRow(artist = artist, onArtistSelected = goToArtists)
-        }
-    }
-}
-
-
-@Composable
-private fun ArtistRow(
-    artist: Artist,
-    onArtistSelected: (artistId: Long) -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onArtistSelected(artist.id) }
-            .padding(vertical = MonkeyCustomTheme.spacing.small)
-            .testTag(ShowScreenArtistRowTag.plus(artist.id)),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        AsyncImage(
-            model = artist.images.firstOrNull(),
-            contentDescription = stringResource(Res.string.show_screen_artists_image_content_description, artist.name),
-            contentScale = ContentScale.Fit,
-            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
-            modifier = Modifier
-                .padding(MonkeyCustomTheme.spacing.small)
-                .height(60.dp)
-                .width(100.dp)
-                .clip(RoundedCornerShape(MonkeyCustomTheme.spacing.extraSmall))
-        )
-        Column {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
-                textAlign = TextAlign.Start,
-                text = artist.name,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+            ArtistRow(
+                modifier = Modifier.testTag(ShowScreenArtistRowTag.plus(artist.id)),
+                artist = artist,
+                onViewArtist = goToArtists
             )
         }
     }

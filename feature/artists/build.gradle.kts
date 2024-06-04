@@ -64,6 +64,7 @@ kotlin {
             implementation(project(":logging"))
             implementation(project(":common"))
             implementation(project(":domain"))
+            implementation(project(":compose"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
