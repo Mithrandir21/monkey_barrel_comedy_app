@@ -7,8 +7,8 @@
 
     <string name="home_screen_data_card_comedy_shows_title">Shows</string>
     <string name="home_screen_data_card_artists_title">Artists</string>
-    <string name="home_screen_data_card_podcast_episodes_title">Podcast</string>
-    <string name="home_screen_data_card_blogs_title">Blogs</string>
+    <string name="home_screen_data_card_podcast_episodes_title">Podcasts</string>
+    <string name="home_screen_data_card_blogs_title">Blog</string>
 
     <string name="home_screen_data_loading_error_msg">Something went wrong. Please try again.</string>
     <string name="home_screen_data_loading_error_retry">Retry</string>

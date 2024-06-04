@@ -54,6 +54,7 @@ kotlin {
             implementation(project(":compose"))
             implementation(project(":feature:home"))
             implementation(project(":feature:shows"))
+            implementation(project(":feature:blogs"))
             implementation(project(":feature:webview"))
             implementation(project(":feature:artists"))
             implementation(project(":feature:podcasts"))

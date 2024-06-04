@@ -9,14 +9,16 @@ fun NavGraphBuilder.homeScreen(
     goToShow: (showId: Long) -> Unit,
     goToShows: () -> Unit,
     goToArtists: () -> Unit,
-    goToPodcasts: () -> Unit
+    goToPodcasts: () -> Unit,
+    goToBlog: () -> Unit
 ) {
     composable(route) {
         HomeScreen(
             onViewShow = goToShow,
             goToShows = goToShows,
             goToArtists = goToArtists,
-            goToPodcasts = goToPodcasts
+            goToPodcasts = goToPodcasts,
+            goToBlog = goToBlog
         )
     }
 }

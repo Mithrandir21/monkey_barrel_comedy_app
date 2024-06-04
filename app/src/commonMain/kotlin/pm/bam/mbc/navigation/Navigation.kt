@@ -2,10 +2,12 @@ package pm.bam.mbc.navigation
 
 import androidx.navigation.NavHostController
 import pm.bam.mbc.navigation.NavigationDestinations.ARTISTS_ROUTE
+import pm.bam.mbc.navigation.NavigationDestinations.BLOG_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinations.HOME_SCREEN_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinations.PODCASTS_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinations.SHOWS_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.ARTIST_ID_ARG
+import pm.bam.mbc.navigation.NavigationDestinationsArgs.BLOG_ID_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.PODCAST_EPISODE_ID_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.PODCAST_HEADER_TITLE_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.PODCAST_ID_ARG
@@ -14,6 +16,8 @@ import pm.bam.mbc.navigation.NavigationDestinationsArgs.WEB_TITLE_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.WEB_URL_ARG
 import pm.bam.mbc.navigation.NavigationScreens.ARTISTS_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.ARTIST_SCREEN
+import pm.bam.mbc.navigation.NavigationScreens.BLOG_POST_SCREEN
+import pm.bam.mbc.navigation.NavigationScreens.BLOG_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.HOME_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.PODCASTS_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.PODCAST_EPISODE_SCREEN
@@ -28,6 +32,8 @@ private object NavigationScreens {
     const val HOME_SCREEN = "home"
     const val SHOW_SCREEN = "show"
     const val SHOWS_SCREEN = "shows"
+    const val BLOG_SCREEN = "blog"
+    const val BLOG_POST_SCREEN = "blogPost"
     const val WEBVIEW_SCREEN = "webview"
     const val ARTISTS_SCREEN = "artists"
     const val ARTIST_SCREEN = "artist"
@@ -39,6 +45,7 @@ private object NavigationScreens {
 /** Arguments used in [NavigationDestinations] routes. */
 internal object NavigationDestinationsArgs {
     const val SHOW_ID_ARG = "showId"
+    const val BLOG_ID_ARG = "blogId"
     const val ARTIST_ID_ARG = "artistId"
     const val PODCAST_ID_ARG = "podcastId"
     const val PODCAST_HEADER_TITLE_ARG = "podcastHeaderTitle"
@@ -54,6 +61,8 @@ internal object NavigationDestinations {
     const val HOME_SCREEN_ROUTE = HOME_SCREEN
     const val SHOW_ROUTE = "$SHOW_SCREEN?$SHOW_ID_ARG={$SHOW_ID_ARG}"
     const val SHOWS_ROUTE = SHOWS_SCREEN
+    const val BLOG_ROUTE = BLOG_SCREEN
+    const val BLOG_POST_ROUTE = "$BLOG_POST_SCREEN?$BLOG_ID_ARG={$BLOG_ID_ARG}"
     const val WEBVIEW_ROUTE = "$WEBVIEW_SCREEN?$WEB_URL_ARG={$WEB_URL_ARG}&$WEB_TITLE_ARG={$WEB_TITLE_ARG}"
     const val ARTISTS_ROUTE = ARTISTS_SCREEN
     const val ARTIST_ROUTE = "$ARTIST_SCREEN?$ARTIST_ID_ARG={$ARTIST_ID_ARG}"
@@ -89,6 +98,18 @@ internal class NavigationActions(private val navController: NavHostController) {
 
     fun navigateToShows() {
         navController.navigate(SHOWS_ROUTE) {
+            restoreState = true
+        }
+    }
+
+    fun navigateToBlog() {
+        navController.navigate(BLOG_ROUTE) {
+            restoreState = true
+        }
+    }
+
+    fun navigateToBlogPost(blogPostId: Long) {
+        navController.navigate("$BLOG_POST_SCREEN?$BLOG_ID_ARG=${blogPostId}") {
             restoreState = true
         }
     }

@@ -7,6 +7,7 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.binds
 import org.koin.dsl.module
 import pm.bam.mbc.feature.artists.di.ArtistsModule
+import pm.bam.mbc.feature.blogs.di.BlogsModule
 import pm.bam.mbc.feature.home.di.HomeModule
 import pm.bam.mbc.feature.podcasts.di.PodcastsModule
 import pm.bam.mbc.feature.shows.di.ShowsModule
@@ -22,6 +23,7 @@ class App : Application() {
             modules(
                 HomeModule,
                 ShowsModule,
+                BlogsModule,
                 ArtistsModule,
                 PodcastsModule,
                 module {

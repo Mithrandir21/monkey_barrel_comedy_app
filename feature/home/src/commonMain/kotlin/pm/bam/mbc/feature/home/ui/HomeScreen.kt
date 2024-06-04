@@ -65,6 +65,7 @@ internal fun HomeScreen(
     goToShows: () -> Unit,
     goToArtists: () -> Unit,
     goToPodcasts: () -> Unit,
+    goToBlog: () -> Unit,
     viewModel: HomeViewModel = koinViewModel<HomeViewModel>()
 ) {
     val data = viewModel.uiState.collectAsStateWithLifecycleFix()
@@ -75,7 +76,7 @@ internal fun HomeScreen(
         onViewShows = goToShows,
         onViewArtists = goToArtists,
         onViewPodcasts = goToPodcasts,
-        onViewBlogs = { },
+        onViewBlogs = goToBlog,
         onRetry = { viewModel.loadData() }
     )
 }

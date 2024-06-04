@@ -8,6 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import pm.bam.mbc.feature.artists.navigation.artistScreen
 import pm.bam.mbc.feature.artists.navigation.artistsScreen
+import pm.bam.mbc.feature.blogs.navigation.blogScreen
+import pm.bam.mbc.feature.blogs.navigation.blogPostScreen
 import pm.bam.mbc.feature.home.navigation.homeScreen
 import pm.bam.mbc.feature.podcasts.navigation.podcastEpisodeScreen
 import pm.bam.mbc.feature.podcasts.navigation.podcastScreen
@@ -33,7 +35,8 @@ internal fun NavGraph(
             goToShow = { navActions.navigateToShow(it) },
             goToShows = { navActions.navigateToShows() },
             goToArtists = { navActions.navigateToArtists() },
-            goToPodcasts = { navActions.navigateToPodcasts() }
+            goToPodcasts = { navActions.navigateToPodcasts() },
+            goToBlog = { navActions.navigateToBlog() }
         )
 
         showScreen(
@@ -48,6 +51,19 @@ internal fun NavGraph(
             navController = navController,
             route = NavigationDestinations.SHOWS_ROUTE,
             goToShow = { navActions.navigateToShow(it) },
+        )
+
+        blogScreen(
+            navController = navController,
+            route = NavigationDestinations.BLOG_ROUTE,
+            onViewBlogPost = { navActions.navigateToBlogPost(it) }
+        )
+
+        blogPostScreen(
+            navController = navController,
+            route = NavigationDestinations.BLOG_POST_ROUTE,
+            blogPostIdArg = NavigationDestinationsArgs.BLOG_ID_ARG,
+            onViewArtist = { navActions.navigateToArtist(it) }
         )
 
         webviewScreen(
