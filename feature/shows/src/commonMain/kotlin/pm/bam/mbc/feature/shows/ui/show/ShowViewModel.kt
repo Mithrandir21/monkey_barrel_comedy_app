@@ -1,4 +1,4 @@
-package pm.bam.mbc.feature.show.ui
+package pm.bam.mbc.feature.shows.ui.show
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -7,12 +7,14 @@ import pm.bam.mbc.feature.home.ui.HomeScreen
 fun NavGraphBuilder.homeScreen(
     route: String,
     goToShow: (showId: Long) -> Unit,
+    goToShows: () -> Unit,
     goToArtists: () -> Unit,
     goToPodcasts: () -> Unit
 ) {
     composable(route) {
         HomeScreen(
             onViewShow = goToShow,
+            goToShows = goToShows,
             goToArtists = goToArtists,
             goToPodcasts = goToPodcasts
         )

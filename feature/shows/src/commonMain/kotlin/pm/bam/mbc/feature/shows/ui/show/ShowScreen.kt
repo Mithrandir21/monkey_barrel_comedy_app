@@ -1,4 +1,4 @@
-package pm.bam.mbc.feature.show.ui
+package pm.bam.mbc.feature.shows.ui.show
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -62,7 +62,7 @@ import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.common.theme.MonkeyCustomTheme
 import pm.bam.mbc.common.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Artist
-import pm.bam.mbc.feature.show.ui.ShowViewModel.ShowScreenData
+import pm.bam.mbc.feature.shows.ui.show.ShowViewModel.ShowScreenData
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable

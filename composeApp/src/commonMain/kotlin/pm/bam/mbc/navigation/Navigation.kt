@@ -4,6 +4,7 @@ import androidx.navigation.NavHostController
 import pm.bam.mbc.navigation.NavigationDestinations.ARTISTS_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinations.HOME_SCREEN_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinations.PODCASTS_ROUTE
+import pm.bam.mbc.navigation.NavigationDestinations.SHOWS_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.ARTIST_ID_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.PODCAST_EPISODE_ID_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.PODCAST_HEADER_TITLE_ARG
@@ -17,6 +18,7 @@ import pm.bam.mbc.navigation.NavigationScreens.HOME_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.PODCASTS_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.PODCAST_EPISODE_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.PODCAST_SCREEN
+import pm.bam.mbc.navigation.NavigationScreens.SHOWS_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.SHOW_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.WEBVIEW_SCREEN
 
@@ -25,6 +27,7 @@ import pm.bam.mbc.navigation.NavigationScreens.WEBVIEW_SCREEN
 private object NavigationScreens {
     const val HOME_SCREEN = "home"
     const val SHOW_SCREEN = "show"
+    const val SHOWS_SCREEN = "shows"
     const val WEBVIEW_SCREEN = "webview"
     const val ARTISTS_SCREEN = "artists"
     const val ARTIST_SCREEN = "artist"
@@ -50,6 +53,7 @@ internal object NavigationDestinationsArgs {
 internal object NavigationDestinations {
     const val HOME_SCREEN_ROUTE = HOME_SCREEN
     const val SHOW_ROUTE = "$SHOW_SCREEN?$SHOW_ID_ARG={$SHOW_ID_ARG}"
+    const val SHOWS_ROUTE = SHOWS_SCREEN
     const val WEBVIEW_ROUTE = "$WEBVIEW_SCREEN?$WEB_URL_ARG={$WEB_URL_ARG}&$WEB_TITLE_ARG={$WEB_TITLE_ARG}"
     const val ARTISTS_ROUTE = ARTISTS_SCREEN
     const val ARTIST_ROUTE = "$ARTIST_SCREEN?$ARTIST_ID_ARG={$ARTIST_ID_ARG}"
@@ -80,6 +84,12 @@ internal class NavigationActions(private val navController: NavHostController) {
     fun navigateToShow(showId: Long) {
         navController.navigate("$SHOW_SCREEN?$SHOW_ID_ARG=${showId}") {
             restoreState = showId == 0.toLong()
+        }
+    }
+
+    fun navigateToShows() {
+        navController.navigate(SHOWS_ROUTE) {
+            restoreState = true
         }
     }
 

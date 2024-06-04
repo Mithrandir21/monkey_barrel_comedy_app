@@ -9,7 +9,7 @@ import org.koin.dsl.module
 import pm.bam.mbc.feature.artists.di.ArtistsModule
 import pm.bam.mbc.feature.home.di.HomeModule
 import pm.bam.mbc.feature.podcasts.di.PodcastsModule
-import pm.bam.mbc.feature.show.di.ShowModule
+import pm.bam.mbc.feature.shows.di.ShowsModule
 
 class App : Application() {
     override fun onCreate() {
@@ -21,7 +21,7 @@ class App : Application() {
             // androidContext(this@App)
             modules(
                 HomeModule,
-                ShowModule,
+                ShowsModule,
                 ArtistsModule,
                 PodcastsModule,
                 module {

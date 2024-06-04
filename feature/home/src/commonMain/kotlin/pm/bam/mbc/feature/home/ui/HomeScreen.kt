@@ -68,6 +68,7 @@ import pm.bam.mbc.feature.home.ui.HomeViewModel.HomeScreenStatus.ERROR
 @Composable
 internal fun HomeScreen(
     onViewShow: (showId: Long) -> Unit,
+    goToShows: () -> Unit,
     goToArtists: () -> Unit,
     goToPodcasts: () -> Unit,
     viewModel: HomeViewModel = koinViewModel<HomeViewModel>()
@@ -77,7 +78,7 @@ internal fun HomeScreen(
     Screen(
         data = data.value,
         onViewShow = onViewShow,
-        onViewShows = { },
+        onViewShows = goToShows,
         onViewArtists = goToArtists,
         onViewPodcasts = goToPodcasts,
         onViewBlogs = { },
