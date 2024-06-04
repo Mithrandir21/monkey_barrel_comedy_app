@@ -62,8 +62,7 @@ internal fun NavGraph(
         blogPostScreen(
             navController = navController,
             route = NavigationDestinations.BLOG_POST_ROUTE,
-            blogPostIdArg = NavigationDestinationsArgs.BLOG_ID_ARG,
-            onViewArtist = { navActions.navigateToArtist(it) }
+            blogPostIdArg = NavigationDestinationsArgs.BLOG_ID_ARG
         )
 
         webviewScreen(

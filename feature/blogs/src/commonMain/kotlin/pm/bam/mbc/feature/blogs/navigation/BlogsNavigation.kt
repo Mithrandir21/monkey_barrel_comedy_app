@@ -24,8 +24,7 @@ fun NavGraphBuilder.blogScreen(
 fun NavGraphBuilder.blogPostScreen(
     navController: NavController,
     route: String,
-    blogPostIdArg: String,
-    onViewArtist: (artistId: Long) -> Unit
+    blogPostIdArg: String
 ) {
     composable(
         route = route,
@@ -33,8 +32,7 @@ fun NavGraphBuilder.blogPostScreen(
     ) { entry ->
         PostScreen(
             blogPostId = entry.arguments?.getLong(blogPostIdArg)!!,
-            onBack = { navController.popBackStack() },
-            onViewArtist = onViewArtist
+            onBack = { navController.popBackStack() }
         )
     }
 }

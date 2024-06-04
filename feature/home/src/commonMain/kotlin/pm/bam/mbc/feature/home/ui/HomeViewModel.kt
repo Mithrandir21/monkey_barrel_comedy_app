@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import pm.bam.mbc.common.onError
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.repositories.artist.ArtistRepository
+import pm.bam.mbc.domain.repositories.blog.BlogRepository
 import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
 import pm.bam.mbc.logging.Logger
@@ -26,7 +27,8 @@ internal class HomeViewModel(
     private val logger: Logger,
     private val showsRepository: ShowsRepository,
     private val artistRepository: ArtistRepository,
-    private val podcastRepository: PodcastRepository
+    private val podcastRepository: PodcastRepository,
+    private val blogRepository: BlogRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeScreenData())
@@ -65,6 +67,7 @@ internal class HomeViewModel(
             artistRepository.refreshArtists()
             podcastRepository.refreshPodcasts()
             podcastRepository.refreshEpisodes()
+            blogRepository.refreshBlogPosts()
         }
 
     internal data class HomeScreenData(
