@@ -52,8 +52,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
-import pm.bam.mbc.common.theme.MonkeyCustomTheme
-import pm.bam.mbc.common.theme.MonkeyTheme
+import pm.bam.mbc.compose.theme.MonkeyCustomTheme
+import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Podcast
 import pm.bam.mbc.feature.podcasts.ui.podcasts.PodcastsViewModel.PodcastsScreenData
 import pm.bam.mbc.feature.podcasts.ui.podcasts.PodcastsViewModel.PodcastsScreenStatus.ERROR

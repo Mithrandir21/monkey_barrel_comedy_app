@@ -1,4 +1,4 @@
-package pm.bam.mbc.common.theme
+package pm.bam.mbc.compose.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.unit.Dp

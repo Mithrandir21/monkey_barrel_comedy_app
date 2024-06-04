@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import pm.bam.mbc.common.theme.MonkeyTheme
+import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.navigation.NavGraph
 
 class MainActivity : ComponentActivity() {

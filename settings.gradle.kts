@@ -29,7 +29,7 @@ dependencyResolutionManagement {
     }
 }
 
-include(":composeApp")
+include(":app")
 include(":logging")
 include(":remote")
 include(":domain")

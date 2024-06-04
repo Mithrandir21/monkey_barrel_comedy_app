@@ -26,7 +26,7 @@ import monkeybarrelcomey.compose.generated.resources.show_image_content_descript
 import monkeybarrelcomey.compose.generated.resources.show_venue_label
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import pm.bam.mbc.common.theme.MonkeyCustomTheme
+import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.domain.models.Artist
 import pm.bam.mbc.domain.models.Show
 

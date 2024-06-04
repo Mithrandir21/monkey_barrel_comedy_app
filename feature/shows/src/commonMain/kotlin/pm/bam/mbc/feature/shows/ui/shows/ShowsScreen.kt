@@ -1,15 +1,11 @@
 package pm.bam.mbc.feature.shows.ui.shows
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -38,7 +34,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -58,8 +53,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
-import pm.bam.mbc.common.theme.MonkeyCustomTheme
-import pm.bam.mbc.common.theme.MonkeyTheme
+import pm.bam.mbc.compose.theme.MonkeyCustomTheme
+import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenData
 import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenStatus.ERROR

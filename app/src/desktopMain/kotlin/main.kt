@@ -1,7 +1,7 @@
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import org.koin.core.context.startKoin
-import pm.bam.mbc.common.theme.MonkeyTheme
+import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.di.appModule
 import pm.bam.mbc.navigation.NavGraph
 

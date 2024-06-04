@@ -51,10 +51,12 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
-import pm.bam.mbc.common.theme.MonkeyCustomTheme
-import pm.bam.mbc.common.theme.MonkeyTheme
+import pm.bam.mbc.compose.theme.MonkeyCustomTheme
+import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.PodcastEpisode
 import pm.bam.mbc.feature.podcasts.ui.podcast.PodcastViewModel.PodcastScreenData
+import pm.bam.mbc.feature.podcasts.ui.podcast.PodcastViewModel.PodcastScreenStatus.ERROR
+import pm.bam.mbc.feature.podcasts.ui.podcast.PodcastViewModel.PodcastScreenStatus.LOADING
 
 
 @OptIn(KoinExperimentalAPI::class)
@@ -141,7 +143,7 @@ private fun Screen(
                         }
                     )
 
-                    if (data.state == PodcastViewModel.PodcastScreenStatus.LOADING) {
+                    if (data.state == LOADING) {
                         CircularProgressIndicator(
                             modifier = Modifier
                                 .padding(innerPadding)
@@ -153,7 +155,7 @@ private fun Screen(
                 }
             }
 
-            if (data.state == PodcastViewModel.PodcastScreenStatus.ERROR) {
+            if (data.state == ERROR) {
                 val message = stringResource(Res.string.podcasts_screen_data_loading_error_msg)
                 val actionLabel = stringResource(Res.string.podcasts_screen_data_loading_error_retry)
 

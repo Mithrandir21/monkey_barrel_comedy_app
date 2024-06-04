@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,13 +32,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
-import monkeybarrelcomey.common.generated.resources.image_placeholder
 import monkeybarrelcomey.feature.home.generated.resources.Res
 import monkeybarrelcomey.feature.home.generated.resources.artists
 import monkeybarrelcomey.feature.home.generated.resources.blog
@@ -49,7 +44,6 @@ import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_card_
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_card_podcast_episodes_title
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_loading_error_msg
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_loading_error_retry
-import monkeybarrelcomey.feature.home.generated.resources.home_screen_show_image_content_description
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_show_section_title_upcoming_shows
 import monkeybarrelcomey.feature.home.generated.resources.microphone
 import monkeybarrelcomey.feature.home.generated.resources.podcast
@@ -59,10 +53,9 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
-import pm.bam.mbc.common.theme.MonkeyCustomTheme
-import pm.bam.mbc.common.theme.MonkeyTheme
+import pm.bam.mbc.compose.theme.MonkeyCustomTheme
+import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.compose.ShowRow
-import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.feature.home.ui.HomeViewModel.HomeScreenStatus.ERROR
 
 @OptIn(KoinExperimentalAPI::class)

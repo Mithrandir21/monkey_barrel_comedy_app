@@ -25,7 +25,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "app"
             isStatic = true
         }
     }
@@ -51,6 +51,7 @@ kotlin {
 
             implementation(project(":logging"))
             implementation(project(":common"))
+            implementation(project(":compose"))
             implementation(project(":feature:home"))
             implementation(project(":feature:shows"))
             implementation(project(":feature:webview"))

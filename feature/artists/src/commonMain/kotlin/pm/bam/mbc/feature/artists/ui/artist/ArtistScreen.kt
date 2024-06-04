@@ -1,7 +1,6 @@
 package pm.bam.mbc.feature.artists.ui.artist
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,10 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -37,7 +34,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
@@ -51,17 +47,15 @@ import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_data
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_loading_label
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_navigation_back_button
-import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_show_venue_label
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_shows_label
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
-import pm.bam.mbc.common.theme.MonkeyCustomTheme
-import pm.bam.mbc.common.theme.MonkeyTheme
+import pm.bam.mbc.compose.theme.MonkeyCustomTheme
+import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.compose.ShowRow
-import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.feature.artists.ui.artist.ArtistViewModel.ArtistScreenData
 
 @OptIn(KoinExperimentalAPI::class)
