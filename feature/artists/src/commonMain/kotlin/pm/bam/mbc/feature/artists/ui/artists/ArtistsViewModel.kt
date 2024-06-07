@@ -1,5 +1,6 @@
 package pm.bam.mbc.feature.artists.ui.artists
 
+import androidx.annotation.OpenForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,8 @@ import pm.bam.mbc.domain.repositories.artist.ArtistRepository
 import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.logging.fatal
 
-internal class ArtistsViewModel(
+@OpenForTesting
+internal open class ArtistsViewModel(
     private val logger: Logger,
     private val artistRepository: ArtistRepository
 ) : ViewModel() {
