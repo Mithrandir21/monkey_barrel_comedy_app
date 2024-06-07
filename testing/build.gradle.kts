@@ -5,8 +5,6 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -25,7 +23,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "artists"
+            baseName = "testing"
             isStatic = true
         }
     }
@@ -36,54 +34,14 @@ kotlin {
 
         commonMain.dependencies {
             //put your multiplatform dependencies here
-            implementation(compose.ui)
-            implementation(compose.runtime)
-            implementation(compose.material3)
-            implementation(compose.foundation)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-
             implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.serialization.json)
-
-            implementation(libs.jetbrains.androidx.lifecycle.runtime.compose)
-            implementation(libs.jetbrains.androidx.lifecycle.viewmodel.compose)
-            implementation(libs.jetbrains.androidx.navigation.compose)
-
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-
-            implementation(libs.coil.mp)
-            implementation(libs.coil.compose)
-            implementation(libs.coil.compose.core)
-            implementation(libs.coil.network.ktor)
 
             implementation(libs.napier)
 
             implementation(project(":logging"))
-            implementation(project(":common"))
-            implementation(project(":domain"))
-            implementation(project(":compose"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation(libs.kotlin.test.junit)
-
-            implementation(libs.koin.test)
-
-            implementation(libs.kotlinx.coroutines.test)
-
-            implementation(libs.kotest.engine)
-            implementation(libs.kotest.asserts)
-            implementation(libs.kotest.property)
-
-            implementation(libs.turbine)
-
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
-
-            implementation(project(":testing"))
         }
 
         androidMain.dependencies {
@@ -114,18 +72,11 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.swing)
             }
         }
-        val desktopTest by getting {
-            dependencies {
-                implementation(libs.kotlin.test)
-                implementation(libs.kotlin.test.junit)
-                implementation(compose.desktop.currentOs)
-            }
-        }
     }
 }
 
 android {
-    namespace = "pm.bam.mbc.feature.artists"
+    namespace = "pm.bam.mbc.testing"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

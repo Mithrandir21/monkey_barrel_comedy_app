@@ -55,7 +55,7 @@ internal class ArtistViewModel(
     }
 
 
-    fun reloadArtists(artistId: Long) {
+    fun reloadArtist(artistId: Long) {
         viewModelScope.launch {
             loadArtistFlow(artistId)
                 .collect { _uiState.emit(it) }
@@ -68,8 +68,8 @@ internal class ArtistViewModel(
             .flatMapLatest<Artist, ArtistScreenData> { artist ->
                 artist.showsIds?.let { showsRepository.getShows(*it.toLongArray()) }
                     ?.toFlow()
-                    ?.map { ArtistScreenData.Data(artist, it) }
-                    ?: flowOf(ArtistScreenData.Data(artist))
+                    ?.map { ArtistScreenData.Success(artist, it) }
+                    ?: flowOf(ArtistScreenData.Success(artist))
             }
             .onStart { _uiState.emit(ArtistScreenData.Loading) }
             .onError { fatal(logger, it) }
@@ -81,7 +81,7 @@ internal class ArtistViewModel(
     internal sealed class ArtistScreenData {
         data object Loading : ArtistScreenData()
         data object Error : ArtistScreenData()
-        data class Data(
+        data class Success(
             val artist: Artist,
             val shows: List<Show> = listOf()
         ) : ArtistScreenData()

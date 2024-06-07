@@ -32,6 +32,10 @@ slf4j = "2.0.13"
 
 sqldelight = "2.0.2"
 
+kotest = "5.9.1"
+kotest-plugin = "5.0.2"
+turbine = "1.1.0"
+
 [libraries]
 coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
@@ -78,6 +82,14 @@ sqldelight-extensions-coroutines = { module = "app.cash.sqldelight:coroutines-ex
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+
+kotest-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
+kotest-asserts = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
@@ -89,3 +101,4 @@ jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrai
 ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinx-serialization-plugin" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+kotest = { id = "io.kotest.multiplatform", version.ref = "kotest-plugin" }

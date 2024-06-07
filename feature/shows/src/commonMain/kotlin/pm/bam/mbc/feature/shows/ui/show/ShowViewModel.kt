@@ -68,8 +68,8 @@ internal class ShowViewModel(
             .flatMapLatest<Show, ShowScreenData> { show ->
                 show.artistIds?.let { artistRepository.getArtists(*it.toLongArray()) }
                     ?.toFlow()
-                    ?.map { ShowScreenData.Data(show, it) }
-                    ?: flowOf(ShowScreenData.Data(show))
+                    ?.map { ShowScreenData.Success(show, it) }
+                    ?: flowOf(ShowScreenData.Success(show))
             }
             .onStart { _uiState.emit(ShowScreenData.Loading) }
             .onError { fatal(logger, it) }
@@ -81,7 +81,7 @@ internal class ShowViewModel(
     sealed class ShowScreenData {
         data object Loading : ShowScreenData()
         data object Error : ShowScreenData()
-        data class Data(
+        data class Success(
             val show: Show,
             val artists: List<Artist> = listOf()
         ) : ShowScreenData()

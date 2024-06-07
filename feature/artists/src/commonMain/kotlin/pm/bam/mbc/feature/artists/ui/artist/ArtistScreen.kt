@@ -71,7 +71,7 @@ internal fun ArtistScreen(
 
     val data = viewModel.uiState.collectAsStateWithLifecycleFix()
 
-    val onRetry: () -> Unit = { viewModel.reloadArtists(artistId) }
+    val onRetry: () -> Unit = { viewModel.reloadArtist(artistId) }
 
     ScreenScaffold(
         data = data.value,
@@ -97,7 +97,7 @@ private fun ScreenScaffold(
 
     val title = when (data) {
         ArtistScreenData.Loading, ArtistScreenData.Error -> stringResource(Res.string.artists_screen_loading_label)
-        is ArtistScreenData.Data -> data.artist.name
+        is ArtistScreenData.Success -> data.artist.name
     }
 
     MonkeyTheme {
@@ -151,7 +151,7 @@ private fun ScreenScaffold(
                         }
                     }
 
-                    is ArtistScreenData.Data -> ArtistDetails(Modifier.padding(innerPadding), data, onViewShow, goToWeb)
+                    is ArtistScreenData.Success -> ArtistDetails(Modifier.padding(innerPadding), data, onViewShow, goToWeb)
                 }
             }
         }
@@ -162,7 +162,7 @@ private fun ScreenScaffold(
 @Composable
 private fun ArtistDetails(
     modifier: Modifier,
-    data: ArtistScreenData.Data,
+    data: ArtistScreenData.Success,
     onViewShow: (showId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
 ) {

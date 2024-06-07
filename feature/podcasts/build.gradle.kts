@@ -68,6 +68,22 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.kotlin.test.junit)
+
+            implementation(libs.koin.test)
+
+            implementation(libs.kotlinx.coroutines.test)
+
+            implementation(libs.kotest.engine)
+            implementation(libs.kotest.asserts)
+            implementation(libs.kotest.property)
+
+            implementation(libs.turbine)
+
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+
+            implementation(project(":testing"))
         }
 
         androidMain.dependencies {
@@ -96,6 +112,13 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.swing)
+            }
+        }
+        val desktopTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.kotlin.test.junit)
+                implementation(compose.desktop.currentOs)
             }
         }
     }

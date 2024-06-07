@@ -98,7 +98,7 @@ private fun ScreenScaffold(
 
     val title = when (data) {
         ShowScreenData.Loading, ShowScreenData.Error -> stringResource(Res.string.show_screen_loading_label)
-        is ShowScreenData.Data -> data.show.name
+        is ShowScreenData.Success -> data.show.name
     }
 
     MonkeyTheme {
@@ -152,7 +152,7 @@ private fun ScreenScaffold(
                         }
                     }
 
-                    is ShowScreenData.Data -> ShowDetails(Modifier.padding(innerPadding), data, goToArtists, goToWeb)
+                    is ShowScreenData.Success -> ShowDetails(Modifier.padding(innerPadding), data, goToArtists, goToWeb)
                 }
             }
         }
@@ -163,7 +163,7 @@ private fun ScreenScaffold(
 @Composable
 private fun ShowDetails(
     modifier: Modifier,
-    data: ShowScreenData.Data,
+    data: ShowScreenData.Success,
     goToArtists: (artistId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
 ) {
