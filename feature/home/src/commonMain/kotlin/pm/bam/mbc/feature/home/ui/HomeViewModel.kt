@@ -31,11 +31,11 @@ internal class HomeViewModel(
     private val blogRepository: BlogRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeScreenData())
+    private val _uiState = MutableStateFlow<HomeScreenData>(HomeScreenData.Loading)
     val uiState: StateFlow<HomeScreenData> = _uiState.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = HomeScreenData()
+        initialValue = HomeScreenData.Loading
     )
 
     init {
@@ -50,16 +50,16 @@ internal class HomeViewModel(
     fun loadData() =
         viewModelScope.launch {
             loadHomeScreenData()
-                .onStart { emit(_uiState.value.copy(state = HomeScreenStatus.LOADING)) }
+                .onStart { emit(HomeScreenData.Loading) }
                 .collect { _uiState.emit(it) }
         }
 
     private fun loadHomeScreenData() =
         flow { emitAll(showsRepository.observeShows()) }
             .map { shows -> shows.sortedBy { it.startDate }.take(LIMIT_SHOWS) }
-            .map { HomeScreenData(state = HomeScreenStatus.SUCCESS, topUpcomingShows = it) }
+            .map<List<Show>, HomeScreenData> { HomeScreenData.Success(topUpcomingShows = it) }
             .onError { fatal(logger, it) }
-            .catch { emit(HomeScreenData(state = HomeScreenStatus.ERROR)) }
+            .catch { emit(HomeScreenData.Error) }
 
     private fun refreshAllData() =
         viewModelScope.launch {
@@ -70,12 +70,10 @@ internal class HomeViewModel(
             blogRepository.refreshBlogPosts()
         }
 
-    internal data class HomeScreenData(
-        val state: HomeScreenStatus = HomeScreenStatus.LOADING,
-        val topUpcomingShows: List<Show> = emptyList(),
-    )
 
-    internal enum class HomeScreenStatus {
-        LOADING, ERROR, SUCCESS
+    internal sealed class HomeScreenData {
+        data object Loading : HomeScreenData()
+        data object Error : HomeScreenData()
+        data class Success(val topUpcomingShows: List<Show>) : HomeScreenData()
     }
 }

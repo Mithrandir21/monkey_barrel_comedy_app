@@ -58,7 +58,7 @@ internal class HomeViewModelTest {
     @Test
     fun `initially loading state`() = runTest {
         viewModel.uiState.test {
-            awaitItem() shouldBe HomeViewModel.HomeScreenData(HomeViewModel.HomeScreenStatus.LOADING)
+            awaitItem() shouldBe HomeViewModel.HomeScreenData.Loading
         }
     }
 
@@ -71,8 +71,8 @@ internal class HomeViewModelTest {
         viewModel.loadData()
 
         viewModel.uiState.test {
-            awaitItem() shouldBe HomeViewModel.HomeScreenData(HomeViewModel.HomeScreenStatus.LOADING)
-            awaitItem() shouldBe HomeViewModel.HomeScreenData(HomeViewModel.HomeScreenStatus.SUCCESS, listOf(baseShow))
+            awaitItem() shouldBe HomeViewModel.HomeScreenData.Loading
+            awaitItem() shouldBe HomeViewModel.HomeScreenData.Success(listOf(baseShow))
         }
     }
 
@@ -85,8 +85,8 @@ internal class HomeViewModelTest {
         viewModel.loadData()
 
         viewModel.uiState.test {
-            awaitItem() shouldBe HomeViewModel.HomeScreenData(HomeViewModel.HomeScreenStatus.LOADING)
-            awaitItem() shouldBe HomeViewModel.HomeScreenData(HomeViewModel.HomeScreenStatus.ERROR)
+            awaitItem() shouldBe HomeViewModel.HomeScreenData.Loading
+            awaitItem() shouldBe HomeViewModel.HomeScreenData.Error
         }
     }
 

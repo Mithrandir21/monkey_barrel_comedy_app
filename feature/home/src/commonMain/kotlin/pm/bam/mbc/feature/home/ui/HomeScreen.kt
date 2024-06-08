@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -53,10 +55,9 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
+import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
-import pm.bam.mbc.compose.ShowRow
-import pm.bam.mbc.feature.home.ui.HomeViewModel.HomeScreenStatus.ERROR
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -103,53 +104,85 @@ private fun Screen(
                 Scaffold(
                     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
                 ) { innerPadding: PaddingValues ->
-                    LazyColumn(
-                        modifier = Modifier.padding(innerPadding),
-                        content = {
-                            if (data.topUpcomingShows.isNotEmpty()) {
-                                item { SectionHeader(stringResource(Res.string.home_screen_show_section_title_upcoming_shows)) }
+                    when (data) {
+                        HomeViewModel.HomeScreenData.Error -> {
+                            val message = stringResource(Res.string.home_screen_data_loading_error_msg)
+                            val actionLabel = stringResource(Res.string.home_screen_data_loading_error_retry)
 
-                                items(data.topUpcomingShows.size) { index ->
-                                    ShowRow(
-                                        modifier = Modifier.testTag(HomeScreenShowRowTag.plus(data.topUpcomingShows[index].id)),
-                                        show = data.topUpcomingShows[index],
-                                        onShowSelected = onViewShow
-                                    )
+                            LaunchedEffect(snackbarHostState) {
+                                val results = snackbarHostState.showSnackbar(
+                                    message = message,
+                                    actionLabel = actionLabel
+                                )
+                                if (results == SnackbarResult.ActionPerformed) {
+                                    onRetry()
                                 }
                             }
-
-                            item {
-
-                                HorizontalDivider()
-
-                                MainCards(
-                                    onViewShows = onViewShows,
-                                    onViewArtists = onViewArtists,
-                                    onViewPodcasts = onViewPodcasts,
-                                    onViewBlogs = onViewBlogs
-                                )
-                            }
                         }
-                    )
-                }
-            }
 
-            if (data.state == ERROR) {
-                val message = stringResource(Res.string.home_screen_data_loading_error_msg)
-                val actionLabel = stringResource(Res.string.home_screen_data_loading_error_retry)
+                        HomeViewModel.HomeScreenData.Loading -> CircularProgressIndicator(
+                            modifier = Modifier
+                                .padding(innerPadding)
+                                .fillMaxSize()
+                                .wrapContentSize(Alignment.Center)
+                                .testTag(HomeScreenLoadingDataTag)
+                        )
 
-                LaunchedEffect(snackbarHostState) {
-                    val results = snackbarHostState.showSnackbar(
-                        message = message,
-                        actionLabel = actionLabel
-                    )
-                    if (results == SnackbarResult.ActionPerformed) {
-                        onRetry()
+                        is HomeViewModel.HomeScreenData.Success -> ScreenData(
+                            Modifier.padding(innerPadding),
+                            data = data,
+                            onViewShow = onViewShow,
+                            onViewShows = onViewShows,
+                            onViewArtists = onViewArtists,
+                            onViewPodcasts = onViewPodcasts,
+                            onViewBlogs = onViewBlogs
+                        )
                     }
                 }
             }
         }
     }
+}
+
+
+@Composable
+private fun ScreenData(
+    modifier: Modifier = Modifier,
+    data: HomeViewModel.HomeScreenData.Success,
+    onViewShow: (showId: Long) -> Unit,
+    onViewShows: () -> Unit,
+    onViewArtists: () -> Unit,
+    onViewPodcasts: () -> Unit,
+    onViewBlogs: () -> Unit,
+) {
+    LazyColumn(
+        modifier = modifier,
+        content = {
+            if (data.topUpcomingShows.isNotEmpty()) {
+                item { SectionHeader(stringResource(Res.string.home_screen_show_section_title_upcoming_shows)) }
+
+                items(data.topUpcomingShows.size) { index ->
+                    ShowRow(
+                        modifier = Modifier.testTag(HomeScreenShowRowTag.plus(data.topUpcomingShows[index].id)),
+                        show = data.topUpcomingShows[index],
+                        onShowSelected = onViewShow
+                    )
+                }
+            }
+
+            item {
+
+                HorizontalDivider()
+
+                MainCards(
+                    onViewShows = onViewShows,
+                    onViewArtists = onViewArtists,
+                    onViewPodcasts = onViewPodcasts,
+                    onViewBlogs = onViewBlogs
+                )
+            }
+        }
+    )
 }
 
 
@@ -244,7 +277,8 @@ private fun HomeCard(
             Image(
                 painter = painterResource(backgroundDrawableRes),
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(color = Color.Gray, blendMode = BlendMode.Lighten))
+                colorFilter = ColorFilter.tint(color = Color.Gray, blendMode = BlendMode.Lighten)
+            )
             Text(
                 modifier = Modifier
                     .wrapContentSize()
@@ -257,5 +291,6 @@ private fun HomeCard(
     }
 }
 
+internal const val HomeScreenLoadingDataTag = "HomeScreenLoadingDataTag"
 
 internal const val HomeScreenShowRowTag = "HomeScreenShowRowTag"
