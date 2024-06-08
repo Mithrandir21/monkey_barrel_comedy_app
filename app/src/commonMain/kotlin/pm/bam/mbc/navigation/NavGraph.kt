@@ -11,6 +11,8 @@ import pm.bam.mbc.feature.artists.navigation.artistsScreen
 import pm.bam.mbc.feature.blogs.navigation.blogScreen
 import pm.bam.mbc.feature.blogs.navigation.blogPostScreen
 import pm.bam.mbc.feature.home.navigation.homeScreen
+import pm.bam.mbc.feature.news.navigation.newsItemScreen
+import pm.bam.mbc.feature.news.navigation.newsScreen
 import pm.bam.mbc.feature.podcasts.navigation.podcastEpisodeScreen
 import pm.bam.mbc.feature.podcasts.navigation.podcastScreen
 import pm.bam.mbc.feature.podcasts.navigation.podcastsScreen
@@ -39,6 +41,20 @@ internal fun NavGraph(
             goToArtists = { navActions.navigateToArtists() },
             goToPodcasts = { navActions.navigateToPodcasts() },
             goToBlog = { navActions.navigateToBlog() }
+        )
+
+        newsScreen(
+            navController = navController,
+            route = NavigationDestinations.NEWS_ROUTE,
+            onViewNewsItem = { navActions.navigateToNewsItem(it) }
+        )
+
+        newsItemScreen(
+            navController = navController,
+            route = NavigationDestinations.NEWS_ITEM_ROUTE,
+            newsItemIdArg = NavigationDestinationsArgs.NEWS_ITEM_ID_ARG,
+            onViewShow = { navActions.navigateToShow(it) },
+            goToWeb = { url: String, title: String -> navActions.navigateToWeb(url, title) }
         )
 
         showScreen(

@@ -15,8 +15,6 @@ internal class RemoteNewsDataSourceImpl : RemoteNewsDataSource {
                 description = "Monkey Barrel Comedy has a new app! Download it now to get the latest news, shows, podcasts and more!",
                 images = listOf("https://static.wixstatic.com/media/d75e7b_78c48bdf7d674cd6877bf207ae2a11c7~mv2.png"),
                 types = listOf(RemoteNewsType.BUSINESS),
-                showsIds = listOf(3),
-                podcastsIds = emptyList(),
                 externalLinks = listOf(
                     RemoteNewsExternalLink("https://www.monkeybarrelcomedy.com/", RemoteNewsExternalLinkType.WEBSITE)
                 )

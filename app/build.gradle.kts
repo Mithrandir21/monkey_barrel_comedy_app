@@ -53,6 +53,7 @@ kotlin {
             implementation(project(":common"))
             implementation(project(":compose"))
             implementation(project(":feature:home"))
+            implementation(project(":feature:news"))
             implementation(project(":feature:shows"))
             implementation(project(":feature:blogs"))
             implementation(project(":feature:webview"))
@@ -124,7 +125,6 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
     }
     compileOptions {

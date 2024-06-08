@@ -9,7 +9,7 @@ import pm.bam.mbc.navigation.NavigationDestinations.PODCASTS_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinations.SHOWS_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.ARTIST_ID_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.BLOG_ID_ARG
-import pm.bam.mbc.navigation.NavigationDestinationsArgs.NEWS_ID_ARG
+import pm.bam.mbc.navigation.NavigationDestinationsArgs.NEWS_ITEM_ID_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.PODCAST_EPISODE_ID_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.PODCAST_HEADER_TITLE_ARG
 import pm.bam.mbc.navigation.NavigationDestinationsArgs.PODCAST_ID_ARG
@@ -50,7 +50,7 @@ private object NavigationScreens {
 
 /** Arguments used in [NavigationDestinations] routes. */
 internal object NavigationDestinationsArgs {
-    const val NEWS_ID_ARG = "newsId"
+    const val NEWS_ITEM_ID_ARG = "newsItemId"
     const val SHOW_ID_ARG = "showId"
     const val BLOG_ID_ARG = "blogId"
     const val ARTIST_ID_ARG = "artistId"
@@ -67,7 +67,7 @@ internal object NavigationDestinationsArgs {
 internal object NavigationDestinations {
     const val HOME_SCREEN_ROUTE = HOME_SCREEN
     const val NEWS_ROUTE = NEWS_SCREEN
-    const val NEWS_ITEM_ROUTE = "$NEWS_ITEM_SCREEN?$NEWS_ID_ARG={$NEWS_ID_ARG}"
+    const val NEWS_ITEM_ROUTE = "$NEWS_ITEM_SCREEN?$NEWS_ITEM_ID_ARG={$NEWS_ITEM_ID_ARG}"
     const val SHOW_ROUTE = "$SHOW_SCREEN?$SHOW_ID_ARG={$SHOW_ID_ARG}"
     const val SHOWS_ROUTE = SHOWS_SCREEN
     const val BLOG_ROUTE = BLOG_SCREEN
@@ -100,7 +100,7 @@ internal class NavigationActions(private val navController: NavHostController) {
     }
 
     fun navigateToNewsItem(newsId: Long) {
-        navController.navigate("$NEWS_ITEM_SCREEN?$NEWS_ID_ARG=${newsId}") {
+        navController.navigate("$NEWS_ITEM_SCREEN?$NEWS_ITEM_ID_ARG=${newsId}") {
             restoreState = true
         }
     }

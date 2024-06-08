@@ -7,7 +7,6 @@ android-minSdk = "24"
 android-targetSdk = "34"
 
 compose-plugin = "1.6.11"
-compose-android-ui-test = "1.6.7"
 
 jetbrainsKotlinJvm = "1.9.0"
 
@@ -85,12 +84,8 @@ sqldelight-extensions-coroutines = { module = "app.cash.sqldelight:coroutines-ex
 
 # Testing Libraries
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
-
-compose-test-ui-junit4 = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "compose-android-ui-test" }
-compose-test-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose-android-ui-test" }
 
 kotest-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
 kotest-asserts = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }

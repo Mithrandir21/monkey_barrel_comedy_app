@@ -17,17 +17,17 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
 
-        // https://youtrack.jetbrains.com/issue/KT-46452/Allow-to-run-common-tests-as-Android-Instrumentation-tests
-        // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-test.html
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        instrumentedTestVariant {
-            sourceSetTree.set(KotlinSourceSetTree.test)
-
-            dependencies {
-                implementation(libs.compose.test.ui.junit4)
-                debugImplementation(libs.compose.test.ui.manifest)
-            }
-        }
+//        // https://youtrack.jetbrains.com/issue/KT-46452/Allow-to-run-common-tests-as-Android-Instrumentation-tests
+//        // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-test.html
+//        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+//        instrumentedTestVariant {
+//            sourceSetTree.set(KotlinSourceSetTree.test)
+//
+//            dependencies {
+//                implementation(libs.compose.test.ui.junit4)
+//                debugImplementation(libs.compose.test.ui.manifest)
+//            }
+//        }
     }
 
     jvm("desktop")
@@ -81,7 +81,6 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation(libs.kotlin.test.junit)
 
             implementation(libs.koin.test)
 
@@ -93,8 +92,8 @@ kotlin {
 
             implementation(libs.turbine)
 
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
+//            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+//            implementation(compose.uiTest)
 
             implementation(project(":testing"))
         }
@@ -130,7 +129,6 @@ kotlin {
         val desktopTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
-                implementation(libs.kotlin.test.junit)
                 implementation(compose.desktop.currentOs)
             }
         }
@@ -143,7 +141,7 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

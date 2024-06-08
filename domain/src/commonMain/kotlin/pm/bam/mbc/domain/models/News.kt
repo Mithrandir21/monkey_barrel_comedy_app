@@ -2,7 +2,6 @@ package pm.bam.mbc.domain.models
 
 import kotlinx.serialization.Serializable
 
-
 @Serializable
 data class News(
     val id: Long,

@@ -3,11 +3,8 @@ package pm.bam.mbc.domain.db.transformations
 import pm.bam.mbc.common.serializer.Serializer
 import pm.bam.mbc.common.serializer.deserialize
 import pm.bam.mbc.common.serializer.serialize
-import pm.bam.mbc.domain.models.Artist
 import pm.bam.mbc.domain.models.News
-import pm.bam.mbc.remote.models.RemoteArtist
 import pm.bam.mbc.remote.models.RemoteNews
-import pmbammbcdomain.DatabaseArtist
 import pmbammbcdomain.DatabaseNews
 
 

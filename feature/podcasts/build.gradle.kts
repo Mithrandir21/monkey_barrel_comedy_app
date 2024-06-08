@@ -68,7 +68,6 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation(libs.kotlin.test.junit)
 
             implementation(libs.koin.test)
 
@@ -117,7 +116,6 @@ kotlin {
         val desktopTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
-                implementation(libs.kotlin.test.junit)
                 implementation(compose.desktop.currentOs)
             }
         }
