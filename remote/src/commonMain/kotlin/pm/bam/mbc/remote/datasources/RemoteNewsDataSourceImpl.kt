@@ -11,7 +11,7 @@ internal class RemoteNewsDataSourceImpl : RemoteNewsDataSource {
         listOf(
             RemoteNews(
                 id = 1,
-                title = "New Monkey Barrel App",
+                title = "New App for Monkey Barrel Comedy!",
                 description = "Monkey Barrel Comedy has a new app! Download it now to get the latest news, shows, podcasts and more!",
                 images = listOf("https://static.wixstatic.com/media/d75e7b_78c48bdf7d674cd6877bf207ae2a11c7~mv2.png"),
                 types = listOf(RemoteNewsType.BUSINESS),

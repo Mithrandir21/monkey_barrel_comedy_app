@@ -10,5 +10,5 @@ import pm.bam.mbc.logging.di.LoggingModule
 val HomeModule = module {
     includes(LoggingModule, domainModule, domainPlatformModule)
 
-    viewModel<HomeViewModel> { HomeViewModel(get(), get(), get(), get(), get()) }
+    viewModel<HomeViewModel> { HomeViewModel(get(), get(), get(), get(), get(), get()) }
 }

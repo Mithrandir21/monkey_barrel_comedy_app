@@ -22,13 +22,54 @@ import coil3.compose.AsyncImage
 import monkeybarrelcomey.common.generated.resources.image_placeholder
 import monkeybarrelcomey.compose.generated.resources.Res
 import monkeybarrelcomey.compose.generated.resources.artist_image_content_description
+import monkeybarrelcomey.compose.generated.resources.news_image_content_description
 import monkeybarrelcomey.compose.generated.resources.show_image_content_description
 import monkeybarrelcomey.compose.generated.resources.show_venue_label
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.domain.models.Artist
+import pm.bam.mbc.domain.models.News
 import pm.bam.mbc.domain.models.Show
+
+
+@Composable
+fun NewsRow(
+    modifier: Modifier = Modifier,
+    news: News,
+    onViewNewsItem: (newsId: Long) -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onViewNewsItem(news.id) }
+            .padding(vertical = MonkeyCustomTheme.spacing.small),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AsyncImage(
+            model = news.images.firstOrNull(),
+            contentDescription = stringResource(Res.string.news_image_content_description, news.title),
+            contentScale = ContentScale.Fit,
+            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+            modifier = Modifier
+                .padding(MonkeyCustomTheme.spacing.small)
+                .height(60.dp)
+                .width(100.dp)
+                .clip(RoundedCornerShape(MonkeyCustomTheme.spacing.extraSmall))
+        )
+        Column {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
+                textAlign = TextAlign.Start,
+                text = news.title,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
 
 
 @Composable

@@ -32,6 +32,8 @@ internal fun NavGraph(
     ) {
         homeScreen(
             route = NavigationDestinations.HOME_SCREEN_ROUTE,
+            goToNewsItem = { navActions.navigateToNewsItem(it) },
+            goToNews = { navActions.navigateToNews() },
             goToShow = { navActions.navigateToShow(it) },
             goToShows = { navActions.navigateToShows() },
             goToArtists = { navActions.navigateToArtists() },

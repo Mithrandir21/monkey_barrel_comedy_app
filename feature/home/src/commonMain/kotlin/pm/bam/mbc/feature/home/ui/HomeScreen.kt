@@ -46,6 +46,7 @@ import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_card_
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_card_podcast_episodes_title
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_loading_error_msg
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_loading_error_retry
+import monkeybarrelcomey.feature.home.generated.resources.home_screen_news_section_title
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_show_section_title_upcoming_shows
 import monkeybarrelcomey.feature.home.generated.resources.microphone
 import monkeybarrelcomey.feature.home.generated.resources.podcast
@@ -55,6 +56,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
+import pm.bam.mbc.compose.NewsRow
 import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
@@ -62,6 +64,8 @@ import pm.bam.mbc.compose.theme.MonkeyTheme
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 internal fun HomeScreen(
+    goToNewsItem: (newsId: Long) -> Unit,
+    goToNews: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
     goToShows: () -> Unit,
     goToArtists: () -> Unit,
@@ -73,6 +77,7 @@ internal fun HomeScreen(
 
     Screen(
         data = data.value,
+        onViewNewsItem = goToNewsItem,
         onViewShow = onViewShow,
         onViewShows = goToShows,
         onViewArtists = goToArtists,
@@ -86,6 +91,7 @@ internal fun HomeScreen(
 @Composable
 private fun Screen(
     data: HomeViewModel.HomeScreenData,
+    onViewNewsItem: (newsId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewShows: () -> Unit,
     onViewArtists: () -> Unit,
@@ -131,6 +137,7 @@ private fun Screen(
                         is HomeViewModel.HomeScreenData.Success -> ScreenData(
                             Modifier.padding(innerPadding),
                             data = data,
+                            onViewNewsItem = onViewNewsItem,
                             onViewShow = onViewShow,
                             onViewShows = onViewShows,
                             onViewArtists = onViewArtists,
@@ -149,6 +156,7 @@ private fun Screen(
 private fun ScreenData(
     modifier: Modifier = Modifier,
     data: HomeViewModel.HomeScreenData.Success,
+    onViewNewsItem: (newsId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewShows: () -> Unit,
     onViewArtists: () -> Unit,
@@ -158,7 +166,10 @@ private fun ScreenData(
     LazyColumn(
         modifier = modifier,
         content = {
+
             if (data.topUpcomingShows.isNotEmpty()) {
+                item { HorizontalDivider() }
+
                 item { SectionHeader(stringResource(Res.string.home_screen_show_section_title_upcoming_shows)) }
 
                 items(data.topUpcomingShows.size) { index ->
@@ -166,6 +177,18 @@ private fun ScreenData(
                         modifier = Modifier.testTag(HomeScreenShowRowTag.plus(data.topUpcomingShows[index].id)),
                         show = data.topUpcomingShows[index],
                         onShowSelected = onViewShow
+                    )
+                }
+            }
+
+            if (data.news.isNotEmpty()) {
+                item { SectionHeader(stringResource(Res.string.home_screen_news_section_title)) }
+
+                items(data.news.size) { index ->
+                    NewsRow(
+                        modifier = Modifier.testTag(HomeScreenNewsRowTag.plus(data.news[index].id)),
+                        news = data.news[index],
+                        onViewNewsItem = onViewNewsItem
                     )
                 }
             }
@@ -293,4 +316,5 @@ private fun HomeCard(
 
 internal const val HomeScreenLoadingDataTag = "HomeScreenLoadingDataTag"
 
+internal const val HomeScreenNewsRowTag = "HomeScreenNewsRowTag"
 internal const val HomeScreenShowRowTag = "HomeScreenShowRowTag"

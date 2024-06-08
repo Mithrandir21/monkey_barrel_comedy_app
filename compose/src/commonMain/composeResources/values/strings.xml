@@ -1,5 +1,7 @@
 <resources>
 
+    <string name="news_image_content_description">%1$s News image</string>
+
     <string name="artist_image_content_description">%1$s Artist image</string>
 
     <string name="show_image_content_description">%1$s Show image</string>
