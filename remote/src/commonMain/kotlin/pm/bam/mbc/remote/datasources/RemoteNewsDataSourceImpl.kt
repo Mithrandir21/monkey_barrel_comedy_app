@@ -14,7 +14,7 @@ internal class RemoteNewsDataSourceImpl : RemoteNewsDataSource {
                 title = "New Monkey Barrel App",
                 description = "Monkey Barrel Comedy has a new app! Download it now to get the latest news, shows, podcasts and more!",
                 images = listOf("https://static.wixstatic.com/media/d75e7b_78c48bdf7d674cd6877bf207ae2a11c7~mv2.png"),
-                type = listOf(RemoteNewsType.BUSINESS),
+                types = listOf(RemoteNewsType.BUSINESS),
                 showsIds = listOf(3),
                 podcastsIds = emptyList(),
                 externalLinks = listOf(
@@ -26,7 +26,7 @@ internal class RemoteNewsDataSourceImpl : RemoteNewsDataSource {
                 title = "New Monkey Barrel Venue - MB4!",
                 description = "Monkey Barrel Comedy has a new venue! MB4 is now open and has a full schedule of shows and events!",
                 images = listOf("https://static.wixstatic.com/media/d75e7b_78c48bdf7d674cd6877bf207ae2a11c7~mv2.png"),
-                type = listOf(RemoteNewsType.BUSINESS, RemoteNewsType.COMEDY),
+                types = listOf(RemoteNewsType.BUSINESS, RemoteNewsType.COMEDY),
                 externalLinks = listOf(
                     RemoteNewsExternalLink("https://www.monkeybarrelcomedy.com/", RemoteNewsExternalLinkType.WEBSITE)
                 )
@@ -36,7 +36,7 @@ internal class RemoteNewsDataSourceImpl : RemoteNewsDataSource {
                 title = "Vittorio Angelone - New Show!",
                 description = "Vittoio Angelone has a new show! Get tickets now to see him live at Monkey Barrel Comedy!",
                 images = listOf("https://d3flpus5evl89n.cloudfront.net/5a57405cdf82fe5399b2ddb4/64ff19a560b4d9491b6329ac/scaled_768.jpg"),
-                type = listOf(RemoteNewsType.COMEDY, RemoteNewsType.STANDUP),
+                types = listOf(RemoteNewsType.COMEDY, RemoteNewsType.STANDUP),
                 showsIds = listOf(1, 5),
                 podcastsIds = emptyList(),
                 externalLinks = listOf(
