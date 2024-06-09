@@ -50,6 +50,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
+import pm.bam.mbc.compose.BottomNavigation
+import pm.bam.mbc.compose.NavigationBarConfig
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Artist
@@ -60,7 +62,7 @@ import pm.bam.mbc.feature.artists.ui.artists.ArtistsViewModel.ArtistsScreenStatu
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 internal fun ArtistsScreen(
-    onBack: () -> Unit,
+    bottomNavConfig: NavigationBarConfig,
     onViewArtist: (artistId: Long) -> Unit,
     viewModel: ArtistsViewModel = koinViewModel<ArtistsViewModel>()
 ) {
@@ -70,8 +72,8 @@ internal fun ArtistsScreen(
 
     Screen(
         data = data.value,
+        bottomNavConfig = bottomNavConfig,
         onViewArtist = onViewArtist,
-        onBack = onBack,
         onRetry = onRetry
     )
 }
@@ -80,8 +82,8 @@ internal fun ArtistsScreen(
 @Composable
 private fun Screen(
     data: ArtistsScreenData,
+    bottomNavConfig: NavigationBarConfig,
     onViewArtist: (artistId: Long) -> Unit,
-    onBack: () -> Unit,
     onRetry: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -108,21 +110,11 @@ private fun Screen(
                                     overflow = TextOverflow.Ellipsis
                                 )
                             },
-                            navigationIcon = {
-                                IconButton(
-                                    modifier = Modifier.testTag(ArtistsScreenTopAppNavBarTag),
-                                    onClick = { onBack() }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                        contentDescription = stringResource(Res.string.artists_screen_navigation_back_button)
-                                    )
-                                }
-                            },
                             scrollBehavior = scrollBehavior,
                         )
                     },
                     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+                    bottomBar = { BottomNavigation(config = bottomNavConfig) }
                 ) { innerPadding: PaddingValues ->
                     LazyVerticalGrid(
                         modifier = Modifier.padding(innerPadding),

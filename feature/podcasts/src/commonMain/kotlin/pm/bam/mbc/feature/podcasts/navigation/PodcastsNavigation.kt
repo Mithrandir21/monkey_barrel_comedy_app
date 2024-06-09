@@ -5,19 +5,20 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import pm.bam.mbc.compose.NavigationBarConfig
 import pm.bam.mbc.feature.podcasts.ui.episode.PodcastEpisodeScreen
 import pm.bam.mbc.feature.podcasts.ui.podcast.PodcastScreen
 import pm.bam.mbc.feature.podcasts.ui.podcasts.PodcastsScreen
 
 
 fun NavGraphBuilder.podcastsScreen(
-    navController: NavController,
     route: String,
+    bottomNavConfig: NavigationBarConfig,
     onViewPodcast: (podcast: Long, title: String) -> Unit
 ) {
     composable(route) {
         PodcastsScreen(
-            onBack = { navController.popBackStack() },
+            bottomNavConfig = bottomNavConfig,
             onViewPodcast = onViewPodcast
         )
     }

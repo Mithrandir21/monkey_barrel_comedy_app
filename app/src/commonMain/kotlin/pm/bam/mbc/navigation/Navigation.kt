@@ -86,11 +86,12 @@ internal object NavigationDestinations {
  */
 internal class NavigationActions(private val navController: NavHostController) {
 
-    fun navigateHome() {
+    fun navigateToHome() {
         navController.navigate(HOME_SCREEN_ROUTE) {
-            // Pop up to the start destination of the graph to avoid building up a large stack of destinations on the back stack as users select items
+            // Pop to Start Destination and pop Start Destination as well, closing the app.
             popUpTo(HOME_SCREEN_ROUTE) {
                 saveState = true
+                // inclusive = true not necessary as this is the start destination
             }
             // Avoid multiple copies of the same destination when re-selecting the same item
             launchSingleTop = true
@@ -119,6 +120,11 @@ internal class NavigationActions(private val navController: NavHostController) {
 
     fun navigateToShows() {
         navController.navigate(SHOWS_ROUTE) {
+            popUpTo(HOME_SCREEN_ROUTE) {
+                saveState = true
+                inclusive = true
+            }
+            launchSingleTop = true
             restoreState = true
         }
     }
@@ -143,6 +149,11 @@ internal class NavigationActions(private val navController: NavHostController) {
 
     fun navigateToArtists() {
         navController.navigate(ARTISTS_ROUTE) {
+            popUpTo(HOME_SCREEN_ROUTE) {
+                saveState = true
+                inclusive = true
+            }
+            launchSingleTop = true
             restoreState = true
         }
     }
@@ -155,6 +166,11 @@ internal class NavigationActions(private val navController: NavHostController) {
 
     fun navigateToPodcasts() {
         navController.navigate(PODCASTS_ROUTE) {
+            popUpTo(HOME_SCREEN_ROUTE) {
+                saveState = true
+                inclusive = true
+            }
+            launchSingleTop = true
             restoreState = true
         }
     }

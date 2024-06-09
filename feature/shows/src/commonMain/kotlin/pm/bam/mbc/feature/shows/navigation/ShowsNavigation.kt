@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import pm.bam.mbc.compose.NavigationBarConfig
 import pm.bam.mbc.feature.shows.ui.show.ShowScreen
 import pm.bam.mbc.feature.shows.ui.shows.ShowsScreen
 
@@ -29,13 +30,13 @@ fun NavGraphBuilder.showScreen(
 }
 
 fun NavGraphBuilder.showsScreen(
-    navController: NavController,
     route: String,
+    bottomNavConfig: NavigationBarConfig,
     goToShow: (showId: Long) -> Unit
 ) {
     composable(route) {
         ShowsScreen(
-            onBack = { navController.popBackStack() },
+            bottomNavConfig = bottomNavConfig,
             goToShow = goToShow
         )
     }

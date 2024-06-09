@@ -5,17 +5,18 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import pm.bam.mbc.compose.NavigationBarConfig
 import pm.bam.mbc.feature.artists.ui.artist.ArtistScreen
 import pm.bam.mbc.feature.artists.ui.artists.ArtistsScreen
 
 fun NavGraphBuilder.artistsScreen(
-    navController: NavController,
     route: String,
+    bottomNavConfig: NavigationBarConfig,
     onViewArtist: (artistId: Long) -> Unit
 ) {
     composable(route) {
         ArtistsScreen(
-            onBack = { navController.popBackStack() },
+            bottomNavConfig = bottomNavConfig,
             onViewArtist = onViewArtist
         )
     }

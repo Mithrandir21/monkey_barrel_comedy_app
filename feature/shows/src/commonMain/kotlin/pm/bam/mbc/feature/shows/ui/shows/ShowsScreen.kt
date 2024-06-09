@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -53,6 +54,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
+import pm.bam.mbc.compose.BottomNavigation
+import pm.bam.mbc.compose.NavigationBarConfig
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Show
@@ -63,7 +66,7 @@ import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenStatus.LOADIN
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 internal fun ShowsScreen(
-    onBack: () -> Unit,
+    bottomNavConfig: NavigationBarConfig,
     goToShow: (showId: Long) -> Unit,
     viewModel: ShowsViewModel = koinViewModel<ShowsViewModel>()
 ) {
@@ -73,8 +76,8 @@ internal fun ShowsScreen(
 
     Screen(
         data = data.value,
+        bottomNavConfig = bottomNavConfig,
         onViewShow = goToShow,
-        onBack = onBack,
         onRetry = onRetry
     )
 }
@@ -83,8 +86,8 @@ internal fun ShowsScreen(
 @Composable
 private fun Screen(
     data: ShowsScreenData,
+    bottomNavConfig: NavigationBarConfig,
     onViewShow: (artistId: Long) -> Unit,
-    onBack: () -> Unit,
     onRetry: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -111,21 +114,11 @@ private fun Screen(
                                     overflow = TextOverflow.Ellipsis
                                 )
                             },
-                            navigationIcon = {
-                                IconButton(
-                                    modifier = Modifier.testTag(ArtistsScreenTopAppNavBarTag),
-                                    onClick = { onBack() }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                        contentDescription = stringResource(Res.string.show_screen_navigation_back_button)
-                                    )
-                                }
-                            },
                             scrollBehavior = scrollBehavior,
                         )
                     },
                     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+                    bottomBar = { BottomNavigation(config = bottomNavConfig) }
                 ) { innerPadding: PaddingValues ->
                     LazyVerticalGrid(
                         modifier = Modifier.padding(innerPadding),

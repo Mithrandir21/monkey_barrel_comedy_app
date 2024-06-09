@@ -15,10 +15,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.EmojiPeople
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.MicExternalOn
+import androidx.compose.material.icons.filled.Sell
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -56,6 +67,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
+import pm.bam.mbc.compose.BottomNavigation
+import pm.bam.mbc.compose.NavigationBarConfig
 import pm.bam.mbc.compose.NewsRow
 import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
@@ -64,12 +77,10 @@ import pm.bam.mbc.compose.theme.MonkeyTheme
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 internal fun HomeScreen(
+    bottomNavConfig: NavigationBarConfig,
     goToNewsItem: (newsId: Long) -> Unit,
     goToNews: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
-    goToShows: () -> Unit,
-    goToArtists: () -> Unit,
-    goToPodcasts: () -> Unit,
     goToBlog: () -> Unit,
     viewModel: HomeViewModel = koinViewModel<HomeViewModel>()
 ) {
@@ -77,25 +88,20 @@ internal fun HomeScreen(
 
     Screen(
         data = data.value,
+        bottomNavConfig = bottomNavConfig,
         onViewNewsItem = goToNewsItem,
         onViewShow = onViewShow,
-        onViewShows = goToShows,
-        onViewArtists = goToArtists,
-        onViewPodcasts = goToPodcasts,
         onViewBlogs = goToBlog,
         onRetry = { viewModel.loadData() }
     )
 }
 
-
 @Composable
 private fun Screen(
     data: HomeViewModel.HomeScreenData,
+    bottomNavConfig: NavigationBarConfig,
     onViewNewsItem: (newsId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
-    onViewShows: () -> Unit,
-    onViewArtists: () -> Unit,
-    onViewPodcasts: () -> Unit,
     onViewBlogs: () -> Unit,
     onRetry: () -> Unit
 ) {
@@ -109,6 +115,7 @@ private fun Screen(
             ) {
                 Scaffold(
                     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+                    bottomBar = { BottomNavigation(config = bottomNavConfig) }
                 ) { innerPadding: PaddingValues ->
                     when (data) {
                         HomeViewModel.HomeScreenData.Error -> {
@@ -139,9 +146,6 @@ private fun Screen(
                             data = data,
                             onViewNewsItem = onViewNewsItem,
                             onViewShow = onViewShow,
-                            onViewShows = onViewShows,
-                            onViewArtists = onViewArtists,
-                            onViewPodcasts = onViewPodcasts,
                             onViewBlogs = onViewBlogs
                         )
                     }
@@ -158,9 +162,6 @@ private fun ScreenData(
     data: HomeViewModel.HomeScreenData.Success,
     onViewNewsItem: (newsId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
-    onViewShows: () -> Unit,
-    onViewArtists: () -> Unit,
-    onViewPodcasts: () -> Unit,
     onViewBlogs: () -> Unit,
 ) {
     LazyColumn(
@@ -197,11 +198,11 @@ private fun ScreenData(
 
                 HorizontalDivider()
 
-                MainCards(
-                    onViewShows = onViewShows,
-                    onViewArtists = onViewArtists,
-                    onViewPodcasts = onViewPodcasts,
-                    onViewBlogs = onViewBlogs
+                HomeCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    title = stringResource(Res.string.home_screen_data_card_blogs_title),
+                    onClick = { onViewBlogs() },
+                    backgroundDrawableRes = Res.drawable.blog
                 )
             }
         }
@@ -225,57 +226,6 @@ private fun SectionHeader(text: String) {
             color = MaterialTheme.colorScheme.onPrimary,
             style = MaterialTheme.typography.headlineSmall
         )
-    }
-}
-
-
-@Composable
-private fun MainCards(
-    onViewShows: () -> Unit,
-    onViewArtists: () -> Unit,
-    onViewPodcasts: () -> Unit,
-    onViewBlogs: () -> Unit
-) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            HomeCard(
-                modifier = Modifier.weight(1f),
-                title = stringResource(Res.string.home_screen_data_card_comedy_shows_title),
-                onClick = { onViewShows() },
-                backgroundDrawableRes = Res.drawable.microphone
-            )
-
-            HomeCard(
-                modifier = Modifier.weight(1f),
-                title = stringResource(Res.string.home_screen_data_card_podcast_episodes_title),
-                onClick = { onViewPodcasts() },
-                backgroundDrawableRes = Res.drawable.podcast
-            )
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            HomeCard(
-                modifier = Modifier.weight(1f),
-                title = stringResource(Res.string.home_screen_data_card_artists_title),
-                onClick = { onViewArtists() },
-                backgroundDrawableRes = Res.drawable.artists
-            )
-
-            HomeCard(
-                modifier = Modifier.weight(1f),
-                title = stringResource(Res.string.home_screen_data_card_blogs_title),
-                onClick = { onViewBlogs() },
-                backgroundDrawableRes = Res.drawable.blog
-            )
-        }
     }
 }
 

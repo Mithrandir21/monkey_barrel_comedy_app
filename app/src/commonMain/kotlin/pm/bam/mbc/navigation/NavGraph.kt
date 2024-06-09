@@ -1,15 +1,21 @@
 package pm.bam.mbc.navigation
 
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import pm.bam.mbc.compose.BottomNavigationDestinations
+import pm.bam.mbc.compose.createBottomNavigationConfig
 import pm.bam.mbc.feature.artists.navigation.artistScreen
 import pm.bam.mbc.feature.artists.navigation.artistsScreen
-import pm.bam.mbc.feature.blogs.navigation.blogScreen
 import pm.bam.mbc.feature.blogs.navigation.blogPostScreen
+import pm.bam.mbc.feature.blogs.navigation.blogScreen
 import pm.bam.mbc.feature.home.navigation.homeScreen
 import pm.bam.mbc.feature.news.navigation.newsItemScreen
 import pm.bam.mbc.feature.news.navigation.newsScreen
@@ -27,19 +33,40 @@ internal fun NavGraph(
     startDestination: String = NavigationDestinations.HOME_SCREEN_ROUTE,
     navActions: NavigationActions = remember(navController) { NavigationActions(navController) }
 ) {
+    val homeNavConfig = createNavigationBarConfig(
+        selectedType = BottomNavigationDestinations.HOME,
+        navActions = navActions
+    )
+    val artistsNavConfig = createNavigationBarConfig(
+        selectedType = BottomNavigationDestinations.ARTISTS,
+        navActions = navActions
+    )
+    val showsNavConfig = createNavigationBarConfig(
+        selectedType = BottomNavigationDestinations.SHOWS,
+        navActions = navActions
+    )
+    val podcastsNavConfig = createNavigationBarConfig(
+        selectedType = BottomNavigationDestinations.PODCASTS,
+        navActions = navActions
+    )
+    val merchNavConfig = createNavigationBarConfig(
+        selectedType = BottomNavigationDestinations.MERCH,
+        navActions = navActions
+    )
+
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        modifier = modifier
+        modifier = modifier,
+        enterTransition = { fadeIn(animationSpec = tween(500)) },
+        exitTransition = { fadeOut(animationSpec = tween(500)) }
     ) {
         homeScreen(
             route = NavigationDestinations.HOME_SCREEN_ROUTE,
+            bottomNavConfig = homeNavConfig,
             goToNewsItem = { navActions.navigateToNewsItem(it) },
             goToNews = { navActions.navigateToNews() },
             goToShow = { navActions.navigateToShow(it) },
-            goToShows = { navActions.navigateToShows() },
-            goToArtists = { navActions.navigateToArtists() },
-            goToPodcasts = { navActions.navigateToPodcasts() },
             goToBlog = { navActions.navigateToBlog() }
         )
 
@@ -66,8 +93,8 @@ internal fun NavGraph(
         )
 
         showsScreen(
-            navController = navController,
             route = NavigationDestinations.SHOWS_ROUTE,
+            bottomNavConfig = showsNavConfig,
             goToShow = { navActions.navigateToShow(it) },
         )
 
@@ -89,8 +116,8 @@ internal fun NavGraph(
         )
 
         artistsScreen(
-            navController = navController,
             route = NavigationDestinations.ARTISTS_ROUTE,
+            bottomNavConfig = artistsNavConfig,
             onViewArtist = { navActions.navigateToArtist(it) }
         )
 
@@ -103,8 +130,8 @@ internal fun NavGraph(
         )
 
         podcastsScreen(
-            navController = navController,
             route = NavigationDestinations.PODCASTS_ROUTE,
+            bottomNavConfig = podcastsNavConfig,
             onViewPodcast = { id, title -> navActions.navigateToPodcast(id, title) }
         )
 
@@ -125,3 +152,16 @@ internal fun NavGraph(
         )
     }
 }
+
+@Composable
+private fun createNavigationBarConfig(
+    selectedType: BottomNavigationDestinations,
+    navActions: NavigationActions
+) = createBottomNavigationConfig(
+    selectedType = selectedType,
+    onHomeSelected = { navActions.navigateToHome() },
+    onShowsSelected = { navActions.navigateToShows() },
+    onArtistsSelected = { navActions.navigateToArtists() },
+    onPodcastsSelected = { navActions.navigateToPodcasts() },
+    onMerchSelected = { }
+)
