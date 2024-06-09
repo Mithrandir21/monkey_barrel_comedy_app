@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -51,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import monkeybarrelcomey.feature.home.generated.resources.Res
 import monkeybarrelcomey.feature.home.generated.resources.artists
 import monkeybarrelcomey.feature.home.generated.resources.blog
+import monkeybarrelcomey.feature.home.generated.resources.home_screen_artists_section_title
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_card_artists_title
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_card_blogs_title
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_card_comedy_shows_title
@@ -67,6 +69,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
+import pm.bam.mbc.compose.ArtistRow
 import pm.bam.mbc.compose.BottomNavigation
 import pm.bam.mbc.compose.NavigationBarConfig
 import pm.bam.mbc.compose.NewsRow
@@ -80,6 +83,7 @@ internal fun HomeScreen(
     bottomNavConfig: NavigationBarConfig,
     goToNewsItem: (newsId: Long) -> Unit,
     goToNews: () -> Unit,
+    onViewArtist: (artistId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     goToBlog: () -> Unit,
     viewModel: HomeViewModel = koinViewModel<HomeViewModel>()
@@ -90,6 +94,7 @@ internal fun HomeScreen(
         data = data.value,
         bottomNavConfig = bottomNavConfig,
         onViewNewsItem = goToNewsItem,
+        onViewArtist = onViewArtist,
         onViewShow = onViewShow,
         onViewBlogs = goToBlog,
         onRetry = { viewModel.loadData() }
@@ -101,6 +106,7 @@ private fun Screen(
     data: HomeViewModel.HomeScreenData,
     bottomNavConfig: NavigationBarConfig,
     onViewNewsItem: (newsId: Long) -> Unit,
+    onViewArtist: (artistId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewBlogs: () -> Unit,
     onRetry: () -> Unit
@@ -145,6 +151,7 @@ private fun Screen(
                             Modifier.padding(innerPadding),
                             data = data,
                             onViewNewsItem = onViewNewsItem,
+                            onViewArtist = onViewArtist,
                             onViewShow = onViewShow,
                             onViewBlogs = onViewBlogs
                         )
@@ -161,16 +168,14 @@ private fun ScreenData(
     modifier: Modifier = Modifier,
     data: HomeViewModel.HomeScreenData.Success,
     onViewNewsItem: (newsId: Long) -> Unit,
+    onViewArtist: (artistId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewBlogs: () -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
         content = {
-
             if (data.topUpcomingShows.isNotEmpty()) {
-                item { HorizontalDivider() }
-
                 item { SectionHeader(stringResource(Res.string.home_screen_show_section_title_upcoming_shows)) }
 
                 items(data.topUpcomingShows.size) { index ->
@@ -178,6 +183,18 @@ private fun ScreenData(
                         modifier = Modifier.testTag(HomeScreenShowRowTag.plus(data.topUpcomingShows[index].id)),
                         show = data.topUpcomingShows[index],
                         onShowSelected = onViewShow
+                    )
+                }
+            }
+
+            if (data.featuredArtist.isNotEmpty()) {
+                item { SectionHeader(stringResource(Res.string.home_screen_artists_section_title)) }
+
+                items(data.featuredArtist.size) { index ->
+                    ArtistRow(
+                        modifier = Modifier.testTag(HomeScreenArtistRowTag.plus(data.featuredArtist[index].id)),
+                        artist = data.featuredArtist[index],
+                        onViewArtist = onViewArtist
                     )
                 }
             }
@@ -268,3 +285,4 @@ internal const val HomeScreenLoadingDataTag = "HomeScreenLoadingDataTag"
 
 internal const val HomeScreenNewsRowTag = "HomeScreenNewsRowTag"
 internal const val HomeScreenShowRowTag = "HomeScreenShowRowTag"
+internal const val HomeScreenArtistRowTag = "HomeScreenArtistRowTag"

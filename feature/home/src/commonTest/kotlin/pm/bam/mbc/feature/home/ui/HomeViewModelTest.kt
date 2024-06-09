@@ -78,7 +78,7 @@ internal class HomeViewModelTest {
 
         viewModel.uiState.test {
             awaitItem() shouldBe HomeViewModel.HomeScreenData.Loading
-            awaitItem() shouldBe HomeViewModel.HomeScreenData.Success(listOf(baseShow), listOf(baseNews))
+            awaitItem() shouldBe HomeViewModel.HomeScreenData.Success(listOf(baseShow), listOf(baseArtist), listOf(baseNews))
         }
     }
 

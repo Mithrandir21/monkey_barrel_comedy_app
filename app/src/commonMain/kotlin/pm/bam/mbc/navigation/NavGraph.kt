@@ -65,6 +65,7 @@ internal fun NavGraph(
             route = NavigationDestinations.HOME_SCREEN_ROUTE,
             bottomNavConfig = homeNavConfig,
             goToNewsItem = { navActions.navigateToNewsItem(it) },
+            goToArtist = { navActions.navigateToArtist(it) },
             goToNews = { navActions.navigateToNews() },
             goToShow = { navActions.navigateToShow(it) },
             goToBlog = { navActions.navigateToBlog() }

@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pm.bam.mbc.common.onError
+import pm.bam.mbc.domain.models.Artist
 import pm.bam.mbc.domain.models.News
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.repositories.artist.ArtistRepository
@@ -26,6 +27,7 @@ import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.logging.fatal
 
 internal const val NEWS_SHOWS = 5
+internal const val LIMIT_ARTISTS = 3
 internal const val LIMIT_SHOWS = 5
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -66,8 +68,14 @@ internal class HomeViewModel(
             .map { shows -> shows.sortedBy { it.startDate }.take(LIMIT_SHOWS) }
             .flatMapLatest<List<Show>, HomeScreenData> { shows ->
                 newsRepository.observeNews()
-                    .map { news -> HomeScreenData.Success(topUpcomingShows = shows, news = news.take(NEWS_SHOWS)) }
-
+                    .flatMapLatest { news -> artistRepository.observeArtists().map { artists -> news to artists } }
+                    .map { (news, artists) ->
+                        HomeScreenData.Success(
+                            topUpcomingShows = shows,
+                            featuredArtist = artists.shuffled().take(LIMIT_ARTISTS),
+                            news = news.take(NEWS_SHOWS)
+                        )
+                    }
             }
             .onError { fatal(logger, it) }
             .catch { emit(HomeScreenData.Error) }
@@ -88,6 +96,7 @@ internal class HomeViewModel(
         data object Error : HomeScreenData()
         data class Success(
             val topUpcomingShows: List<Show>,
+            val featuredArtist: List<Artist>,
             val news: List<News>,
         ) : HomeScreenData()
     }

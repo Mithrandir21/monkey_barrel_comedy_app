@@ -9,6 +9,7 @@ fun NavGraphBuilder.homeScreen(
     route: String,
     bottomNavConfig: NavigationBarConfig,
     goToNewsItem: (newsId: Long) -> Unit,
+    goToArtist: (artistId: Long) -> Unit,
     goToNews: () -> Unit,
     goToShow: (showId: Long) -> Unit,
     goToBlog: () -> Unit
@@ -17,6 +18,7 @@ fun NavGraphBuilder.homeScreen(
         HomeScreen(
             bottomNavConfig = bottomNavConfig,
             goToNewsItem = goToNewsItem,
+            onViewArtist = goToArtist,
             goToNews = goToNews,
             onViewShow = goToShow,
             goToBlog = goToBlog

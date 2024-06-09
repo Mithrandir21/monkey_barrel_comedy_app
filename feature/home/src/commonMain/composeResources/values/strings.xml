@@ -2,6 +2,7 @@
 
     <string name="home_screen_news_section_title">News</string>
     <string name="home_screen_show_section_title_upcoming_shows">Upcoming Shows</string>
+    <string name="home_screen_artists_section_title">Featured Artist</string>
 
     <string name="home_screen_show_image_content_description">%1$s Show image</string>
     <string name="home_screen_loading_label">Loading…</string>
