@@ -9,8 +9,7 @@ actual class DriverFactory(private val context: Context) {
     actual fun createDriver(): SqlDriver {
         return AndroidSqliteDriver(
             schema = Database.Schema,
-            context = context,
-            name = "Domain.db"
+            context = context
         )
     }
 }
