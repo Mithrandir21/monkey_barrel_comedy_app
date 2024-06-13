@@ -39,7 +39,7 @@ private val newsFlow = MutableStateFlow<List<News>>(emptyList())
 private val baseNews = News(1, "title", "desc", listOf(), listOf())
 
 private val showFlow = MutableStateFlow<List<Show>>(emptyList())
-private val baseShow = Show(1, "name", "url", "venue", listOf(), EventStatus.ACTIVE, "desc", listOf("categories"), listOf(1, 2, 3), "start", "end")
+private val baseShow = Show(1, "name", "desc", "url", "venue", listOf(), EventStatus.ACTIVE, listOf("categories"), listOf(1, 2, 3), "start", "end")
 
 private val blogFlow = MutableStateFlow<List<BlogPost>>(emptyList())
 private val baseBlogPost = BlogPost(1, "name", "desc", listOf("images"), listOf("tags"), "author", "date")

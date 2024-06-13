@@ -14,8 +14,8 @@ interface PodcastRepository {
 
     fun getEpisode(episodeId: Long): PodcastEpisode
 
-    fun refreshPodcasts()
+    suspend fun refreshPodcasts()
 
-    fun refreshEpisodes()
+    suspend fun refreshEpisodes()
 
 }

@@ -8,22 +8,10 @@ data class PodcastEpisode(
     val name: String,
     val description: String,
     val images: List<String>,
-    val links: List<PodcastEpisodeExternalLink>,
-    val duration: String,
+    val links: List<Link>,
+    val duration: Long,
     val releaseDate: String,
     val podcastId: Long,
-    val showId: Long? = null,
-    val artistId: Long? = null
+    val showId: List<Long>? = null,
+    val artistId: List<Long>? = null
 )
-
-@Serializable
-data class PodcastEpisodeExternalLink(
-    val url: String,
-    val type: PodcastEpisodeExternalLinkType
-)
-
-enum class PodcastEpisodeExternalLinkType {
-    SPOTIFY,
-    YOUTUBE,
-    SOUNDCLOUD
-}

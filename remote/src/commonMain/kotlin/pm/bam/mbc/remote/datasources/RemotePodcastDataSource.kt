@@ -5,8 +5,8 @@ import pm.bam.mbc.remote.models.RemotePodcastEpisode
 
 interface RemotePodcastDataSource {
 
-    fun getAllPodcasts(): List<RemotePodcast>
+    suspend fun getAllPodcasts(): List<RemotePodcast>
 
-    fun getAllPodcastEpisodes(): List<RemotePodcastEpisode>
+    suspend fun getAllPodcastEpisodes(): List<RemotePodcastEpisode>
 
 }

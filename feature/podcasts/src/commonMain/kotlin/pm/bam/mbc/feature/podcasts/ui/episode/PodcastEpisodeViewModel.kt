@@ -70,10 +70,10 @@ internal class PodcastEpisodeViewModel(
         flowOf(podcastId)
             .map { podcastRepository.getEpisode(it) }
             .flatMapLatest<PodcastEpisode, PodcastEpisodeScreenData> { episode ->
-                val artist: Artist? = episode.artistId?.let { artistRepository.getArtist(it) }
-                val show: Show? = episode.showId?.let { showsRepository.getShow(it) }
+                val artists: List<Artist>? = episode.artistId?.let { artistRepository.getArtists(*it.toLongArray()) }
+                val shows: List<Show>? = episode.showId?.let { showsRepository.getShows(*it.toLongArray()) }
 
-                flowOf(PodcastEpisodeScreenData.Success(podcastEpisode = episode, artist = artist, show = show))
+                flowOf(PodcastEpisodeScreenData.Success(podcastEpisode = episode, artists = artists, shows = shows))
             }
             .onError { fatal(logger, it) }
             .catch { emit(PodcastEpisodeScreenData.Error) }
@@ -87,8 +87,8 @@ internal class PodcastEpisodeViewModel(
         data object Error : PodcastEpisodeScreenData()
         data class Success(
             val podcastEpisode: PodcastEpisode,
-            val artist: Artist? = null,
-            val show: Show? = null
+            val artists: List<Artist>? = null,
+            val shows: List<Show>? = null
         ) : PodcastEpisodeScreenData()
     }
 }

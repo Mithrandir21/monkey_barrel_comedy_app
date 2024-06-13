@@ -34,6 +34,8 @@ slf4j = "2.0.13"
 
 sqldelight = "2.0.2"
 
+supabase = "2.5.0"
+
 kotest = "5.9.1"
 kotest-plugin = "5.0.2"
 turbine = "1.1.0"
@@ -81,6 +83,9 @@ sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.re
 sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 sqldelight-extensions-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+
+supabase-bom-kt = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase" }
+supabase-postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
 
 # Testing Libraries
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }

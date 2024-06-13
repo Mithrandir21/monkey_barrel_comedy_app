@@ -11,13 +11,13 @@ import pmbammbcdomain.DatabaseShow
 
 internal fun RemoteShow.toDatabaseShow(serializer: Serializer): DatabaseShow = DatabaseShow(
     id = id,
-    name = name,
+    title = title,
     url = url,
-    venue = venue,
+    venue = venues.first().name,
     images = serializer.serialize(images),
     eventStatus = serializer.serialize(eventStatus.toEventStatus()),
     description = description,
-    category = category?.let { serializer.serialize(it) },
+    category = categories?.let { serializer.serialize(it) },
     artistIds = artistIds?.let { serializer.serialize(it) },
     startDate = startDate,
     endDate = endDate,
@@ -25,12 +25,12 @@ internal fun RemoteShow.toDatabaseShow(serializer: Serializer): DatabaseShow = D
 
 internal fun DatabaseShow.toShow(serializer: Serializer): Show = Show(
     id = id,
-    name = name,
+    name = title,
+    description = description,
     url = url,
     venue = venue,
     images = serializer.deserialize(images),
     eventStatus = serializer.deserialize(eventStatus),
-    description = description,
     category = category?.let { serializer.deserialize(it) },
     artistIds = artistIds?.let { serializer.deserialize(it) },
     startDate = startDate,

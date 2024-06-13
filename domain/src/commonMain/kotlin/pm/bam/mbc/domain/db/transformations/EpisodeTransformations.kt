@@ -16,8 +16,8 @@ internal fun RemotePodcastEpisode.toDatabasePodcastEpisode(serializer: Serialize
     duration = duration,
     releaseDate = releaseDate,
     podcastId = podcastId,
-    showId = showId,
-    artistId = artistId
+    showId = showId?.let { serializer.serialize(it) },
+    artistId = artistId?.let { serializer.serialize(it) }
 )
 
 internal fun DatabasePodcastEpisode.toPodcastEpisode(serializer: Serializer): PodcastEpisode = PodcastEpisode(
@@ -29,7 +29,6 @@ internal fun DatabasePodcastEpisode.toPodcastEpisode(serializer: Serializer): Po
     duration = duration,
     releaseDate = releaseDate,
     podcastId = podcastId,
-    showId = showId,
-    artistId = artistId
+    showId = showId?.let { serializer.deserialize(it) },
+    artistId = artistId?.let { serializer.deserialize(it) }
 )
-

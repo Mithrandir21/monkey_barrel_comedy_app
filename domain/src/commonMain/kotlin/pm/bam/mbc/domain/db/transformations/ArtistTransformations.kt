@@ -10,12 +10,12 @@ import pmbammbcdomain.DatabaseArtist
 
 internal fun RemoteArtist.toDatabaseArtist(serializer: Serializer): DatabaseArtist = DatabaseArtist(
     id = id,
-    name = name,
+    name = firstname,
     description = description,
     images = serializer.serialize(images),
     genres = serializer.serialize(genres),
     showsIds = showsIds?.let { serializer.serialize(it) },
-    podcastsIds = podcastsIds?.let { serializer.serialize(it) },
+    podcastsIds = podcastsEpisodeIds?.let { serializer.serialize(it) },
     blogPostsIds = blogPostsIds?.let { serializer.serialize(it) },
     externalLinks = externalLinks?.let { serializer.serialize(it) }
 )

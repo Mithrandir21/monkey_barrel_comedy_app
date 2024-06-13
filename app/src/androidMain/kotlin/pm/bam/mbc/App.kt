@@ -2,6 +2,8 @@ package pm.bam.mbc
 
 import android.app.Application
 import android.content.Context
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.dsl.binds
@@ -12,6 +14,7 @@ import pm.bam.mbc.feature.home.di.HomeModule
 import pm.bam.mbc.feature.news.di.NewsModule
 import pm.bam.mbc.feature.podcasts.di.PodcastsModule
 import pm.bam.mbc.feature.shows.di.ShowsModule
+import pm.bam.mbc.logging.di.LoggingModule
 
 class App : Application() {
     override fun onCreate() {
@@ -22,6 +25,7 @@ class App : Application() {
             // https://github.com/InsertKoinIO/koin/issues/1735
             // androidContext(this@App)
             modules(
+                LoggingModule,
                 HomeModule,
                 NewsModule,
                 ShowsModule,
@@ -32,5 +36,7 @@ class App : Application() {
                     single { this@App } binds arrayOf(Context::class, Application::class)
                 })
         }
+
+        Napier.base(DebugAntilog())
     }
 }

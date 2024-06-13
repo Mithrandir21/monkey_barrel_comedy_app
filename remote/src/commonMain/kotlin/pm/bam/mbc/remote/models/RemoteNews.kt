@@ -10,10 +10,10 @@ data class RemoteNews(
     val description: String,
     val images: List<String>,
     val types: List<RemoteNewsType>,
-    val showsIds: List<Long>? = null,
-    val podcastsIds: List<Long>? = null,
+    val showIds: List<Long>? = null,
+    val episodeIds: List<Long>? = null,
     val blogPostsIds: List<Long>? = null,
-    val externalLinks: List<RemoteNewsExternalLink>? = null
+    val externalLinks: List<RemoteLink>? = null
 )
 
 enum class RemoteNewsType {
@@ -21,19 +21,4 @@ enum class RemoteNewsType {
     STANDUP,
     BUSINESS,
     PODCAST
-}
-
-@Serializable
-data class RemoteNewsExternalLink(
-    val url: String,
-    val type: RemoteNewsExternalLinkType
-)
-
-enum class RemoteNewsExternalLinkType {
-    INSTAGRAM,
-    FACEBOOK,
-    TWITTER,
-    YOUTUBE,
-    SPOTIFY,
-    WEBSITE
 }

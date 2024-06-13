@@ -4,11 +4,11 @@ CREATE TABLE DatabasePodcastEpisode (
     description TEXT NOT NULL,
     images TEXT NOT NULL,
     links TEXT NOT NULL,
-    duration TEXT NOT NULL,
+    duration INTEGER NOT NULL,
     releaseDate TEXT NOT NULL,
     podcastId INTEGER NOT NULL,
-    showId INTEGER,
-    artistId INTEGER
+    showId TEXT,
+    artistId TEXT
 );
 
 selectAll:

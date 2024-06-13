@@ -1,6 +1,6 @@
 CREATE TABLE DatabaseShow (
     id INTEGER PRIMARY KEY NOT NULL,
-    name TEXT NOT NULL,
+    title TEXT NOT NULL,
     url TEXT NOT NULL,
     venue TEXT NOT NULL,
     images TEXT NOT NULL,
@@ -28,7 +28,7 @@ WHERE id
 IN ?;
 
 insert:
-INSERT INTO DatabaseShow(id, name, description, images, url, venue, eventStatus, startDate, endDate, category, artistIds)
+INSERT INTO DatabaseShow(id, title, description, images, url, venue, eventStatus, startDate, endDate, category, artistIds)
 VALUES ?;
 
 delete:

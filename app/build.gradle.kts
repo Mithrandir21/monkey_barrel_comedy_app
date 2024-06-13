@@ -45,9 +45,14 @@ kotlin {
 
             implementation(libs.koin.core)
 
+            implementation(project.dependencies.platform(libs.supabase.bom.kt))
+            implementation(libs.supabase.postgrest.kt)
+
             implementation(libs.jetbrains.androidx.lifecycle.runtime.compose)
             implementation(libs.jetbrains.androidx.lifecycle.viewmodel.compose)
             implementation(libs.jetbrains.androidx.navigation.compose)
+
+            implementation(libs.napier)
 
             implementation(project(":logging"))
             implementation(project(":common"))

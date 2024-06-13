@@ -6,7 +6,8 @@ import pm.bam.mbc.feature.home.di.HomeModule
 import pm.bam.mbc.feature.news.di.NewsModule
 import pm.bam.mbc.feature.podcasts.di.PodcastsModule
 import pm.bam.mbc.feature.shows.di.ShowsModule
+import pm.bam.mbc.logging.di.LoggingModule
 
 fun appModule() = listOf(
-    HomeModule, NewsModule, ShowsModule, BlogsModule, ArtistsModule, PodcastsModule
+    LoggingModule, HomeModule, NewsModule, ShowsModule, BlogsModule, ArtistsModule, PodcastsModule
 )

@@ -35,7 +35,7 @@ internal class NewsRepositoryImpl(
             .executeAsList()
             .map { it.toNews(serializer) }
 
-    override fun refreshNews() =
+    override suspend fun refreshNews() =
         remoteNewsDataSource.getAllNews()
             .map { it.toDatabaseNews(serializer) }
             .toList()

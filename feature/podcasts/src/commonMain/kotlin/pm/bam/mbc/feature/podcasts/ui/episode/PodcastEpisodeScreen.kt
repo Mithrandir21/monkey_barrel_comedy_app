@@ -54,10 +54,10 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
-import pm.bam.mbc.compose.theme.MonkeyCustomTheme
-import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.compose.ArtistRow
 import pm.bam.mbc.compose.ShowRow
+import pm.bam.mbc.compose.theme.MonkeyCustomTheme
+import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.feature.podcasts.ui.episode.PodcastEpisodeViewModel.PodcastEpisodeScreenData
 
 
@@ -220,7 +220,7 @@ private fun PodcastEpisodeDetails(
 
         HorizontalDivider()
 
-        data.show?.let {
+        data.shows?.takeIf { it.isNotEmpty() }.let { shows ->
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -230,16 +230,18 @@ private fun PodcastEpisodeDetails(
                 style = MaterialTheme.typography.titleLarge,
             )
 
-            ShowRow(
-                modifier = Modifier.testTag(PodcastEpisodeScreenArtistRowTag.plus(it.id)),
-                show = it,
-                onShowSelected = onViewShow
-            )
+            shows?.forEach {
+                ShowRow(
+                    modifier = Modifier.testTag(PodcastEpisodeScreenArtistRowTag.plus(it.id)),
+                    show = it,
+                    onShowSelected = onViewShow
+                )
+            }
         }
 
         HorizontalDivider()
 
-        data.artist?.let {
+        data.artists?.takeIf { it.isNotEmpty() }?.let { artists ->
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -249,11 +251,13 @@ private fun PodcastEpisodeDetails(
                 style = MaterialTheme.typography.titleLarge,
             )
 
-            ArtistRow(
-                modifier = Modifier.testTag(PodcastEpisodeScreenArtistRowTag.plus(it.id)),
-                artist = it,
-                onViewArtist = onViewArtist
-            )
+            artists.forEach {
+                ArtistRow(
+                    modifier = Modifier.testTag(PodcastEpisodeScreenArtistRowTag.plus(it.id)),
+                    artist = it,
+                    onViewArtist = onViewArtist
+                )
+            }
         }
 
     }

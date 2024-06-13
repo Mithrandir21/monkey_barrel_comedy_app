@@ -12,7 +12,7 @@ data class News(
     val showsIds: List<Long>? = null,
     val podcastsIds: List<Long>? = null,
     val blogPostsIds: List<Long>? = null,
-    val externalLinks: List<NewsExternalLink>? = null
+    val externalLinks: List<Link>? = null
 )
 
 enum class NewsType {
@@ -20,19 +20,4 @@ enum class NewsType {
     STANDUP,
     BUSINESS,
     PODCAST
-}
-
-@Serializable
-data class NewsExternalLink(
-    val url: String,
-    val type: NewsExternalLinkType
-)
-
-enum class NewsExternalLinkType {
-    INSTAGRAM,
-    FACEBOOK,
-    TWITTER,
-    YOUTUBE,
-    SPOTIFY,
-    WEBSITE
 }

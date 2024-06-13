@@ -4,6 +4,6 @@ import pm.bam.mbc.remote.models.RemoteArtist
 
 interface RemoteArtistDataSource {
 
-    fun getAllArtists(): List<RemoteArtist>
+    suspend fun getAllArtists(): List<RemoteArtist>
 
 }

@@ -8,17 +8,5 @@ data class RemotePodcast(
     val name: String,
     val description: String,
     val images: List<String>,
-    val links: List<RemotePodcastEpisodeExternalLink>
+    val links: List<RemoteLink>
 )
-
-@Serializable
-data class RemotePodcastExternalLink(
-    val url: String,
-    val type: RemotePodcastEpisodeExternalLinkType
-)
-
-enum class RemotePodcastExternalLinkType {
-    SPOTIFY,
-    YOUTUBE,
-    SOUNDCLOUD
-}

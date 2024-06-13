@@ -11,6 +11,6 @@ interface NewsRepository {
 
     fun getNews(vararg newsId: Long): List<News>
 
-    fun refreshNews()
+    suspend fun refreshNews()
 
 }

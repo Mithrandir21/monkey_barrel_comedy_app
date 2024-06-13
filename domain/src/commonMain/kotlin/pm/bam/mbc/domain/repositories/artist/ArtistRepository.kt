@@ -11,7 +11,7 @@ interface ArtistRepository {
 
     fun getArtists(vararg artistId: Long): List<Artist>
 
-    fun refreshArtists()
+    suspend fun refreshArtists()
 
 
 }

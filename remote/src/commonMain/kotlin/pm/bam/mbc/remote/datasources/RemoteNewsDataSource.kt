@@ -4,6 +4,6 @@ import pm.bam.mbc.remote.models.RemoteNews
 
 interface RemoteNewsDataSource {
 
-    fun getAllNews(): List<RemoteNews>
+    suspend fun getAllNews(): List<RemoteNews>
 
 }

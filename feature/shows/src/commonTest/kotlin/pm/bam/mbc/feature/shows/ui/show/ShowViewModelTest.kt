@@ -22,7 +22,7 @@ import kotlin.test.Test
 
 
 private val showFlow = MutableStateFlow<List<Show>>(emptyList())
-private val baseShow = Show(1, "name", "url", "venue", listOf("images"), EventStatus.ACTIVE, "desc", listOf("categories"), listOf(1, 2, 3), "start", "end")
+private val baseShow = Show(1, "name", "desc", "url", "venue", listOf("images"), EventStatus.ACTIVE, listOf("categories"), listOf(1, 2, 3), "start", "end")
 
 private val artistFlow = MutableStateFlow<List<Artist>>(emptyList())
 private val baseArtist = Artist(1, "name", "desc", listOf("images"), listOf("genres"))

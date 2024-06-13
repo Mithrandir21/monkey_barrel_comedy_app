@@ -4,6 +4,6 @@ import pm.bam.mbc.remote.models.RemoteShow
 
 interface RemoteShowsDataSource {
 
-    fun getAllShows(): List<RemoteShow>
+    suspend fun getAllShows(): List<RemoteShow>
 
 }

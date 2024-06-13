@@ -11,5 +11,5 @@ interface ShowsRepository {
 
     fun getShows(vararg showId: Long): List<Show>
 
-    fun refreshShows()
+    suspend fun refreshShows()
 }

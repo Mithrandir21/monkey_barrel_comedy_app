@@ -32,7 +32,7 @@ private val artistFlow = MutableStateFlow<List<Artist>>(emptyList())
 private val baseArtist = Artist(1, "name", "desc", listOf(), listOf())
 
 private val showFlow = MutableStateFlow<List<Show>>(emptyList())
-private val baseShow = Show(1, "name", "url", "venue", listOf(), EventStatus.ACTIVE, "desc", listOf("categories"), listOf(1, 2, 3), "start", "end")
+private val baseShow = Show(1, "name", "desc", "url", "venue", listOf(), EventStatus.ACTIVE, listOf("categories"), listOf(1, 2, 3), "start", "end")
 
 internal class PodcastEpisodeViewModelTest {
 

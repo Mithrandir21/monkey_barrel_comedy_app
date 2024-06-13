@@ -35,7 +35,7 @@ internal class ShowsRepositoryImpl(
             .executeAsList()
             .map { it.toShow(serializer) }
 
-    override fun refreshShows() =
+    override suspend fun refreshShows() =
         remoteShowDataSource.getAllShows()
             .map { it.toDatabaseShow(serializer) }
             .toList()

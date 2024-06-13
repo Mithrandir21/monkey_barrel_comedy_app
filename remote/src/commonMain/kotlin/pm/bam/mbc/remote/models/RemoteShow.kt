@@ -5,13 +5,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RemoteShow(
     val id: Long,
-    val name: String,
+    val title: String,
     val url: String,
-    val venue: String,
+    val venues: List<RemoteShowVenues>,
     val images: List<String>,
     val eventStatus: RemoteEventStatus,
     val description: String,
-    val category: List<String>? = null,
+    val categories: List<RemoteCategories>? = null,
     val artistIds: List<Long>? = null,
     val startDate: String,
     val endDate: String,
@@ -21,4 +21,11 @@ data class RemoteShow(
 enum class RemoteEventStatus {
     ACTIVE,
     CANCELLED,
+}
+
+enum class RemoteShowVenues {
+    MB1,
+    MB2,
+    MB3,
+    MB4
 }

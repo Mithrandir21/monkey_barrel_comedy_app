@@ -14,8 +14,8 @@ internal fun RemoteNews.toDatabaseNews(serializer: Serializer): DatabaseNews = D
     description = description,
     images = serializer.serialize(images),
     types = serializer.serialize(types),
-    showsIds = showsIds?.let { serializer.serialize(it) },
-    podcastsIds = podcastsIds?.let { serializer.serialize(it) },
+    showsIds = showIds?.let { serializer.serialize(it) },
+    podcastsIds = episodeIds?.let { serializer.serialize(it) },
     blogPostsIds = blogPostsIds?.let { serializer.serialize(it) },
     externalLinks = externalLinks?.let { serializer.serialize(it) }
 )

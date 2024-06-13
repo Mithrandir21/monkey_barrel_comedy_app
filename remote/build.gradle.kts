@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -8,6 +9,14 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.ktorfit)
 }
+
+
+val supabaseUrlUrl = "SUPABASE_URL"
+val supabaseUrlKey = "SUPABASE_KEY"
+
+val supaBaseUrl = gradleLocalProperties(rootDir).getProperty(supabaseUrlUrl) ?: ""
+val supaBaseKey = gradleLocalProperties(rootDir).getProperty(supabaseUrlKey) ?: ""
+
 
 kotlin {
     androidTarget {
@@ -45,7 +54,12 @@ kotlin {
 
             implementation(libs.koin.core)
 
+            implementation(project.dependencies.platform(libs.supabase.bom.kt))
+            implementation(libs.supabase.postgrest.kt)
+
             implementation(libs.napier)
+
+            implementation(project(":logging"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -72,6 +86,7 @@ dependencies {
     add("kspCommonMainMetadata", libs.ktorfit.ksp)
     add("kspDesktop", libs.ktorfit.ksp)
     add("kspAndroid", libs.ktorfit.ksp)
+
     add("kspIosX64", libs.ktorfit.ksp)
     add("kspIosArm64",libs.ktorfit.ksp)
     add("kspIosSimulatorArm64",libs.ktorfit.ksp)
@@ -83,9 +98,15 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
+
+        buildConfigField(type = "String", name = supabaseUrlUrl, value = supaBaseUrl)
+        buildConfigField(type = "String", name = supabaseUrlKey, value = supaBaseKey)
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }

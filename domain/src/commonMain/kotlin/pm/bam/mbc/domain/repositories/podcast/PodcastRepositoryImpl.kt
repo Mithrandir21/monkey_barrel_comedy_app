@@ -47,7 +47,7 @@ internal class PodcastRepositoryImpl(
             .executeAsOne()
             .toPodcastEpisode(serializer)
 
-    override fun refreshPodcasts() =
+    override suspend fun refreshPodcasts() =
         remotePodcastDataSource.getAllPodcasts()
             .map { it.toDatabasePodcast(serializer) }
             .toList()
@@ -58,7 +58,7 @@ internal class PodcastRepositoryImpl(
                 }
             }
 
-    override fun refreshEpisodes() =
+    override suspend fun refreshEpisodes() =
         remotePodcastDataSource.getAllPodcastEpisodes()
             .map { it.toDatabasePodcastEpisode(serializer) }
             .toList()
