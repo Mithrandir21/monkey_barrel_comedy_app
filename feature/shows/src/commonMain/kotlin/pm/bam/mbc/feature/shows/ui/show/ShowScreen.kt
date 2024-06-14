@@ -57,6 +57,7 @@ import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.compose.ArtistRow
+import pm.bam.mbc.compose.ShowTags
 import pm.bam.mbc.feature.shows.ui.show.ShowViewModel.ShowScreenData
 
 @OptIn(KoinExperimentalAPI::class)
@@ -224,6 +225,14 @@ private fun ShowDetails(
                 )
             }
         }
+
+        ShowTags(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = MonkeyCustomTheme.spacing.large),
+            show = data.show
+        )
+
         Text(
             modifier = Modifier
                 .fillMaxWidth()

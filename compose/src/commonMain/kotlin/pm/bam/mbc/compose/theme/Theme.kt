@@ -1,7 +1,6 @@
 package pm.bam.mbc.compose.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -87,8 +86,8 @@ private val darkScheme = darkColorScheme(
 )
 
 
-
 val LocalExtendedSpacing = staticCompositionLocalOf { CustomSpaces() }
+val LocalExtendedColors = staticCompositionLocalOf { CustomColors() }
 
 
 @Composable
@@ -102,16 +101,18 @@ fun MonkeyTheme(
     }
 
     val extendedSpacing = CustomSpaces()
+    val extendedColors = CustomColors()
 
     CompositionLocalProvider(LocalExtendedSpacing provides extendedSpacing) {
-        MaterialTheme(
-            colorScheme = colorScheme,
-            typography = Typography,
-            content = content
-        )
+        CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
+            MaterialTheme(
+                colorScheme = colorScheme,
+                typography = Typography,
+                content = content
+            )
+        }
     }
 }
-
 
 
 /**
@@ -121,4 +122,8 @@ object MonkeyCustomTheme {
     val spacing: CustomSpaces
         @Composable
         get() = LocalExtendedSpacing.current
+
+    val colors: CustomColors
+        @Composable
+        get() = LocalExtendedColors.current
 }

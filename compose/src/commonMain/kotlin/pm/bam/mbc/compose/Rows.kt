@@ -1,5 +1,6 @@
 package pm.bam.mbc.compose
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -24,7 +27,6 @@ import monkeybarrelcomey.compose.generated.resources.Res
 import monkeybarrelcomey.compose.generated.resources.artist_image_content_description
 import monkeybarrelcomey.compose.generated.resources.news_image_content_description
 import monkeybarrelcomey.compose.generated.resources.show_image_content_description
-import monkeybarrelcomey.compose.generated.resources.show_venue_label
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
@@ -156,13 +158,8 @@ fun ShowRow(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
-                textAlign = TextAlign.Start,
-                text = stringResource(Res.string.show_venue_label, show.schedule.first().venue),
-            )
+
+            ShowTags(show = show)
         }
     }
 }

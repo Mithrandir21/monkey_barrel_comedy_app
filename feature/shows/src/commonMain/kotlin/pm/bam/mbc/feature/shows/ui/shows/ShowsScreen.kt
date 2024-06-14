@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -55,6 +54,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.compose.BottomNavigation
 import pm.bam.mbc.compose.NavigationBarConfig
+import pm.bam.mbc.compose.ShowTags
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Show
@@ -207,6 +207,12 @@ private fun ShowCard(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
+
+            ShowTags(
+                modifier = Modifier.fillMaxWidth(),
+                show = show
+            )
+
             Text(
                 modifier = Modifier
                     .fillMaxWidth()

@@ -1,6 +1,8 @@
 package pm.bam.mbc.compose.theme
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 
 val primaryLight = Color(0xFF585992)
 val onPrimaryLight = Color(0xFFFFFFFF)
@@ -74,3 +76,20 @@ val surfaceContainerLowDark = Color(0xFF1B1B21)
 val surfaceContainerDark = Color(0xFF1F1F25)
 val surfaceContainerHighDark = Color(0xFF2A292F)
 val surfaceContainerHighestDark = Color(0xFF35343A)
+
+
+
+
+internal val showTagsComedyColor = Color(0xFF876BAA)
+internal val showTagsStandupColor = Color(0xFF588550)
+internal val showTagsMusicalColor = Color(0xFF995521)
+internal val showTagsFringeColor = Color(0xFF708199)
+
+
+@Immutable
+data class CustomColors(
+    val showTagsComedy: Color = showTagsComedyColor,
+    val showTagsStandup: Color = showTagsStandupColor,
+    val showTagsMusical: Color = showTagsMusicalColor,
+    val showTagsFringe: Color = showTagsFringeColor,
+)
