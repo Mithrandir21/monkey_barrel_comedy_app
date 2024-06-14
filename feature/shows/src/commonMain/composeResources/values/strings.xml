@@ -1,6 +1,7 @@
 <resources>
 
     <string name="show_screen_navigation_back_button">Back</string>
+    <string name="show_screen_search_filters_icon">Filters icon</string>
 
     <string name="show_screen_show_image_content_description">%1$s Show image</string>
     <string name="show_screen_artists_image_content_description">%1$s Artist image</string>

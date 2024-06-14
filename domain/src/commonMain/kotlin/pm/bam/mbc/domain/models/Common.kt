@@ -25,5 +25,6 @@ enum class LinkType {
 enum class Categories {
     COMEDY,
     STANDUP,
-    MUSICAL
+    MUSICAL,
+    FRINGE
 }

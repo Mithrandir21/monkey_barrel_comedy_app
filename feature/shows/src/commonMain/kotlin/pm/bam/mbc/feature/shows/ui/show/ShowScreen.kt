@@ -209,7 +209,7 @@ private fun ShowDetails(
                         .fillMaxWidth()
                         .padding(horizontal = MonkeyCustomTheme.spacing.small),
                     textAlign = TextAlign.Start,
-                    text = data.show.startDate,
+                    text = data.show.schedule.first().start,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
@@ -220,7 +220,7 @@ private fun ShowDetails(
                         .fillMaxWidth()
                         .padding(horizontal = MonkeyCustomTheme.spacing.small),
                     textAlign = TextAlign.Start,
-                    text = stringResource(Res.string.show_screen_show_venue_label, data.show.venue)
+                    text = stringResource(Res.string.show_screen_show_venue_label, data.show.schedule.first().venue),
                 )
             }
         }

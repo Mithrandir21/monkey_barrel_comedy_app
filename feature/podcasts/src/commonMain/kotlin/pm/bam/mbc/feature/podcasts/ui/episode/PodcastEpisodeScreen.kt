@@ -216,11 +216,11 @@ private fun PodcastEpisodeDetails(
             text = data.podcastEpisode.description
         )
 
+        
+        data.shows?.takeIf { it.isNotEmpty() }?.let { shows ->
 
+            HorizontalDivider()
 
-        HorizontalDivider()
-
-        data.shows?.takeIf { it.isNotEmpty() }.let { shows ->
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -230,7 +230,7 @@ private fun PodcastEpisodeDetails(
                 style = MaterialTheme.typography.titleLarge,
             )
 
-            shows?.forEach {
+            shows.forEach {
                 ShowRow(
                     modifier = Modifier.testTag(PodcastEpisodeScreenArtistRowTag.plus(it.id)),
                     show = it,
@@ -239,9 +239,10 @@ private fun PodcastEpisodeDetails(
             }
         }
 
-        HorizontalDivider()
-
         data.artists?.takeIf { it.isNotEmpty() }?.let { artists ->
+
+            HorizontalDivider()
+
             Text(
                 modifier = Modifier
                     .fillMaxWidth()

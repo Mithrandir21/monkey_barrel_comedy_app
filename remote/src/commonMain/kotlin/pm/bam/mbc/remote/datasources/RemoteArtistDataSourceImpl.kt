@@ -22,7 +22,7 @@ class RemoteArtistDataSourceImpl(
 ) : RemoteArtistDataSource {
 
     override suspend fun getAllArtists(): List<RemoteArtist> =
-        supabaseClient.postgrest["artists"]
+        supabaseClient.postgrest["artist"]
             .also { debug(logger) { "Fetching all Remote DB artists" } }
             .select(
                 Columns.raw(

@@ -7,14 +7,11 @@ data class RemoteShow(
     val id: Long,
     val title: String,
     val url: String,
-    val venues: List<RemoteShowVenues>,
     val images: List<String>,
-    val eventStatus: RemoteEventStatus,
     val description: String,
     val categories: List<RemoteCategories>? = null,
     val artistIds: List<Long>? = null,
-    val startDate: String,
-    val endDate: String,
+    val schedule: List<RemoteShowSchedule>
 )
 
 
@@ -29,3 +26,12 @@ enum class RemoteShowVenues {
     MB3,
     MB4
 }
+
+@Serializable
+data class RemoteShowSchedule(
+    val id: Long,
+    val status: RemoteEventStatus,
+    val venue: RemoteShowVenues,
+    val start: String,
+    val end: String
+)

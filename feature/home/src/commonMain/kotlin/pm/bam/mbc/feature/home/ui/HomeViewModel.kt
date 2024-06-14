@@ -65,7 +65,8 @@ internal class HomeViewModel(
 
     private fun loadHomeScreenData() =
         flow { emitAll(showsRepository.observeShows()) }
-            .map { shows -> shows.sortedBy { it.startDate }.take(LIMIT_SHOWS) }
+            // TODO - Sort by upcoming shows
+            .map { shows -> shows.take(LIMIT_SHOWS) }
             .flatMapLatest<List<Show>, HomeScreenData> { shows ->
                 newsRepository.observeNews()
                     .flatMapLatest { news -> artistRepository.observeArtists().map { artists -> news to artists } }

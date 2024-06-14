@@ -11,9 +11,13 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -41,6 +45,7 @@ import monkeybarrelcomey.feature.shows.generated.resources.Res
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_artists_image_content_description
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_msg
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_retry
+import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filters_icon
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_venue_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_shows_label
 import org.jetbrains.compose.resources.painterResource
@@ -106,6 +111,13 @@ private fun Screen(
                                     text = stringResource(Res.string.show_screen_shows_label),
                                     maxLines = 2,
                                     overflow = TextOverflow.Ellipsis
+                                )
+                            },
+                            actions = {
+                                Icon(
+                                    imageVector = Icons.Default.Search,
+                                    contentDescription = stringResource(Res.string.show_screen_search_filters_icon),
+                                    modifier = Modifier.clickable { }
                                 )
                             },
                             scrollBehavior = scrollBehavior,
@@ -190,7 +202,7 @@ private fun ShowCard(
                     .fillMaxWidth()
                     .padding(horizontal = MonkeyCustomTheme.spacing.medium),
                 textAlign = TextAlign.Start,
-                text = show.startDate,
+                text = show.schedule.first().start,
                 style = MaterialTheme.typography.labelSmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -200,7 +212,7 @@ private fun ShowCard(
                     .fillMaxWidth()
                     .padding(MonkeyCustomTheme.spacing.medium),
                 textAlign = TextAlign.Start,
-                text = stringResource(Res.string.show_screen_show_venue_label, show.venue),
+                text = stringResource(Res.string.show_screen_show_venue_label, show.schedule.first().venue),
                 style = MaterialTheme.typography.labelSmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -212,3 +224,6 @@ private fun ShowCard(
 internal const val ArtistsScreenTopAppBarTag = "ArtistsScreenTopAppBarTag"
 internal const val ArtistsScreenTopAppNavBarTag = "ArtistsScreenTopAppNavBarTag"
 internal const val ArtistsScreenLoadingDataTag = "ArtistsScreenLoadingDataTag"
+
+internal const val ArtistsScreenSearchFieldTag = "ArtistsScreenSearchFieldTag"
+internal const val ArtistsScreenSearchFiltersIconTag = "ArtistsScreenSearchFiltersIconTag"

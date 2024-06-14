@@ -13,7 +13,9 @@ import pm.bam.mbc.remote.models.IDsWrapper
 import pm.bam.mbc.remote.models.RemoteCategories
 import pm.bam.mbc.remote.models.RemoteEventStatus
 import pm.bam.mbc.remote.models.RemoteShow
+import pm.bam.mbc.remote.models.RemoteShowSchedule
 import pm.bam.mbc.remote.models.RemoteShowVenues
+import pm.bam.mbc.remote.models.SCHEDULE
 
 class RemoteShowsDataSourceImpl(
     private val logger: Logger,
@@ -21,7 +23,7 @@ class RemoteShowsDataSourceImpl(
 ) : RemoteShowsDataSource {
 
     override suspend fun getAllShows(): List<RemoteShow> =
-        supabaseClient.postgrest["shows"]
+        supabaseClient.postgrest["show"]
             .also { debug(logger) { "Fetching all Remote DB shows" } }
             .select(
                 Columns.raw(
@@ -29,14 +31,11 @@ class RemoteShowsDataSourceImpl(
                             "title, " +
                             "description, " +
                             "ticket_url, " +
-                            "venues, " +
                             "images, " +
-                            "event_status, " +
                             "categories, " +
                             "$ARTIST_IDS, " +
-                            "start, " +
-                            "end"
-                )
+                            SCHEDULE
+                ).also { verbose(logger) { "Remote DB Shows fetch columns: $it" } }
             )
             .also { debug(logger) { "Remote DB Shows fetched Successfully" } }
             .decodeList<RemoteDatabaseShow>()
@@ -47,14 +46,11 @@ class RemoteShowsDataSourceImpl(
                     id = remoteDatabaseShow.id,
                     title = remoteDatabaseShow.title,
                     url = remoteDatabaseShow.url,
-                    venues = remoteDatabaseShow.venues,
                     images = remoteDatabaseShow.images,
-                    eventStatus = remoteDatabaseShow.eventStatus,
                     description = remoteDatabaseShow.description,
                     categories = remoteDatabaseShow.categories,
                     artistIds = remoteDatabaseShow.artistIds.orEmpty().map { it.id }.ifEmpty { null },
-                    startDate = remoteDatabaseShow.start,
-                    endDate = remoteDatabaseShow.end
+                    schedule = remoteDatabaseShow.schedule
                 )
             }
             .also { debug(logger) { "Remote DB Shows mapped Successfully" } }
@@ -69,13 +65,9 @@ private data class RemoteDatabaseShow(
     val description: String,
     @SerialName("ticket_url")
     val url: String,
-    val venues: List<RemoteShowVenues>,
     val images: List<String>,
-    @SerialName("event_status")
-    val eventStatus: RemoteEventStatus,
     val categories: List<RemoteCategories>? = null,
     @SerialName("artist_ids")
     val artistIds: List<IDsWrapper>? = null,
-    val start: String,
-    val end: String,
+    val schedule: List<RemoteShowSchedule>
 )
