@@ -2,6 +2,10 @@
 
     <string name="show_screen_navigation_back_button">Back</string>
     <string name="show_screen_search_filters_icon">Filters icon</string>
+    <string name="show_screen_search_filter_price_range_label">Price Range</string>
+    <string name="show_screen_search_filter_venues_label">Venues</string>
+    <string name="show_screen_search_filter_categories_label">Categories</string>
+    <string name="show_screen_search_filter_exact_match_label">Exact Match</string>
 
     <string name="show_screen_show_image_content_description">%1$s Show image</string>
     <string name="show_screen_artists_image_content_description">%1$s Artist image</string>

@@ -36,6 +36,7 @@ kotlin {
         commonMain.dependencies {
             //put your multiplatform dependencies here
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.serialization.properties)
 
             implementation(libs.koin.core)
 

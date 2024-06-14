@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
+import pm.bam.mbc.domain.models.Categories
 import pm.bam.mbc.domain.models.Categories.COMEDY
 import pm.bam.mbc.domain.models.Categories.FRINGE
 import pm.bam.mbc.domain.models.Categories.MUSICAL
@@ -25,18 +26,11 @@ fun ShowTags(
 ) {
     Row(modifier = modifier) {
         show.category?.forEach { category ->
-            val tagBackgroundColor = when (category) {
-                COMEDY -> MonkeyCustomTheme.colors.showTagsComedy
-                STANDUP -> MonkeyCustomTheme.colors.showTagsStandup
-                MUSICAL -> MonkeyCustomTheme.colors.showTagsMusical
-                FRINGE -> MonkeyCustomTheme.colors.showTagsFringe
-            }
-
             Text(
                 modifier = Modifier
                     .wrapContentSize()
                     .padding(MonkeyCustomTheme.spacing.small)
-                    .background(color = tagBackgroundColor, shape = RoundedCornerShape(MonkeyCustomTheme.spacing.medium))
+                    .background(color = category.showTagColor(), shape = RoundedCornerShape(MonkeyCustomTheme.spacing.medium))
                     .padding(horizontal = MonkeyCustomTheme.spacing.small, vertical = MonkeyCustomTheme.spacing.extraSmall),
                 textAlign = TextAlign.Start,
                 text = category.name,
@@ -47,4 +41,12 @@ fun ShowTags(
             )
         }
     }
+}
+
+@Composable
+fun Categories.showTagColor() = when (this) {
+    COMEDY -> MonkeyCustomTheme.colors.showTagsComedy
+    STANDUP -> MonkeyCustomTheme.colors.showTagsStandup
+    MUSICAL -> MonkeyCustomTheme.colors.showTagsMusical
+    FRINGE -> MonkeyCustomTheme.colors.showTagsFringe
 }

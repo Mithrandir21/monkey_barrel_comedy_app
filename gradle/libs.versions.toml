@@ -11,7 +11,7 @@ compose-plugin = "1.6.11"
 jetbrainsKotlinJvm = "1.9.0"
 
 kotlinx-coroutines = "1.9.0-RC"
-kotlinx-serialization = "1.7.0-RC"
+kotlinx-serialization = "1.7.0"
 kotlinx-serialization-plugin = "2.0.0-RC3"
 
 androidx-splashscreen = "1.0.1"
@@ -63,6 +63,7 @@ kotlinx-coroutines-iosarm64 = { module = "org.jetbrains.kotlinx:kotlinx-coroutin
 kotlinx-coroutines-iossimulatorarm64 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-iossimulatorarm64", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-serialization-properties = { module = "org.jetbrains.kotlinx:kotlinx-serialization-properties", version.ref = "kotlinx-serialization" }
 
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-splashscreen" }
 
