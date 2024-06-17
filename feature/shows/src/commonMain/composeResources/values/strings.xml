@@ -13,7 +13,7 @@
 
     <string name="show_screen_show_image_content_description">%1$s Show image</string>
     <string name="show_screen_artists_image_content_description">%1$s Artist image</string>
-    <string name="show_screen_show_venue_label">Venue: %1$s</string>
+
     <string name="show_screen_show_artists_label">Performing Comedians</string>
     <string name="show_screen_shows_label">Shows</string>
 
@@ -21,5 +21,14 @@
 
     <string name="show_screen_data_loading_error_msg">Something went wrong. Please try again.</string>
     <string name="show_screen_data_loading_error_retry">Retry</string>
+
+
+    <string name="show_screen_show_venue_label">Venue: %1$s</string>
+    <string name="show_screen_show_venues_label">Venues: %1$s</string>
+
+    <plurals name="show_screen_show_venues_label_plurals">
+        <item quantity="one">Venue: %1$s</item>
+        <item quantity="other">Venues: %1$s</item>
+    </plurals>
 
 </resources>

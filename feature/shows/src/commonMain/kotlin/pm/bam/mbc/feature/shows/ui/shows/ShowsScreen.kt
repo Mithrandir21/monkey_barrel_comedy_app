@@ -52,8 +52,11 @@ import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_load
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filters_icon
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_venue_label
+import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_venues_label_plurals
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_shows_label
+import org.jetbrains.compose.resources.getPluralString
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -306,12 +309,13 @@ private fun ShowCard(
                 show = show
             )
 
+            val showVenues = show.schedule.distinctBy { it.venue }.map { it.venue }
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(MonkeyCustomTheme.spacing.medium),
                 textAlign = TextAlign.Start,
-                text = stringResource(Res.string.show_screen_show_venue_label, show.schedule.first().venue),
+                text = pluralStringResource(Res.plurals.show_screen_show_venues_label_plurals, showVenues.size, showVenues.joinToString(", ")),
                 style = MaterialTheme.typography.labelSmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
