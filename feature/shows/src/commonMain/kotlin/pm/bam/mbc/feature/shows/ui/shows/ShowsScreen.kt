@@ -51,10 +51,8 @@ import monkeybarrelcomey.feature.shows.generated.resources.show_screen_artists_i
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_msg
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filters_icon
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_venue_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_venues_label_plurals
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_shows_label
-import org.jetbrains.compose.resources.getPluralString
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
@@ -83,6 +81,7 @@ internal fun ShowsScreen(
     val data = viewModel.uiState.collectAsStateWithLifecycleFix()
 
     var showFilters by rememberSaveable { mutableStateOf(false) }
+    var showDateRangerPicker by rememberSaveable { mutableStateOf(false) }
     var existingParameters by rememberSaveable(stateSaver = parametersSaver) { mutableStateOf(ShowSearchParameters()) }
 
     val onRetry: () -> Unit = { viewModel.searchShows(existingParameters) }
@@ -113,6 +112,16 @@ internal fun ShowsScreen(
                 existingParameters.copy(categories = existingParameters.categories - category)
             }
         },
+        showDateRangerPicker = showDateRangerPicker,
+        onShowDatePickerChanged = { showDatePicker ->
+            showDateRangerPicker = showDatePicker
+        },
+        onStartDateTimeChanged = { startDateTime ->
+            existingParameters = existingParameters.copy(dateTimeRange = startDateTime to existingParameters.dateTimeRange?.second)
+        },
+        onEndDateTimeChanged = { endDateTime ->
+            existingParameters = existingParameters.copy(dateTimeRange = existingParameters.dateTimeRange?.first to endDateTime)
+        },
         onExactMatch = { exactMatch -> existingParameters = existingParameters.copy(titleExact = exactMatch) }
     )
 
@@ -123,6 +132,11 @@ internal fun ShowsScreen(
         onViewShow = goToShow,
         onRetry = onRetry
     )
+
+
+    if (showDateRangerPicker) {
+        datePicker(searchConfig = showsSearchConfig)
+    }
 }
 
 @Composable

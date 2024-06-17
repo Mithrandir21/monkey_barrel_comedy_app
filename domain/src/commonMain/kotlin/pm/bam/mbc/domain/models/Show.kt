@@ -48,7 +48,7 @@ data class ShowSearchParameters(
     val title: String? = null,
     val titleExact: Boolean? = null,
     val priceRange: Pair<Int, Int>? = null,
-    val dateTimeRange: Pair<Long, Long>? = null,
+    val dateTimeRange: Pair<Long?, Long?>? = null,
     val venues: List<ShowVenues> = listOf(),
     val categories: List<Categories> = listOf()
 ){

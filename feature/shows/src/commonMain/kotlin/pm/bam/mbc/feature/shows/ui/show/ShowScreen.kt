@@ -48,8 +48,9 @@ import monkeybarrelcomey.feature.shows.generated.resources.show_screen_loading_l
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_navigation_back_button
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_artists_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_image_content_description
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_venue_label
+import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_venues_label_plurals
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -216,12 +217,14 @@ private fun ShowDetails(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
+
+                val showVenues = data.show.schedule.distinctBy { it.venue }.map { it.venue }
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = MonkeyCustomTheme.spacing.small),
                     textAlign = TextAlign.Start,
-                    text = stringResource(Res.string.show_screen_show_venue_label, data.show.schedule.first().venue),
+                    text = pluralStringResource(Res.plurals.show_screen_show_venues_label_plurals, showVenues.size, showVenues.joinToString(", ")),
                 )
             }
         }

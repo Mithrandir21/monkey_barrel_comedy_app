@@ -58,13 +58,20 @@ internal class ShowsRepositoryImpl(
             }
             .let { shows ->
                 searchParameters.dateTimeRange?.let { (startLong, endLong) ->
-                    val desiredRange = startLong..endLong
+                    shows.takeIf { startLong != null || endLong != null }
+                        ?.filter { show ->
+                            show.schedule.any { showSchedule ->
+                                val scheduleStart = showSchedule.start.toUtcEpochMillis()
+                                val scheduleEnd = showSchedule.end.toUtcEpochMillis()
 
-                    shows.filter { show ->
-                        show.schedule.any { showSchedule ->
-                            desiredRange.within(showSchedule.start.toUtcEpochMillis()..showSchedule.end.toUtcEpochMillis())
+                                return@filter when {
+                                    startLong != null && endLong != null -> (startLong..endLong).within(scheduleStart..scheduleEnd)
+                                    startLong != null -> startLong >= scheduleStart
+                                    endLong != null -> endLong <= scheduleEnd
+                                    else -> false
+                                }
+                            }
                         }
-                    }
                 } ?: shows
             }
             .let { shows ->
@@ -103,6 +110,6 @@ internal class ShowsRepositoryImpl(
 
 private fun LocalDateTime.toUtcEpochMillis() = toInstant(TimeZone.UTC).toEpochMilliseconds()
 
-private fun ClosedRange<Long>.within(other: ClosedRange<Long>): Boolean =
+private infix fun ClosedRange<Long>.within(other: ClosedRange<Long>): Boolean =
     (this.start >= other.start && this.start <= other.endInclusive)
             && (this.endInclusive >= other.start && this.endInclusive <= other.endInclusive)

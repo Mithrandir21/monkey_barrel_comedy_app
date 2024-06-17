@@ -22,6 +22,7 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -38,6 +39,8 @@ import androidx.compose.ui.Modifier
 import monkeybarrelcomey.feature.shows.generated.resources.Res
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filter_categories_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filter_categories_label_description
+import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filter_dates_label
+import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filter_dates_range_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filter_exact_match_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filter_price_range_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filter_sort_by_label
@@ -64,6 +67,10 @@ internal data class ShowsSearchConfig(
     val onClearPrice: () -> Unit,
     val onVenuesChanged: (venue: ShowVenues, selected: Boolean) -> Unit,
     val onCategoriesChanged: (category: Categories, selected: Boolean) -> Unit,
+    val showDateRangerPicker: Boolean,
+    val onShowDatePickerChanged: (showDatePicker: Boolean) -> Unit,
+    val onStartDateTimeChanged: (startDateTime: Long) -> Unit,
+    val onEndDateTimeChanged: (endDateTime: Long) -> Unit,
     val onExactMatch: (exactMatch: Boolean) -> Unit
 )
 
@@ -130,6 +137,10 @@ private fun Filters(searchConfig: ShowsSearchConfig) {
         HorizontalDivider()
 
         chipsCategories(searchConfig)
+
+        HorizontalDivider()
+
+        dateRanges(searchConfig)
 
         HorizontalDivider()
 
@@ -272,6 +283,32 @@ private fun chipsCategories(searchConfig: ShowsSearchConfig) {
     }
 }
 
+@Composable
+private fun dateRanges(searchConfig: ShowsSearchConfig) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(vertical = MonkeyCustomTheme.spacing.large),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier.weight(1f),
+            text = stringResource(
+                Res.string.show_screen_search_filter_dates_range_label,
+                searchConfig.existingSearchParameters.dateTimeRange?.first?.toString() ?: "",
+                searchConfig.existingSearchParameters.dateTimeRange?.second?.toString() ?: ""
+            )
+        )
+
+        OutlinedButton(
+            modifier = Modifier
+                .wrapContentHeight(),
+            onClick = { searchConfig.onShowDatePickerChanged(true) }) {
+            Text(stringResource(Res.string.show_screen_search_filter_dates_label))
+        }
+    }
+}
 
 @OpenForTesting
 internal fun rangeString(startValue: Float, endInclusiveValue: Float, highestValue: Float): String =

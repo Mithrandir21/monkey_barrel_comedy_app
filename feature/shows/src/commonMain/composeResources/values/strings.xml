@@ -11,6 +11,14 @@
     <string name="show_screen_search_filter_categories_label_description">Categories selection</string>
     <string name="show_screen_search_filter_exact_match_label">Exact Match</string>
 
+    <string name="show_screen_search_filter_dates_label">Dates</string>
+    <string name="show_screen_search_filter_dates_range_label">Dates: %1$s - %2$s</string>
+    <string name="show_screen_search_filter_dates_range_start_label">From: %1$s</string>
+    <string name="show_screen_search_filter_dates_range_end_label">To: %1$s</string>
+    <string name="show_screen_search_filter_dates_range_dialog_positive_label">OK</string>
+    <string name="show_screen_search_filter_dates_range_dialog_negative_label">Cancel</string>
+
+
     <string name="show_screen_show_image_content_description">%1$s Show image</string>
     <string name="show_screen_artists_image_content_description">%1$s Artist image</string>
 
@@ -21,10 +29,6 @@
 
     <string name="show_screen_data_loading_error_msg">Something went wrong. Please try again.</string>
     <string name="show_screen_data_loading_error_retry">Retry</string>
-
-
-    <string name="show_screen_show_venue_label">Venue: %1$s</string>
-    <string name="show_screen_show_venues_label">Venues: %1$s</string>
 
     <plurals name="show_screen_show_venues_label_plurals">
         <item quantity="one">Venue: %1$s</item>
