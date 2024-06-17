@@ -40,7 +40,7 @@ internal class ShowsViewModel(
             searchParametersFlow
                 .onEach { _uiState.emit(_uiState.value.copy(state = ShowsScreenStatus.LOADING)) }
                 .flatMapLatestDelayAtLeast(SHOW_SEARCH_DELAY) { searchParameters -> showsRepository.searchShows(searchParameters) }
-                .map { ShowsScreenData(state = ShowsScreenStatus.SUCCESS, shows = it) }
+                .map { ShowsScreenData(state = if (it.isEmpty()) ShowsScreenStatus.EMPTY else ShowsScreenStatus.SUCCESS, shows = it) }
                 .onError { fatal(logger, it) }
                 .catch { emit(ShowsScreenData(state = ShowsScreenStatus.ERROR)) }
                 .collect { _uiState.emit(it) }
@@ -59,6 +59,6 @@ internal class ShowsViewModel(
     )
 
     internal enum class ShowsScreenStatus {
-        LOADING, ERROR, SUCCESS
+        LOADING, ERROR, SUCCESS, EMPTY
     }
 }

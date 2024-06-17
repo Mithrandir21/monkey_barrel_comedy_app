@@ -13,10 +13,12 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -64,6 +66,7 @@ import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.models.ShowSearchParameters
 import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenData
+import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenStatus.EMPTY
 import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenStatus.ERROR
 import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenStatus.LOADING
 
@@ -119,7 +122,6 @@ internal fun ShowsScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Screen(
     data: ShowsScreenData,
@@ -129,7 +131,6 @@ private fun Screen(
     onRetry: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     MonkeyTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
@@ -138,54 +139,16 @@ private fun Screen(
                 contentAlignment = Alignment.Center,
             ) {
                 Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            modifier = Modifier.testTag(ArtistsScreenTopAppBarTag),
-                            colors = TopAppBarDefaults.topAppBarColors(
-                                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                titleContentColor = MaterialTheme.colorScheme.primary,
-                            ),
-                            title = {
-                                Text(
-                                    text = stringResource(Res.string.show_screen_shows_label),
-                                    maxLines = 2,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            },
-                            actions = {
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = stringResource(Res.string.show_screen_search_filters_icon),
-                                    modifier = Modifier.clickable { searchConfig.onShowFiltersChanged(!searchConfig.showFilters) }
-                                )
-                            },
-                            scrollBehavior = scrollBehavior,
-                        )
-                    },
+                    topBar = { ScreenTopAppBar(searchConfig) },
                     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
                     bottomBar = { BottomNavigation(config = bottomNavConfig) }
                 ) { innerPadding: PaddingValues ->
-                    LazyVerticalGrid(
-                        modifier = Modifier.padding(innerPadding),
-                        columns = GridCells.Fixed(2),
-                        content = {
-                            items(data.shows.size) { index ->
-                                ShowCard(data.shows[index], onViewShow)
-                            }
-                        }
+                    ScreenData(
+                        innerPadding = innerPadding,
+                        data = data,
+                        searchConfig = searchConfig,
+                        onViewShow = onViewShow
                     )
-
-                    if (data.state == LOADING) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .padding(innerPadding)
-                                .fillMaxSize()
-                                .wrapContentSize(Alignment.Center)
-                                .testTag(ArtistsScreenLoadingDataTag)
-                        )
-                    }
-
-                    SearchFilters(searchConfig)
                 }
             }
 
@@ -203,6 +166,95 @@ private fun Screen(
                     }
                 }
             }
+        }
+    }
+}
+
+
+@Composable
+private fun ScreenData(
+    innerPadding: PaddingValues,
+    data: ShowsScreenData,
+    searchConfig: ShowsSearchConfig,
+    onViewShow: (artistId: Long) -> Unit
+) {
+    if (data.state == EMPTY) {
+        showEmpty(Modifier.padding(innerPadding), searchConfig)
+    } else {
+        LazyVerticalGrid(
+            modifier = Modifier.padding(innerPadding),
+            columns = GridCells.Fixed(2),
+            content = {
+                items(data.shows.size) { index ->
+                    ShowCard(data.shows[index], onViewShow)
+                }
+            }
+        )
+    }
+
+    if (data.state == LOADING) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center)
+                .testTag(ArtistsScreenLoadingDataTag)
+        )
+    }
+
+    SearchFilters(searchConfig)
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ScreenTopAppBar(searchConfig: ShowsSearchConfig) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+
+    TopAppBar(
+        modifier = Modifier.testTag(ArtistsScreenTopAppBarTag),
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+        title = {
+            Text(
+                text = stringResource(Res.string.show_screen_shows_label),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        actions = {
+            IconButton(onClick = { searchConfig.onShowFiltersChanged(!searchConfig.showFilters) }) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = stringResource(Res.string.show_screen_search_filters_icon)
+                )
+            }
+        },
+        scrollBehavior = scrollBehavior,
+    )
+}
+
+
+@Composable
+private fun showEmpty(
+    modifier: Modifier = Modifier,
+    searchConfig: ShowsSearchConfig
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center)
+    ) {
+        Text(
+            text = "No shows found",
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Button(
+            modifier = Modifier.wrapContentSize(),
+            onClick = { searchConfig.onShowFiltersChanged(true) }) {
+            Text(text = "Adjust filters")
         }
     }
 }
