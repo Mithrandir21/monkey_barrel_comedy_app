@@ -1,5 +1,6 @@
 package pm.bam.mbc.domain.models
 
+import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.properties.Properties
@@ -36,8 +37,8 @@ data class ShowSchedule(
     val id: Long,
     val status: EventStatus,
     val venue: ShowVenues,
-    val start: String,
-    val end: String
+    val start: LocalDateTime,
+    val end: LocalDateTime
 )
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -46,10 +47,8 @@ data class ShowSearchParameters(
     val sortBy: ShowSearchSortByDirection = ShowSearchSortByDirection(),
     val title: String? = null,
     val titleExact: Boolean? = null,
-    val lowerPrice: Int? = null,
-    val upperPrice: Int? = null,
-    val startDateTime: Long? = null,
-    val endDateTime: Long? = null,
+    val priceRange: Pair<Int, Int>? = null,
+    val dateTimeRange: Pair<Long, Long>? = null,
     val venues: List<ShowVenues> = listOf(),
     val categories: List<Categories> = listOf()
 ){
@@ -85,12 +84,12 @@ data class ShowSearchParameters(
 @Serializable
 data class ShowSearchSortByDirection(
     val sortBy: ShowSearchSortBy = ShowSearchSortBy.DATE,
-    val direction: SortDirection = SortDirection.ASCENDING,
+    val direction: SortDirection = SortDirection.BOTTOM_TO_TOP,
 )
 
 enum class SortDirection {
-    ASCENDING,
-    DESCENDING,
+    TOP_TO_BOTTOM,
+    BOTTOM_TO_TOP,
 }
 
 @Serializable

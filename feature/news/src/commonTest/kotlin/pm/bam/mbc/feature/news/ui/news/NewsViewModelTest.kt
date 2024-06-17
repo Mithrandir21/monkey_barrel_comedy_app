@@ -72,5 +72,5 @@ private open class FakeNewsRepository : NewsRepository {
     override fun observeNews(): Flow<List<News>> = newsFlow
     override fun getNews(newsId: Long): News = baseNews
     override fun getNews(vararg newsId: Long): List<News> = listOf(baseNews)
-    override fun refreshNews() = Unit
+    override suspend fun refreshNews() = Unit
 }

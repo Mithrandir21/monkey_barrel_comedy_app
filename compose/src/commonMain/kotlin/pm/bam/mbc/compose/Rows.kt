@@ -152,7 +152,7 @@ fun ShowRow(
                     .fillMaxWidth()
                     .padding(horizontal = MonkeyCustomTheme.spacing.small),
                 textAlign = TextAlign.Start,
-                text = show.schedule.first().start,
+                text = show.schedule.first().start.date.toString(),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,

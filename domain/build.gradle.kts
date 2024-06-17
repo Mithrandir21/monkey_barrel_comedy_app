@@ -37,6 +37,7 @@ kotlin {
             //put your multiplatform dependencies here
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.serialization.properties)
+            implementation(libs.kotlinx.datetime)
 
             implementation(libs.koin.core)
 

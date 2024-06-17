@@ -14,6 +14,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import pm.bam.mbc.domain.models.Artist
+import pm.bam.mbc.domain.models.Categories
 import pm.bam.mbc.domain.repositories.artist.ArtistRepository
 import pm.bam.mbc.feature.artists.ui.artists.ArtistsViewModel.ArtistsScreenData
 import pm.bam.mbc.feature.artists.ui.artists.ArtistsViewModel.ArtistsScreenStatus
@@ -23,7 +24,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 private val artistFlow = MutableStateFlow<List<Artist>>(emptyList())
-private val baseArtist = Artist(1, "name", "desc", listOf("images"), listOf("genres"))
+private val baseArtist = Artist(1, "name", "desc", listOf("images"), listOf(Categories.COMEDY), listOf(1))
 
 internal class ArtistsViewModelTest {
 
@@ -79,5 +80,5 @@ private open class FakeArtistRepository : ArtistRepository {
     override fun observeArtists(): Flow<List<Artist>> = artistFlow
     override fun getArtist(artistId: Long): Artist = baseArtist
     override fun getArtists(vararg artistId: Long): List<Artist> = emptyList()
-    override fun refreshArtists(): Unit = Unit
+    override suspend fun refreshArtists(): Unit = Unit
 }

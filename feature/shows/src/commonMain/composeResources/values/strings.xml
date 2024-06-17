@@ -3,8 +3,12 @@
     <string name="show_screen_navigation_back_button">Back</string>
     <string name="show_screen_search_filters_icon">Filters icon</string>
     <string name="show_screen_search_filter_price_range_label">Price Range</string>
+    <string name="show_screen_search_filter_sort_by_label">Sort By</string>
+    <string name="show_screen_search_filter_sort_by_label_description">Sort By selection</string>
     <string name="show_screen_search_filter_venues_label">Venues</string>
+    <string name="show_screen_search_filter_venues_label_description">Venues selection</string>
     <string name="show_screen_search_filter_categories_label">Categories</string>
+    <string name="show_screen_search_filter_categories_label_description">Categories selection</string>
     <string name="show_screen_search_filter_exact_match_label">Exact Match</string>
 
     <string name="show_screen_show_image_content_description">%1$s Show image</string>

@@ -210,7 +210,7 @@ private fun ShowDetails(
                         .fillMaxWidth()
                         .padding(horizontal = MonkeyCustomTheme.spacing.small),
                     textAlign = TextAlign.Start,
-                    text = data.show.schedule.first().start,
+                    text = data.show.schedule.first().start.date.toString(),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,

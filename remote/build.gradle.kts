@@ -51,6 +51,7 @@ kotlin {
             implementation(libs.ktor.client.kotlinx.serialization)
             implementation(libs.ktorfit.lib)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.datetime)
 
             implementation(libs.koin.core)
 

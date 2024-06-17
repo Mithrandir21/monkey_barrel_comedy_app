@@ -20,7 +20,7 @@ import kotlin.test.Test
 
 
 private val podcastFlow = MutableStateFlow<List<Podcast>>(emptyList())
-private val basePodcastEpisode = PodcastEpisode(1, "name", "desc", listOf(), listOf(), "duration", "releaseDate", 1, 1, 1)
+private val basePodcastEpisode = PodcastEpisode(1, "name", "desc", listOf(), listOf(), 1234, "releaseDate", 1, listOf(1), listOf(1))
 private val basePodcast = Podcast(1, "name", "desc", listOf(), listOf())
 
 internal class PodcastsViewModelTest {
@@ -77,6 +77,6 @@ private open class FakePodcastRepository : PodcastRepository {
     override fun getPodcasts(podcastId: Long): Podcast = basePodcast
     override fun observeEpisodes(podcastId: Long): Flow<List<PodcastEpisode>> = flowOf(listOf(basePodcastEpisode))
     override fun getEpisode(episodeId: Long): PodcastEpisode = basePodcastEpisode
-    override fun refreshPodcasts() = Unit
-    override fun refreshEpisodes() = Unit
+    override suspend fun refreshPodcasts() = Unit
+    override suspend fun refreshEpisodes() = Unit
 }

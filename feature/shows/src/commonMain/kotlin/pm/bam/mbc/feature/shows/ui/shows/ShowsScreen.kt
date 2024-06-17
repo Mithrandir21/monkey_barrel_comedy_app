@@ -1,51 +1,37 @@
 package pm.bam.mbc.feature.shows.ui.shows
 
-import androidx.annotation.OpenForTesting
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Slider
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.listSaver
-import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -57,14 +43,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import coil3.compose.AsyncImage
-import kotlinx.serialization.ExperimentalSerializationApi
 import monkeybarrelcomey.common.generated.resources.image_placeholder
 import monkeybarrelcomey.feature.shows.generated.resources.Res
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_artists_image_content_description
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_msg
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_retry
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filter_exact_match_label
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filter_price_range_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filters_icon
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_venue_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_shows_label
@@ -83,7 +66,6 @@ import pm.bam.mbc.domain.models.ShowSearchParameters
 import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenData
 import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenStatus.ERROR
 import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenStatus.LOADING
-import kotlin.math.roundToInt
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -97,7 +79,7 @@ internal fun ShowsScreen(
     var showFilters by rememberSaveable { mutableStateOf(false) }
     var existingParameters by rememberSaveable(stateSaver = parametersSaver) { mutableStateOf(ShowSearchParameters()) }
 
-    val onRetry: () -> Unit = { viewModel.loadData() }
+    val onRetry: () -> Unit = { viewModel.searchShows(existingParameters) }
 
     val showsSearchConfig = ShowsSearchConfig(
         existingSearchParameters = existingParameters,
@@ -105,10 +87,12 @@ internal fun ShowsScreen(
         onShowFiltersChanged = { newShowFilters ->
             showFilters = newShowFilters
             if (!newShowFilters) {
-                //onSearch()
+                viewModel.searchShows(existingParameters)
             }
         },
-        onPriceChanged = { from, to -> existingParameters = existingParameters.copy(lowerPrice = from, upperPrice = to) },
+        onSortByChanged = { sortBy -> existingParameters = existingParameters.copy(sortBy = sortBy) },
+        onPriceChanged = { from, to -> existingParameters = existingParameters.copy(priceRange = from to to) },
+        onClearPrice = { existingParameters = existingParameters.copy(priceRange = null) },
         onVenuesChanged = { venue, selected ->
             existingParameters = if (selected) {
                 existingParameters.copy(venues = existingParameters.venues + venue)
@@ -259,7 +243,7 @@ private fun ShowCard(
                     .fillMaxWidth()
                     .padding(horizontal = MonkeyCustomTheme.spacing.medium),
                 textAlign = TextAlign.Start,
-                text = show.schedule.first().start,
+                text = show.schedule.first().start.date.toString(),
                 style = MaterialTheme.typography.labelSmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

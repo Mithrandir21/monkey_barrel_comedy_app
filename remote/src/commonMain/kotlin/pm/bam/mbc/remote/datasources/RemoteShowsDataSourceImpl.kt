@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.logging.debug
 import pm.bam.mbc.logging.verbose
+import pm.bam.mbc.remote.datetime.RemoteDateTimeParsing
 import pm.bam.mbc.remote.models.ARTIST_IDS
 import pm.bam.mbc.remote.models.IDsWrapper
 import pm.bam.mbc.remote.models.RemoteCategories
@@ -17,9 +18,10 @@ import pm.bam.mbc.remote.models.RemoteShowSchedule
 import pm.bam.mbc.remote.models.RemoteShowVenues
 import pm.bam.mbc.remote.models.SCHEDULE
 
-class RemoteShowsDataSourceImpl(
+internal class RemoteShowsDataSourceImpl(
     private val logger: Logger,
-    private val supabaseClient: SupabaseClient
+    private val supabaseClient: SupabaseClient,
+    private val remoteDateTimeParsing: RemoteDateTimeParsing
 ) : RemoteShowsDataSource {
 
     override suspend fun getAllShows(): List<RemoteShow> =
@@ -50,7 +52,15 @@ class RemoteShowsDataSourceImpl(
                     description = remoteDatabaseShow.description,
                     categories = remoteDatabaseShow.categories,
                     artistIds = remoteDatabaseShow.artistIds.orEmpty().map { it.id }.ifEmpty { null },
-                    schedule = remoteDatabaseShow.schedule
+                    schedule = remoteDatabaseShow.schedule.map {
+                        RemoteShowSchedule(
+                            id = it.id,
+                            status = it.status,
+                            venue = it.venue,
+                            start = remoteDateTimeParsing.parseRemoteDatabaseDateTime(it.start),
+                            end = remoteDateTimeParsing.parseRemoteDatabaseDateTime(it.end)
+                        )
+                    }
                 )
             }
             .also { debug(logger) { "Remote DB Shows mapped Successfully" } }
@@ -69,5 +79,14 @@ private data class RemoteDatabaseShow(
     val categories: List<RemoteCategories>? = null,
     @SerialName("artist_ids")
     val artistIds: List<IDsWrapper>? = null,
-    val schedule: List<RemoteShowSchedule>
+    val schedule: List<RemoteDatabaseShowSchedule>
+)
+
+@Serializable
+data class RemoteDatabaseShowSchedule(
+    val id: Long,
+    val status: RemoteEventStatus,
+    val venue: RemoteShowVenues,
+    val start: String,
+    val end: String
 )

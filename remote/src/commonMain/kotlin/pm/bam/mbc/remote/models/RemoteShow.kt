@@ -1,5 +1,6 @@
 package pm.bam.mbc.remote.models
 
+import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -32,6 +33,6 @@ data class RemoteShowSchedule(
     val id: Long,
     val status: RemoteEventStatus,
     val venue: RemoteShowVenues,
-    val start: String,
-    val end: String
+    val start: LocalDateTime,
+    val end: LocalDateTime
 )

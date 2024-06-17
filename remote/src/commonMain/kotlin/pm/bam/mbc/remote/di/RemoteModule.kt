@@ -8,6 +8,7 @@ import io.github.jan.supabase.postgrest.Postgrest
 import io.ktor.client.HttpClient
 import org.koin.dsl.module
 import pm.bam.mbc.logging.Logger
+import pm.bam.mbc.logging.di.LoggingModule
 import pm.bam.mbc.logging.info
 import pm.bam.mbc.remote.api.ExampleAPI
 import pm.bam.mbc.remote.client.ClientProviderImpl
@@ -21,12 +22,16 @@ import pm.bam.mbc.remote.datasources.RemotePodcastDataSource
 import pm.bam.mbc.remote.datasources.RemotePodcastDataSourceImpl
 import pm.bam.mbc.remote.datasources.RemoteShowsDataSource
 import pm.bam.mbc.remote.datasources.RemoteShowsDataSourceImpl
+import pm.bam.mbc.remote.datetime.RemoteDateTimeParsing
+import pm.bam.mbc.remote.datetime.RemoteDateTimeParsingImpl
 import pm.bam.mbc.remote.logic.RemoteBuildType
 import pm.bam.mbc.remote.logic.getRemoteBuildUtil
 import pm.bam.mbc.remote.secrets.Secrets
 import pm.bam.mbc.remote.secrets.getSecrets
 
 val remoteModule = module {
+    includes(LoggingModule)
+
     single<RemoteBuildType> { getRemoteBuildUtil().buildType() }
     single<HttpClient> { ClientProviderImpl(get()).client() }
     single<Ktorfit> { createKtorfit(get()) }
@@ -52,11 +57,12 @@ val remoteModule = module {
     }
 
     single<ExampleAPI> { createExampleApi(get()) }
+    single<RemoteDateTimeParsing> { RemoteDateTimeParsingImpl() }
 
     single<RemoteArtistDataSource> { RemoteArtistDataSourceImpl(get(), get()) }
     single<RemoteBlogDataSource> { RemoteBlogDataSourceImpl() }
     single<RemotePodcastDataSource> { RemotePodcastDataSourceImpl(get(), get()) }
-    single<RemoteShowsDataSource> { RemoteShowsDataSourceImpl(get(), get()) }
+    single<RemoteShowsDataSource> { RemoteShowsDataSourceImpl(get(), get(), get()) }
     single<RemoteNewsDataSource> { RemoteNewsDataSourceImpl(get(), get()) }
 }
 

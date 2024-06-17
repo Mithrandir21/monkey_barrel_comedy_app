@@ -48,6 +48,8 @@ kotlin {
             implementation(libs.coil.compose.core)
             implementation(libs.coil.network.ktor)
 
+            implementation(libs.kotlinx.datetime)
+
             implementation(project(":logging"))
             implementation(project(":common"))
             implementation(project(":domain"))
