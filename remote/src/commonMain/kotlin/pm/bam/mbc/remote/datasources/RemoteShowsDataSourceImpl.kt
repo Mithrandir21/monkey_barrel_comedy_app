@@ -58,7 +58,8 @@ internal class RemoteShowsDataSourceImpl(
                             status = it.status,
                             venue = it.venue,
                             start = remoteDateTimeParsing.parseRemoteDatabaseDateTime(it.start),
-                            end = remoteDateTimeParsing.parseRemoteDatabaseDateTime(it.end)
+                            end = remoteDateTimeParsing.parseRemoteDatabaseDateTime(it.end),
+                            statusNote = it.statusNote
                         )
                     }.sortedBy { it.start }
                 )
@@ -88,5 +89,7 @@ data class RemoteDatabaseShowSchedule(
     val status: RemoteEventStatus,
     val venue: RemoteShowVenues,
     val start: String,
-    val end: String
+    val end: String,
+    @SerialName("status_note")
+    val statusNote: String? = null
 )

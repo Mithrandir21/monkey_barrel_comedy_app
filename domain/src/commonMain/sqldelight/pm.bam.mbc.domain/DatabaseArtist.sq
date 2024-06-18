@@ -1,6 +1,7 @@
 CREATE TABLE DatabaseArtist (
     id INTEGER PRIMARY KEY NOT NULL,
-    name TEXT NOT NULL,
+    firstname TEXT NOT NULL,
+    lastname TEXT,
     description TEXT NOT NULL,
     images TEXT NOT NULL,
     genres TEXT NOT NULL,
@@ -27,7 +28,7 @@ WHERE id
 IN ?;
 
 insert:
-INSERT INTO DatabaseArtist(id, name, description, images, genres, showsIds, podcastsIds, blogPostsIds, externalLinks)
+INSERT INTO DatabaseArtist(id, firstname, lastname, description, images, genres, showsIds, podcastsIds, blogPostsIds, externalLinks)
 VALUES ?;
 
 delete:

@@ -34,7 +34,7 @@ private val basePodcastEpisode = PodcastEpisode(1, "name", "desc", listOf(), lis
 private val basePodcast = Podcast(1, "name", "desc", listOf(), listOf())
 
 private val artistFlow = MutableStateFlow<List<Artist>>(emptyList())
-private val baseArtist = Artist(1, "name", "desc", listOf(), listOf())
+private val baseArtist = Artist(1, "firstname", "lastname", "desc", listOf(), listOf())
 
 private val showFlow = MutableStateFlow<List<Show>>(emptyList())
 private val baseShow = Show(

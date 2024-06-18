@@ -97,7 +97,7 @@ private fun ScreenScaffold(
 
     val title = when (data) {
         ArtistScreenData.Loading, ArtistScreenData.Error -> stringResource(Res.string.artists_screen_loading_label)
-        is ArtistScreenData.Success -> data.artist.name
+        is ArtistScreenData.Success -> data.artist.getFullName()
     }
 
     MonkeyTheme {
@@ -180,7 +180,7 @@ private fun ArtistDetails(
         ) {
             AsyncImage(
                 model = data.artist.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.artists_screen_artists_image_content_description, data.artist.name),
+                contentDescription = stringResource(Res.string.artists_screen_artists_image_content_description, data.artist.getFullName()),
                 contentScale = ContentScale.Fit,
                 error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
                 modifier = Modifier
@@ -198,7 +198,7 @@ private fun ArtistDetails(
                         .padding(horizontal = MonkeyCustomTheme.spacing.small)
                         .testTag(ArtistDetailsTitleTag),
                     textAlign = TextAlign.Start,
-                    text = data.artist.name,
+                    text = data.artist.getFullName(),
                     style = MaterialTheme.typography.headlineSmall,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis

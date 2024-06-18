@@ -34,5 +34,6 @@ data class RemoteShowSchedule(
     val status: RemoteEventStatus,
     val venue: RemoteShowVenues,
     val start: LocalDateTime,
-    val end: LocalDateTime
+    val end: LocalDateTime,
+    val statusNote: String? = null
 )

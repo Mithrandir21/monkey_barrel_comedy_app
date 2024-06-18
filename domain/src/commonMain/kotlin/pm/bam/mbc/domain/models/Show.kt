@@ -38,7 +38,8 @@ data class ShowSchedule(
     val status: EventStatus,
     val venue: ShowVenues,
     val start: LocalDateTime,
-    val end: LocalDateTime
+    val end: LocalDateTime,
+    val statusNote: String? = null
 )
 
 @OptIn(ExperimentalSerializationApi::class)

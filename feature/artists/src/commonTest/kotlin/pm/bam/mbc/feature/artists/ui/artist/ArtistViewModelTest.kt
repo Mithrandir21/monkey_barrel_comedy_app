@@ -25,7 +25,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 private val artistFlow = MutableStateFlow<List<Artist>>(emptyList())
-private val baseArtist = Artist(1, "name", "desc", listOf("images"), listOf(Categories.COMEDY), listOf(1))
+private val baseArtist = Artist(1, "firstname", "lastname", "desc", listOf("images"), listOf(Categories.COMEDY), listOf(1))
 
 private val showFlow = MutableStateFlow<List<Show>>(emptyList())
 private val baseShow = Show(

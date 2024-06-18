@@ -33,7 +33,7 @@ private val baseShow = Show(
     )
 )
 private val artistFlow = MutableStateFlow<List<Artist>>(emptyList())
-private val baseArtist = Artist(1, "name", "desc", listOf("images"), listOf(Categories.COMEDY))
+private val baseArtist = Artist(1, "firstname", "lastname", "desc", listOf("images"), listOf(Categories.COMEDY))
 
 
 internal class ShowViewModelTest {

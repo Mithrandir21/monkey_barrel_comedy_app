@@ -11,13 +11,9 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -44,7 +40,6 @@ import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_arti
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_artists_image_content_description
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_data_loading_error_msg
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_data_loading_error_retry
-import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_navigation_back_button
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -172,7 +167,7 @@ private fun ArtistCard(
         Column {
             AsyncImage(
                 model = artist.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.artists_screen_artists_image_content_description, artist.name),
+                contentDescription = stringResource(Res.string.artists_screen_artists_image_content_description, artist.getFullName()),
                 contentScale = ContentScale.Fit,
                 error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
             )
@@ -180,7 +175,7 @@ private fun ArtistCard(
                 modifier = Modifier
                     .wrapContentSize()
                     .padding(MonkeyCustomTheme.spacing.medium),
-                text = artist.name,
+                text = artist.getFullName(),
                 style = MaterialTheme.typography.titleLarge,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

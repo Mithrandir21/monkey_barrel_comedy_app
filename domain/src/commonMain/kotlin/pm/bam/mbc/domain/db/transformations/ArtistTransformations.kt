@@ -10,7 +10,8 @@ import pmbammbcdomain.DatabaseArtist
 
 internal fun RemoteArtist.toDatabaseArtist(serializer: Serializer): DatabaseArtist = DatabaseArtist(
     id = id,
-    name = firstname,
+    firstname = firstname,
+    lastname = lastname,
     description = description,
     images = serializer.serialize(images),
     genres = serializer.serialize(genres),
@@ -22,7 +23,8 @@ internal fun RemoteArtist.toDatabaseArtist(serializer: Serializer): DatabaseArti
 
 internal fun DatabaseArtist.toArtist(serializer: Serializer): Artist = Artist(
     id = id,
-    name = name,
+    firstname = firstname,
+    lastname = lastname,
     description = description,
     images = serializer.deserialize(images),
     genres = serializer.deserialize(genres),

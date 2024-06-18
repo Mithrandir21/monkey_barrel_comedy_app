@@ -1,11 +1,11 @@
 package pm.bam.mbc.compose
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,15 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import monkeybarrelcomey.common.generated.resources.image_placeholder
 import monkeybarrelcomey.compose.generated.resources.Res
@@ -40,6 +37,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.domain.models.Artist
+import pm.bam.mbc.domain.models.EventStatus
 import pm.bam.mbc.domain.models.News
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.models.ShowSchedule
@@ -99,7 +97,7 @@ fun ArtistRow(
     ) {
         AsyncImage(
             model = artist.images.firstOrNull(),
-            contentDescription = stringResource(Res.string.artist_image_content_description, artist.name),
+            contentDescription = stringResource(Res.string.artist_image_content_description, artist.getFullName()),
             contentScale = ContentScale.Fit,
             error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
             modifier = Modifier
@@ -114,7 +112,7 @@ fun ArtistRow(
                     .fillMaxWidth()
                     .padding(horizontal = MonkeyCustomTheme.spacing.small),
                 textAlign = TextAlign.Start,
-                text = artist.name,
+                text = artist.getFullName(),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -181,6 +179,8 @@ fun ShowScheduleRow(
     showSchedule: ShowSchedule,
     onShowSelected: (showId: Long) -> Unit,
 ) {
+    val cancelled = showSchedule.status == EventStatus.CANCELLED
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -212,27 +212,65 @@ fun ShowScheduleRow(
                 text = showSchedule.start.month.name.take(3)
             )
         }
-        Column {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
-                textAlign = TextAlign.Start,
-                text = show.name,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
-                textAlign = TextAlign.Start,
-                text = showSchedule.venue.name,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f).padding(horizontal = MonkeyCustomTheme.spacing.small),
+            ) {
+                Text(
+                    modifier = Modifier.padding(horizontal = MonkeyCustomTheme.spacing.small),
+                    textAlign = TextAlign.Start,
+                    text = show.name,
+                    style = LocalTextStyle.current.let {
+                        if (cancelled) it.copy(textDecoration = TextDecoration.LineThrough) else it
+                    },
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    modifier = Modifier.padding(horizontal = MonkeyCustomTheme.spacing.small),
+                    textAlign = TextAlign.Start,
+                    text = showSchedule.venue.name,
+                    style = MaterialTheme.typography.labelSmall.let {
+                        if (cancelled) it.copy(textDecoration = TextDecoration.LineThrough) else it
+                    },
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            if (showSchedule.status != EventStatus.ACTIVE) {
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = MonkeyCustomTheme.spacing.large)
+                        .border(2.dp, MaterialTheme.colorScheme.error, RoundedCornerShape(4.dp))
+                        .padding(MonkeyCustomTheme.spacing.medium),
+                ) {
+                    Text(
+                        modifier = Modifier.wrapContentSize(),
+                        textAlign = TextAlign.Start,
+                        text = showSchedule.status.name,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        modifier = Modifier.wrapContentSize(),
+                        textAlign = TextAlign.Start,
+                        text = showSchedule.statusNote ?: "",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
         }
     }
 }
