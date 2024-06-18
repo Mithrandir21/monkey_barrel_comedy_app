@@ -22,7 +22,8 @@
     <string name="show_screen_show_image_content_description">%1$s Show image</string>
     <string name="show_screen_artists_image_content_description">%1$s Artist image</string>
 
-    <string name="show_screen_show_artists_label">Performing Comedians</string>
+    <string name="show_screen_show_dates_label">Dates</string>
+    <string name="show_screen_show_performers_label">Performers</string>
     <string name="show_screen_shows_label">Shows</string>
 
     <string name="show_screen_loading_label">Loading…</string>

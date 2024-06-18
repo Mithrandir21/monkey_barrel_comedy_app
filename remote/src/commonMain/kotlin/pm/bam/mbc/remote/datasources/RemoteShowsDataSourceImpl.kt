@@ -60,7 +60,7 @@ internal class RemoteShowsDataSourceImpl(
                             start = remoteDateTimeParsing.parseRemoteDatabaseDateTime(it.start),
                             end = remoteDateTimeParsing.parseRemoteDatabaseDateTime(it.end)
                         )
-                    }
+                    }.sortedBy { it.start }
                 )
             }
             .also { debug(logger) { "Remote DB Shows mapped Successfully" } }

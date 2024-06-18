@@ -51,8 +51,10 @@ import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_load
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_loading_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_navigation_back_button
+import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_dates_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_image_content_description
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_more_dates_label
+import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_performers_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_venues_label_plurals
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.pluralStringResource
@@ -67,6 +69,9 @@ import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.feature.shows.ui.show.ShowViewModel.ShowScreenData
+
+
+internal const val SHOW_SCHEDULE_LIMIT = 3
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -257,7 +262,10 @@ private fun ShowDetails(
 
 
         var tabIndex by remember { mutableStateOf(0) }
-        val tabs = listOf("Dates", "Performers")
+        val tabs = listOf(
+            stringResource(Res.string.show_screen_show_dates_label),
+            stringResource(Res.string.show_screen_show_performers_label)
+        )
         Column(modifier = Modifier.fillMaxWidth()) {
             TabRow(selectedTabIndex = tabIndex) {
                 tabs.forEachIndexed { index, title ->
@@ -292,7 +300,7 @@ private fun showSchedule(
     show: Show,
     goToSchedules: (showId: Long) -> Unit
 ) {
-    show.schedule.take(2).forEach {
+    show.schedule.take(SHOW_SCHEDULE_LIMIT).forEach {
         ShowScheduleRow(
             modifier = Modifier.testTag(ShowDetailsTag),
             show = show,
@@ -301,7 +309,7 @@ private fun showSchedule(
         )
     }
 
-    if (show.schedule.size > 2) {
+    if (show.schedule.size > SHOW_SCHEDULE_LIMIT) {
         FilledTonalButton(
             modifier = modifier
                 .wrapContentSize()
