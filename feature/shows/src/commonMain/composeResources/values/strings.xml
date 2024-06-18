@@ -26,6 +26,7 @@
     <string name="show_screen_shows_label">Shows</string>
 
     <string name="show_screen_loading_label">Loading…</string>
+    <string name="show_screen_show_more_dates_label">See all dates</string>
 
     <string name="show_screen_data_loading_error_msg">Something went wrong. Please try again.</string>
     <string name="show_screen_data_loading_error_retry">Retry</string>
@@ -34,5 +35,7 @@
         <item quantity="one">Venue: %1$s</item>
         <item quantity="other">Venues: %1$s</item>
     </plurals>
+
+    <string name="show_schedule_screen_empty_label">No schedule for this show</string>
 
 </resources>

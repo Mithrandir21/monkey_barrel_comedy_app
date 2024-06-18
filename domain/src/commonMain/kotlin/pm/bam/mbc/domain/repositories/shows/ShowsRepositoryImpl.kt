@@ -45,7 +45,14 @@ internal class ShowsRepositoryImpl(
         return showQueries.selectAll()
             .executeAsList()
             .map { it.toShow(serializer) }
-            .filter { show -> searchParameters.title?.let { show.name.contains(it, ignoreCase = true) } ?: true }
+            .filter { show ->
+                searchParameters.title?.let {
+                    when (searchParameters.titleExact) {
+                        true -> show.name == it
+                        else -> show.name.contains(it, ignoreCase = true)
+                    }
+                } ?: true
+            }
             .let { shows ->
                 searchParameters.venues.takeIf { it.isNotEmpty() }
                     ?.let { searchVenues -> shows.filter { show -> show.schedule.any { showSchedule -> searchVenues.contains(showSchedule.venue) } } }

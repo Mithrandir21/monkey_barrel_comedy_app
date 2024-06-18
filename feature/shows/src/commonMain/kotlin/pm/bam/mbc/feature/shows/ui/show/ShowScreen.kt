@@ -16,7 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,13 +25,18 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -46,8 +51,8 @@ import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_load
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_loading_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_navigation_back_button
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_artists_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_image_content_description
+import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_more_dates_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_venues_label_plurals
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.pluralStringResource
@@ -55,10 +60,12 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
+import pm.bam.mbc.compose.ArtistRow
+import pm.bam.mbc.compose.ShowScheduleRow
+import pm.bam.mbc.compose.ShowTags
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
-import pm.bam.mbc.compose.ArtistRow
-import pm.bam.mbc.compose.ShowTags
+import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.feature.shows.ui.show.ShowViewModel.ShowScreenData
 
 @OptIn(KoinExperimentalAPI::class)
@@ -68,6 +75,7 @@ internal fun ShowScreen(
     onBack: () -> Unit,
     goToArtists: (artistId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
+    goToSchedules: (showId: Long) -> Unit,
     viewModel: ShowViewModel = koinViewModel<ShowViewModel>()
 ) {
     viewModel.loadShowDetails(showId)
@@ -81,6 +89,7 @@ internal fun ShowScreen(
         onBack = onBack,
         goToArtists = goToArtists,
         goToWeb = goToWeb,
+        goToSchedules = goToSchedules,
         onRetry = onRetry
     )
 }
@@ -93,6 +102,7 @@ private fun ScreenScaffold(
     onBack: () -> Unit,
     goToArtists: (artistId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
+    goToSchedules: (showId: Long) -> Unit,
     onRetry: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -154,7 +164,7 @@ private fun ScreenScaffold(
                         }
                     }
 
-                    is ShowScreenData.Success -> ShowDetails(Modifier.padding(innerPadding), data, goToArtists, goToWeb)
+                    is ShowScreenData.Success -> ShowDetails(Modifier.padding(innerPadding), data, goToArtists, goToWeb, goToSchedules)
                 }
             }
         }
@@ -168,6 +178,7 @@ private fun ShowDetails(
     data: ShowScreenData.Success,
     goToArtists: (artistId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
+    goToSchedules: (showId: Long) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -244,22 +255,63 @@ private fun ShowDetails(
             text = data.show.description
         )
 
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = MonkeyCustomTheme.spacing.large),
-            textAlign = TextAlign.Start,
-            text = stringResource(Res.string.show_screen_show_artists_label),
-            style = MaterialTheme.typography.titleLarge,
+
+        var tabIndex by remember { mutableStateOf(0) }
+        val tabs = listOf("Dates", "Performers")
+        Column(modifier = Modifier.fillMaxWidth()) {
+            TabRow(selectedTabIndex = tabIndex) {
+                tabs.forEachIndexed { index, title ->
+                    Tab(text = { Text(title) },
+                        selected = tabIndex == index,
+                        onClick = { tabIndex = index }
+                    )
+                }
+            }
+            when (tabIndex) {
+                0 -> showSchedule(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    show = data.show,
+                    goToSchedules = goToSchedules
+                )
+
+                1 -> data.artists.forEach { artist ->
+                    ArtistRow(
+                        modifier = Modifier.testTag(ShowScreenArtistRowTag.plus(artist.id)),
+                        artist = artist,
+                        onViewArtist = goToArtists
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun showSchedule(
+    modifier: Modifier = Modifier,
+    show: Show,
+    goToSchedules: (showId: Long) -> Unit
+) {
+    show.schedule.take(2).forEach {
+        ShowScheduleRow(
+            modifier = Modifier.testTag(ShowDetailsTag),
+            show = show,
+            showSchedule = it,
+            onShowSelected = { /* TODO: Implement */ }
         )
+    }
 
-        HorizontalDivider()
-
-        data.artists.forEach { artist ->
-            ArtistRow(
-                modifier = Modifier.testTag(ShowScreenArtistRowTag.plus(artist.id)),
-                artist = artist,
-                onViewArtist = goToArtists
+    if (show.schedule.size > 2) {
+        FilledTonalButton(
+            modifier = modifier
+                .wrapContentSize()
+                .padding(MonkeyCustomTheme.spacing.large),
+            onClick = { goToSchedules(show.id) }
+        ) {
+            Text(
+                text = stringResource(Res.string.show_screen_show_more_dates_label),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }

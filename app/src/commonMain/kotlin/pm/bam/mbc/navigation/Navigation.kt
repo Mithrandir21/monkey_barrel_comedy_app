@@ -27,6 +27,7 @@ import pm.bam.mbc.navigation.NavigationScreens.PODCASTS_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.PODCAST_EPISODE_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.PODCAST_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.SHOWS_SCREEN
+import pm.bam.mbc.navigation.NavigationScreens.SHOW_SCHEDULE_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.SHOW_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.WEBVIEW_SCREEN
 
@@ -38,6 +39,7 @@ private object NavigationScreens {
     const val NEWS_ITEM_SCREEN = "newsItem"
     const val SHOW_SCREEN = "show"
     const val SHOWS_SCREEN = "shows"
+    const val SHOW_SCHEDULE_SCREEN = "showSchedule"
     const val BLOG_SCREEN = "blog"
     const val BLOG_POST_SCREEN = "blogPost"
     const val WEBVIEW_SCREEN = "webview"
@@ -70,6 +72,7 @@ internal object NavigationDestinations {
     const val NEWS_ITEM_ROUTE = "$NEWS_ITEM_SCREEN?$NEWS_ITEM_ID_ARG={$NEWS_ITEM_ID_ARG}"
     const val SHOW_ROUTE = "$SHOW_SCREEN?$SHOW_ID_ARG={$SHOW_ID_ARG}"
     const val SHOWS_ROUTE = SHOWS_SCREEN
+    const val SHOW_SCHEDULE_ROUTE = "$SHOW_SCHEDULE_SCREEN?$SHOW_ID_ARG={$SHOW_ID_ARG}"
     const val BLOG_ROUTE = BLOG_SCREEN
     const val BLOG_POST_ROUTE = "$BLOG_POST_SCREEN?$BLOG_ID_ARG={$BLOG_ID_ARG}"
     const val WEBVIEW_ROUTE = "$WEBVIEW_SCREEN?$WEB_URL_ARG={$WEB_URL_ARG}&$WEB_TITLE_ARG={$WEB_TITLE_ARG}"
@@ -125,6 +128,12 @@ internal class NavigationActions(private val navController: NavHostController) {
                 inclusive = true
             }
             launchSingleTop = true
+            restoreState = true
+        }
+    }
+
+    fun navigateToShowSchedule(showId: Long) {
+        navController.navigate("$SHOW_SCHEDULE_SCREEN?$SHOW_ID_ARG=${showId}") {
             restoreState = true
         }
     }
