@@ -35,7 +35,12 @@ internal class ScheduleViewModel(
             flowOf(showId)
                 .onStart { _uiState.emit(ScheduleScreenData.Loading) }
                 .map { showsRepository.getShow(it) }
-                .map { show -> ScheduleScreenData.Schedule(show, show.schedule) }
+                .map { show ->
+                    when (show.schedule.isEmpty()) {
+                        true -> ScheduleScreenData.Empty
+                        false -> ScheduleScreenData.Schedule(show, show.schedule)
+                    }
+                }
                 .onError { fatal(logger, it) }
                 .catch { _uiState.emit(ScheduleScreenData.Error) }
                 .collect { _uiState.emit(it) }
