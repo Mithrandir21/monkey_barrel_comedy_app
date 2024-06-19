@@ -201,6 +201,7 @@ fun ShowScheduleRow(
                 modifier = Modifier.wrapContentSize(),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineMedium,
+                color = Color.White,
                 fontWeight = FontWeight.Thin,
                 text = showSchedule.start.date.dayOfMonth.toString(),
             )
@@ -208,6 +209,7 @@ fun ShowScheduleRow(
                 modifier = Modifier.wrapContentSize(Alignment.TopCenter),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineSmall,
+                color = Color.White,
                 fontWeight = FontWeight.Bold,
                 text = showSchedule.start.month.name.take(3)
             )
@@ -265,9 +267,7 @@ fun ShowScheduleRow(
                         textAlign = TextAlign.Start,
                         text = showSchedule.statusNote ?: "",
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
