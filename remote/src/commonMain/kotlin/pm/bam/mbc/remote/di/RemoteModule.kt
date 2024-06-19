@@ -16,6 +16,8 @@ import pm.bam.mbc.remote.datasources.RemoteArtistDataSource
 import pm.bam.mbc.remote.datasources.RemoteArtistDataSourceImpl
 import pm.bam.mbc.remote.datasources.RemoteBlogDataSource
 import pm.bam.mbc.remote.datasources.RemoteBlogDataSourceImpl
+import pm.bam.mbc.remote.datasources.RemoteMerchDataSource
+import pm.bam.mbc.remote.datasources.RemoteMerchDataSourceImpl
 import pm.bam.mbc.remote.datasources.RemoteNewsDataSource
 import pm.bam.mbc.remote.datasources.RemoteNewsDataSourceImpl
 import pm.bam.mbc.remote.datasources.RemotePodcastDataSource
@@ -64,6 +66,7 @@ val remoteModule = module {
     single<RemotePodcastDataSource> { RemotePodcastDataSourceImpl(get(), get()) }
     single<RemoteShowsDataSource> { RemoteShowsDataSourceImpl(get(), get(), get()) }
     single<RemoteNewsDataSource> { RemoteNewsDataSourceImpl(get(), get()) }
+    single<RemoteMerchDataSource> { RemoteMerchDataSourceImpl(get(), get()) }
 }
 
 fun createKtorfit(client: HttpClient): Ktorfit = Ktorfit.Builder().httpClient(client).build()

@@ -1,0 +1,25 @@
+CREATE TABLE DatabaseMerch (
+    id INTEGER PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM DatabaseMerch;
+
+selectById:
+SELECT *
+FROM DatabaseMerch
+WHERE id = ?;
+
+insert:
+INSERT INTO DatabaseMerch(id, name, description)
+VALUES ?;
+
+delete:
+DELETE FROM DatabaseMerch
+WHERE id = ?;
+
+deleteAll:
+DELETE FROM DatabaseMerch;

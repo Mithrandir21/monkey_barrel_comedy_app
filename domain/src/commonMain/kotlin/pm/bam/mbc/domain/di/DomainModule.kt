@@ -10,6 +10,8 @@ import pm.bam.mbc.domain.repositories.artist.ArtistRepository
 import pm.bam.mbc.domain.repositories.artist.ArtistRepositoryImpl
 import pm.bam.mbc.domain.repositories.blog.BlogRepository
 import pm.bam.mbc.domain.repositories.blog.BlogRepositoryImpl
+import pm.bam.mbc.domain.repositories.merch.MerchRepository
+import pm.bam.mbc.domain.repositories.merch.MerchRepositoryImpl
 import pm.bam.mbc.domain.repositories.news.NewsRepository
 import pm.bam.mbc.domain.repositories.news.NewsRepositoryImpl
 import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
@@ -20,6 +22,8 @@ import pm.bam.mbc.logging.di.LoggingModule
 import pm.bam.mbc.remote.di.remoteModule
 import pmbammbcdomain.DatabaseArtistQueries
 import pmbammbcdomain.DatabaseBlogPostQueries
+import pmbammbcdomain.DatabaseMerchItemQueries
+import pmbammbcdomain.DatabaseMerchQueries
 import pmbammbcdomain.DatabaseNewsQueries
 import pmbammbcdomain.DatabasePodcastEpisodeQueries
 import pmbammbcdomain.DatabasePodcastQueries
@@ -39,10 +43,13 @@ val domainModule = module {
     single<DatabaseBlogPostQueries> { get<Database>().databaseBlogPostQueries }
     single<DatabasePodcastQueries> { get<Database>().databasePodcastQueries }
     single<DatabasePodcastEpisodeQueries> { get<Database>().databasePodcastEpisodeQueries }
+    single<DatabaseMerchQueries> { get<Database>().databaseMerchQueries }
+    single<DatabaseMerchItemQueries> { get<Database>().databaseMerchItemQueries }
 
     single<NewsRepository> { NewsRepositoryImpl(get(), get(), get()) }
     single<ArtistRepository> { ArtistRepositoryImpl(get(), get(), get()) }
     single<BlogRepository> { BlogRepositoryImpl(get(), get(), get()) }
     single<PodcastRepository> { PodcastRepositoryImpl(get(), get(), get(), get()) }
     single<ShowsRepository> { ShowsRepositoryImpl(get(), get(), get()) }
+    single<MerchRepository> { MerchRepositoryImpl(get(), get(), get(), get()) }
 }

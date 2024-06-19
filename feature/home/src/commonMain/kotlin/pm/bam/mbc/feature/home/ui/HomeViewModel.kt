@@ -20,6 +20,7 @@ import pm.bam.mbc.domain.models.News
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.repositories.artist.ArtistRepository
 import pm.bam.mbc.domain.repositories.blog.BlogRepository
+import pm.bam.mbc.domain.repositories.merch.MerchRepository
 import pm.bam.mbc.domain.repositories.news.NewsRepository
 import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
@@ -37,7 +38,8 @@ internal class HomeViewModel(
     private val showsRepository: ShowsRepository,
     private val artistRepository: ArtistRepository,
     private val podcastRepository: PodcastRepository,
-    private val blogRepository: BlogRepository
+    private val blogRepository: BlogRepository,
+    private val merchRepository: MerchRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeScreenData>(HomeScreenData.Loading)
@@ -89,6 +91,8 @@ internal class HomeViewModel(
             podcastRepository.refreshPodcasts()
             podcastRepository.refreshEpisodes()
             blogRepository.refreshBlogPosts()
+            merchRepository.refreshMerch()
+            merchRepository.refreshMerchItems()
         }
 
 

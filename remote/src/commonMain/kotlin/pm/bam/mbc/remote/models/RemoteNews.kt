@@ -11,6 +11,7 @@ data class RemoteNews(
     val images: List<String>,
     val types: List<RemoteNewsType>,
     val showIds: List<Long>? = null,
+    val merchIds: List<Long>? = null,
     val episodeIds: List<Long>? = null,
     val blogPostsIds: List<Long>? = null,
     val externalLinks: List<RemoteLink>? = null
@@ -20,5 +21,6 @@ enum class RemoteNewsType {
     COMEDY,
     STANDUP,
     BUSINESS,
-    PODCAST
+    PODCAST,
+    MERCH
 }

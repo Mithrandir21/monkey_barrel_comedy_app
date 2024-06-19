@@ -11,6 +11,7 @@ data class RemoteArtist(
     val images: List<String>,
     val genres: List<RemoteCategories>,
     val showsIds: List<Long>? = null,
+    val merchIds: List<Long>? = null,
     val podcastsEpisodeIds: List<Long>? = null,
     val blogPostsIds: List<Long>? = null,
     val externalLinks: List<RemoteLink>? = null

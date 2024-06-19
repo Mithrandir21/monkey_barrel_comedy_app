@@ -11,6 +11,7 @@ import pm.bam.mbc.logging.verbose
 import pm.bam.mbc.remote.models.EPISODE_IDS
 import pm.bam.mbc.remote.models.IDsWrapper
 import pm.bam.mbc.remote.models.LINKS
+import pm.bam.mbc.remote.models.MERCH_IDS
 import pm.bam.mbc.remote.models.RemoteLink
 import pm.bam.mbc.remote.models.RemoteNews
 import pm.bam.mbc.remote.models.RemoteNewsType
@@ -32,6 +33,7 @@ internal class RemoteNewsDataSourceImpl(
                             "images, " +
                             "types, " +
                             "$SHOWS_IDS, " +
+                            "$MERCH_IDS, " +
                             "$EPISODE_IDS, " +
                             LINKS
                 )
@@ -48,6 +50,7 @@ internal class RemoteNewsDataSourceImpl(
                     images = remoteNews.images,
                     types = remoteNews.types,
                     showIds = remoteNews.showIds.orEmpty().map { it.id }.ifEmpty { null },
+                    merchIds = remoteNews.merchIds.orEmpty().map { it.id }.ifEmpty { null },
                     episodeIds = remoteNews.episodeIds.orEmpty().map { it.id }.ifEmpty { null },
                     blogPostsIds = remoteNews.blogPostsIds,
                     externalLinks = remoteNews.links
@@ -67,6 +70,8 @@ private data class RemoteDatabaseNews(
     val types: List<RemoteNewsType>,
     @SerialName("show_ids")
     val showIds: List<IDsWrapper>? = null,
+    @SerialName("merch_ids")
+    val merchIds: List<IDsWrapper>? = null,
     @SerialName("episode_ids")
     val episodeIds: List<IDsWrapper>? = null,
     val blogPostsIds: List<Long>? = null,

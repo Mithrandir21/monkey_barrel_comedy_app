@@ -12,6 +12,7 @@ data class RemoteShow(
     val description: String,
     val categories: List<RemoteCategories>? = null,
     val artistIds: List<Long>? = null,
+    val merchIds: List<Long>? = null,
     val schedule: List<RemoteShowSchedule>
 )
 

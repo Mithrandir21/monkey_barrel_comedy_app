@@ -5,6 +5,7 @@ CREATE TABLE DatabaseNews (
     images TEXT NOT NULL,
     types TEXT NOT NULL,
     showsIds TEXT,
+    merchIds TEXT,
     podcastsIds TEXT,
     blogPostsIds TEXT,
     externalLinks TEXT
@@ -27,7 +28,7 @@ WHERE id
 IN ?;
 
 insert:
-INSERT INTO DatabaseNews(id, title, description, images, types, showsIds, podcastsIds, blogPostsIds, externalLinks)
+INSERT INTO DatabaseNews(id, title, description, images, types, showsIds, merchIds, podcastsIds, blogPostsIds, externalLinks)
 VALUES ?;
 
 delete:

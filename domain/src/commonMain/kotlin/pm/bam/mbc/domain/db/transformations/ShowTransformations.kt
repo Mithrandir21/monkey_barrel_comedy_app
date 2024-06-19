@@ -15,7 +15,8 @@ internal fun RemoteShow.toDatabaseShow(serializer: Serializer): DatabaseShow = D
     description = description,
     category = categories?.let { serializer.serialize(it) },
     artistIds = artistIds?.let { serializer.serialize(it) },
-    schedule = schedule.let { serializer.serialize(it) },
+    merchIds = merchIds?.let { serializer.serialize(it) },
+    schedule = schedule.let { serializer.serialize(it) }
 )
 
 internal fun DatabaseShow.toShow(serializer: Serializer): Show = Show(
@@ -26,5 +27,6 @@ internal fun DatabaseShow.toShow(serializer: Serializer): Show = Show(
     images = serializer.deserialize(images),
     category = category?.let { serializer.deserialize(it) },
     artistIds = artistIds?.let { serializer.deserialize(it) },
+    merchIds = merchIds?.let { serializer.deserialize(it) },
     schedule = serializer.deserialize(schedule)
 )

@@ -11,6 +11,7 @@ import pm.bam.mbc.logging.verbose
 import pm.bam.mbc.remote.datetime.RemoteDateTimeParsing
 import pm.bam.mbc.remote.models.ARTIST_IDS
 import pm.bam.mbc.remote.models.IDsWrapper
+import pm.bam.mbc.remote.models.MERCH_IDS
 import pm.bam.mbc.remote.models.RemoteCategories
 import pm.bam.mbc.remote.models.RemoteEventStatus
 import pm.bam.mbc.remote.models.RemoteShow
@@ -36,6 +37,7 @@ internal class RemoteShowsDataSourceImpl(
                             "images, " +
                             "categories, " +
                             "$ARTIST_IDS, " +
+                            "$MERCH_IDS, " +
                             SCHEDULE
                 ).also { verbose(logger) { "Remote DB Shows fetch columns: $it" } }
             )
@@ -52,6 +54,7 @@ internal class RemoteShowsDataSourceImpl(
                     description = remoteDatabaseShow.description,
                     categories = remoteDatabaseShow.categories,
                     artistIds = remoteDatabaseShow.artistIds.orEmpty().map { it.id }.ifEmpty { null },
+                    merchIds = remoteDatabaseShow.merchIds.orEmpty().map { it.id }.ifEmpty { null },
                     schedule = remoteDatabaseShow.schedule.map {
                         RemoteShowSchedule(
                             id = it.id,
@@ -80,6 +83,8 @@ private data class RemoteDatabaseShow(
     val categories: List<RemoteCategories>? = null,
     @SerialName("artist_ids")
     val artistIds: List<IDsWrapper>? = null,
+    @SerialName("merch_ids")
+    val merchIds: List<IDsWrapper>? = null,
     val schedule: List<RemoteDatabaseShowSchedule>
 )
 

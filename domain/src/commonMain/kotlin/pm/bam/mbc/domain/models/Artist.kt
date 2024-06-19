@@ -11,6 +11,7 @@ data class Artist(
     val images: List<String>,
     val genres: List<Categories>,
     val showsIds: List<Long>? = null,
+    val merchIds: List<Long>? = null,
     val podcastsIds: List<Long>? = null,
     val blogPostsIds: List<Long>? = null,
     val externalLinks: List<Link>? = null

@@ -6,7 +6,8 @@ CREATE TABLE DatabaseShow (
     description TEXT NOT NULL,
     schedule TEXT NOT NULL,
     category TEXT,
-    artistIds TEXT
+    artistIds TEXT,
+    merchIds TEXT
 );
 
 selectAll:
@@ -25,7 +26,7 @@ WHERE id
 IN ?;
 
 insert:
-INSERT INTO DatabaseShow(id, title, description, images, url, schedule, category, artistIds)
+INSERT INTO DatabaseShow(id, title, description, images, url, schedule, category, artistIds, merchIds)
 VALUES ?;
 
 delete:

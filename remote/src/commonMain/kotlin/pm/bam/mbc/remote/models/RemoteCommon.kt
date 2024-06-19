@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 // Used to in SupaBase Raw SQL queries for the Many-to-Many associated tables to get the IDs and other values of the associated entities.
 // https://supabase.com/docs/reference/kotlin/select
 internal const val SHOWS_IDS = "show_ids: show(id)"
+internal const val MERCH_IDS = "merch_ids: merch(id)"
 internal const val EPISODE_IDS = "episode_ids: episode(id)"
 internal const val ARTIST_IDS = "artist_ids: artist(id)"
 internal const val SCHEDULE = "schedule: show_schedule(*)"

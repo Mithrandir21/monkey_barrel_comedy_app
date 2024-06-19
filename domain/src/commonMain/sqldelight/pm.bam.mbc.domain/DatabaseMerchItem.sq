@@ -1,0 +1,33 @@
+CREATE TABLE DatabaseMerchItem (
+    id INTEGER PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT,
+    status TEXT NOT NULL,
+    itemTypes TEXT NOT NULL,
+    merchId INTEGER NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM DatabaseMerchItem;
+
+selectById:
+SELECT *
+FROM DatabaseMerchItem
+WHERE id = ?;
+
+selectByMerchId:
+SELECT *
+FROM DatabaseMerchItem
+WHERE merchId = ?;
+
+insert:
+INSERT INTO DatabaseMerchItem(id, name, description, status, itemTypes, merchId)
+VALUES ?;
+
+delete:
+DELETE FROM DatabaseMerchItem
+WHERE id = ?;
+
+deleteAll:
+DELETE FROM DatabaseMerchItem;

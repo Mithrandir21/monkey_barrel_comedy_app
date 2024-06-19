@@ -14,6 +14,7 @@ data class Show(
     val images: List<String>,
     val category: List<Categories>? = null,
     val artistIds: List<Long>? = null,
+    val merchIds: List<Long>? = null,
     val schedule: List<ShowSchedule>,
 )
 

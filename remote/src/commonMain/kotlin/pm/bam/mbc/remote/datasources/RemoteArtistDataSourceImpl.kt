@@ -11,6 +11,7 @@ import pm.bam.mbc.logging.verbose
 import pm.bam.mbc.remote.models.EPISODE_IDS
 import pm.bam.mbc.remote.models.IDsWrapper
 import pm.bam.mbc.remote.models.LINKS
+import pm.bam.mbc.remote.models.MERCH_IDS
 import pm.bam.mbc.remote.models.RemoteArtist
 import pm.bam.mbc.remote.models.RemoteCategories
 import pm.bam.mbc.remote.models.RemoteLink
@@ -33,6 +34,7 @@ class RemoteArtistDataSourceImpl(
                             "images, " +
                             "genres, " +
                             "$SHOWS_IDS, " +
+                            "$MERCH_IDS, " +
                             "$EPISODE_IDS, " +
                             LINKS
                 )
@@ -50,6 +52,7 @@ class RemoteArtistDataSourceImpl(
                     images = remoteDatabaseArtist.images,
                     genres = remoteDatabaseArtist.genres,
                     showsIds = remoteDatabaseArtist.showsIds.orEmpty().map { it.id }.ifEmpty { null },
+                    merchIds = remoteDatabaseArtist.merchIds.orEmpty().map { it.id }.ifEmpty { null },
                     podcastsEpisodeIds = remoteDatabaseArtist.podcastsEpisodeIds.orEmpty().map { it.id }.ifEmpty { null },
                     externalLinks = remoteDatabaseArtist.links
                 )
@@ -69,6 +72,8 @@ private data class RemoteDatabaseArtist(
     val genres: List<RemoteCategories>,
     @SerialName("show_ids")
     val showsIds: List<IDsWrapper>? = null,
+    @SerialName("merch_ids")
+    val merchIds: List<IDsWrapper>? = null,
     @SerialName("episode_ids")
     val podcastsEpisodeIds: List<IDsWrapper>? = null,
     val links: List<RemoteLink>? = null
