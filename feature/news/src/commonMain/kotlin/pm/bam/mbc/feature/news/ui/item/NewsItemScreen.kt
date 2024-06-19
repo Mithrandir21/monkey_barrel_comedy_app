@@ -50,9 +50,11 @@ import monkeybarrelcomey.feature.news.generated.resources.news_screen_news_image
 import monkeybarrelcomey.feature.news.generated.resources.news_screen_shows_label
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
+import pm.bam.mbc.common.datetime.formatting.DateTimeFormatter
 import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
@@ -65,7 +67,8 @@ internal fun NewsItemScreen(
     onBack: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
     goToWeb: (url: String, title: String) -> Unit,
-    viewModel: NewsItemViewModel = koinViewModel<NewsItemViewModel>()
+    viewModel: NewsItemViewModel = koinViewModel<NewsItemViewModel>(),
+    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
 ) {
     viewModel.loadNewsDetails(artistId)
 
@@ -78,7 +81,8 @@ internal fun NewsItemScreen(
         onBack = onBack,
         onViewShow = onViewShow,
         goToWeb = goToWeb,
-        onRetry = onRetry
+        onRetry = onRetry,
+        dateTimeFormatter = dateTimeFormatter
     )
 }
 
@@ -90,7 +94,8 @@ private fun ScreenScaffold(
     onBack: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    dateTimeFormatter: DateTimeFormatter
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -151,7 +156,7 @@ private fun ScreenScaffold(
                         }
                     }
 
-                    is NewsItemScreenData.Success -> NewsDetails(Modifier.padding(innerPadding), data, onViewShow, goToWeb)
+                    is NewsItemScreenData.Success -> NewsDetails(Modifier.padding(innerPadding), data, onViewShow, goToWeb, dateTimeFormatter)
                 }
             }
         }
@@ -165,6 +170,7 @@ private fun NewsDetails(
     data: NewsItemScreenData.Success,
     onViewShow: (showId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
+    dateTimeFormatter: DateTimeFormatter
 ) {
     Column(
         modifier = modifier
@@ -229,7 +235,8 @@ private fun NewsDetails(
                 ShowRow(
                     modifier = Modifier.testTag(NewsScreenNewsRowTag.plus(show.id)),
                     show = show,
-                    onShowSelected = onViewShow
+                    onShowSelected = onViewShow,
+                    dateTimeFormatter = dateTimeFormatter,
                 )
             }
         }

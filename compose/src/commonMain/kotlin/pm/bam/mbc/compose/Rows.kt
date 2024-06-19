@@ -35,6 +35,7 @@ import monkeybarrelcomey.compose.generated.resources.news_image_content_descript
 import monkeybarrelcomey.compose.generated.resources.show_image_content_description
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import pm.bam.mbc.common.datetime.formatting.DateTimeFormatter
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.domain.models.Artist
 import pm.bam.mbc.domain.models.EventStatus
@@ -126,6 +127,7 @@ fun ShowRow(
     modifier: Modifier = Modifier,
     show: Show,
     onShowSelected: (showId: Long) -> Unit,
+    dateTimeFormatter: DateTimeFormatter
 ) {
     Row(
         modifier = modifier
@@ -160,7 +162,7 @@ fun ShowRow(
                     .fillMaxWidth()
                     .padding(horizontal = MonkeyCustomTheme.spacing.small),
                 textAlign = TextAlign.Start,
-                text = show.schedule.first().start.date.toString(),
+                text = dateTimeFormatter.formatDateTimesFromTo(show.schedule.first().start, show.schedule.last().end),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,

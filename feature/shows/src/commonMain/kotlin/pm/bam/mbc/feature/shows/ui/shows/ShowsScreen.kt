@@ -41,9 +41,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.PlatformParagraphStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import monkeybarrelcomey.common.generated.resources.image_placeholder
 import monkeybarrelcomey.feature.shows.generated.resources.Res
@@ -56,9 +60,11 @@ import monkeybarrelcomey.feature.shows.generated.resources.show_screen_shows_lab
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
+import pm.bam.mbc.common.datetime.formatting.DateTimeFormatter
 import pm.bam.mbc.compose.BottomNavigation
 import pm.bam.mbc.compose.NavigationBarConfig
 import pm.bam.mbc.compose.ShowTags
@@ -76,7 +82,8 @@ import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenStatus.LOADIN
 internal fun ShowsScreen(
     bottomNavConfig: NavigationBarConfig,
     goToShow: (showId: Long) -> Unit,
-    viewModel: ShowsViewModel = koinViewModel<ShowsViewModel>()
+    viewModel: ShowsViewModel = koinViewModel<ShowsViewModel>(),
+    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
 ) {
     val data = viewModel.uiState.collectAsStateWithLifecycleFix()
 
@@ -130,7 +137,8 @@ internal fun ShowsScreen(
         bottomNavConfig = bottomNavConfig,
         searchConfig = showsSearchConfig,
         onViewShow = goToShow,
-        onRetry = onRetry
+        onRetry = onRetry,
+        dateTimeFormatter = dateTimeFormatter
     )
 
 
@@ -145,7 +153,8 @@ private fun Screen(
     bottomNavConfig: NavigationBarConfig,
     searchConfig: ShowsSearchConfig,
     onViewShow: (artistId: Long) -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    dateTimeFormatter: DateTimeFormatter
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -164,7 +173,8 @@ private fun Screen(
                         innerPadding = innerPadding,
                         data = data,
                         searchConfig = searchConfig,
-                        onViewShow = onViewShow
+                        onViewShow = onViewShow,
+                        dateTimeFormatter = dateTimeFormatter
                     )
                 }
             }
@@ -193,7 +203,8 @@ private fun ScreenData(
     innerPadding: PaddingValues,
     data: ShowsScreenData,
     searchConfig: ShowsSearchConfig,
-    onViewShow: (artistId: Long) -> Unit
+    onViewShow: (artistId: Long) -> Unit,
+    dateTimeFormatter: DateTimeFormatter
 ) {
     if (data.state == EMPTY) {
         showEmpty(Modifier.padding(innerPadding), searchConfig)
@@ -203,7 +214,7 @@ private fun ScreenData(
             columns = GridCells.Fixed(2),
             content = {
                 items(data.shows.size) { index ->
-                    ShowCard(data.shows[index], onViewShow)
+                    ShowCard(data.shows[index], onViewShow, dateTimeFormatter)
                 }
             }
         )
@@ -280,7 +291,8 @@ private fun showEmpty(
 @Composable
 private fun ShowCard(
     show: Show,
-    onViewShow: (artistId: Long) -> Unit
+    onViewShow: (artistId: Long) -> Unit,
+    dateTimeFormatter: DateTimeFormatter
 ) {
     Card(
         modifier = Modifier
@@ -301,7 +313,13 @@ private fun ShowCard(
                     .wrapContentSize()
                     .padding(MonkeyCustomTheme.spacing.medium),
                 text = show.name,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    lineHeight = MaterialTheme.typography.bodyLarge.fontSize,
+                    lineHeightStyle = LineHeightStyle(
+                        LineHeightStyle.Alignment.Bottom,
+                        LineHeightStyle.Trim.Both
+                    )
+                ),
                 fontWeight = FontWeight.Bold,
                 minLines = 2,
                 maxLines = 2,
@@ -312,27 +330,28 @@ private fun ShowCard(
                     .fillMaxWidth()
                     .padding(horizontal = MonkeyCustomTheme.spacing.medium),
                 textAlign = TextAlign.Start,
-                text = show.schedule.first().start.date.toString(),
-                style = MaterialTheme.typography.labelSmall,
+                text = dateTimeFormatter.formatDateTimesFromTo(show.schedule.first().start, show.schedule.first().end),
+                style = MaterialTheme.typography.labelMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
-            )
-
-            ShowTags(
-                modifier = Modifier.fillMaxWidth(),
-                show = show
             )
 
             val showVenues = show.schedule.distinctBy { it.venue }.map { it.venue }
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(MonkeyCustomTheme.spacing.medium),
+                    .padding(horizontal = MonkeyCustomTheme.spacing.medium),
                 textAlign = TextAlign.Start,
                 text = pluralStringResource(Res.plurals.show_screen_show_venues_label_plurals, showVenues.size, showVenues.joinToString(", ")),
                 style = MaterialTheme.typography.labelSmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
+            )
+
+            ShowTags(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(MonkeyCustomTheme.spacing.small),
+                show = show
             )
         }
     }

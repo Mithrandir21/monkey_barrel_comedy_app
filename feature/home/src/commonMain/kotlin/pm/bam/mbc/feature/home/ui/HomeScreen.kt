@@ -66,9 +66,11 @@ import monkeybarrelcomey.feature.home.generated.resources.podcast
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
+import pm.bam.mbc.common.datetime.formatting.DateTimeFormatter
 import pm.bam.mbc.compose.ArtistRow
 import pm.bam.mbc.compose.BottomNavigation
 import pm.bam.mbc.compose.NavigationBarConfig
@@ -86,7 +88,8 @@ internal fun HomeScreen(
     onViewArtist: (artistId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     goToBlog: () -> Unit,
-    viewModel: HomeViewModel = koinViewModel<HomeViewModel>()
+    viewModel: HomeViewModel = koinViewModel<HomeViewModel>(),
+    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
 ) {
     val data = viewModel.uiState.collectAsStateWithLifecycleFix()
 
@@ -97,7 +100,8 @@ internal fun HomeScreen(
         onViewArtist = onViewArtist,
         onViewShow = onViewShow,
         onViewBlogs = goToBlog,
-        onRetry = { viewModel.loadData() }
+        onRetry = { viewModel.loadData() },
+        dateTimeFormatter = dateTimeFormatter
     )
 }
 
@@ -109,7 +113,8 @@ private fun Screen(
     onViewArtist: (artistId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewBlogs: () -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    dateTimeFormatter: DateTimeFormatter
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -153,7 +158,8 @@ private fun Screen(
                             onViewNewsItem = onViewNewsItem,
                             onViewArtist = onViewArtist,
                             onViewShow = onViewShow,
-                            onViewBlogs = onViewBlogs
+                            onViewBlogs = onViewBlogs,
+                            dateTimeFormatter = dateTimeFormatter
                         )
                     }
                 }
@@ -171,6 +177,7 @@ private fun ScreenData(
     onViewArtist: (artistId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewBlogs: () -> Unit,
+    dateTimeFormatter: DateTimeFormatter
 ) {
     LazyColumn(
         modifier = modifier,
@@ -182,7 +189,8 @@ private fun ScreenData(
                     ShowRow(
                         modifier = Modifier.testTag(HomeScreenShowRowTag.plus(data.topUpcomingShows[index].id)),
                         show = data.topUpcomingShows[index],
-                        onShowSelected = onViewShow
+                        onShowSelected = onViewShow,
+                        dateTimeFormatter = dateTimeFormatter
                     )
                 }
             }

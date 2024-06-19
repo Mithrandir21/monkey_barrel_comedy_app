@@ -51,9 +51,11 @@ import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_po
 import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_show_label
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
+import pm.bam.mbc.common.datetime.formatting.DateTimeFormatter
 import pm.bam.mbc.compose.ArtistRow
 import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
@@ -68,7 +70,8 @@ internal fun PodcastEpisodeScreen(
     onBack: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewArtist: (artistId: Long) -> Unit,
-    viewModel: PodcastEpisodeViewModel = koinViewModel<PodcastEpisodeViewModel>()
+    viewModel: PodcastEpisodeViewModel = koinViewModel<PodcastEpisodeViewModel>(),
+    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
 ) {
     viewModel.loadPodcastEpisodeDetails(podcastEpisodeId)
 
@@ -81,7 +84,8 @@ internal fun PodcastEpisodeScreen(
         onBack = onBack,
         onViewShow = onViewShow,
         onViewArtist = onViewArtist,
-        onRetry = onRetry
+        onRetry = onRetry,
+        dateTimeFormatter = dateTimeFormatter
     )
 }
 
@@ -93,7 +97,8 @@ private fun ScreenScaffold(
     onBack: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewArtist: (artistId: Long) -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    dateTimeFormatter: DateTimeFormatter
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -154,7 +159,7 @@ private fun ScreenScaffold(
                         }
                     }
 
-                    is PodcastEpisodeScreenData.Success -> PodcastEpisodeDetails(Modifier.padding(innerPadding), data, onViewShow, onViewArtist)
+                    is PodcastEpisodeScreenData.Success -> PodcastEpisodeDetails(Modifier.padding(innerPadding), data, onViewShow, onViewArtist, dateTimeFormatter)
                 }
             }
         }
@@ -168,6 +173,7 @@ private fun PodcastEpisodeDetails(
     data: PodcastEpisodeScreenData.Success,
     onViewShow: (showId: Long) -> Unit,
     onViewArtist: (artistId: Long) -> Unit,
+    dateTimeFormatter: DateTimeFormatter
 ) {
     Column(
         modifier = modifier
@@ -234,7 +240,8 @@ private fun PodcastEpisodeDetails(
                 ShowRow(
                     modifier = Modifier.testTag(PodcastEpisodeScreenArtistRowTag.plus(it.id)),
                     show = it,
-                    onShowSelected = onViewShow
+                    onShowSelected = onViewShow,
+                    dateTimeFormatter = dateTimeFormatter
                 )
             }
         }

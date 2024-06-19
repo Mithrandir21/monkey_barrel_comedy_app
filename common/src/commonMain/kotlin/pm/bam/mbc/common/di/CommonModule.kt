@@ -2,6 +2,8 @@ package pm.bam.mbc.common.di
 
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
+import pm.bam.mbc.common.datetime.formatting.DateTimeFormatter
+import pm.bam.mbc.common.datetime.formatting.DateTimeFormatterImpl
 import pm.bam.mbc.common.serializer.Serializer
 import pm.bam.mbc.common.serializer.SerializerImpl
 
@@ -17,5 +19,6 @@ val commonModule = module {
     }
 
     single<Serializer> { SerializerImpl(get()) }
+    single<DateTimeFormatter> { DateTimeFormatterImpl() }
 
 }

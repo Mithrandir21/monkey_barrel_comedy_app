@@ -50,9 +50,11 @@ import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_navi
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_shows_label
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
+import pm.bam.mbc.common.datetime.formatting.DateTimeFormatter
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.compose.ShowRow
@@ -65,7 +67,8 @@ internal fun ArtistScreen(
     onBack: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
     goToWeb: (url: String, title: String) -> Unit,
-    viewModel: ArtistViewModel = koinViewModel<ArtistViewModel>()
+    viewModel: ArtistViewModel = koinViewModel<ArtistViewModel>(),
+    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
 ) {
     viewModel.loadArtistDetails(artistId)
 
@@ -78,7 +81,8 @@ internal fun ArtistScreen(
         onBack = onBack,
         onViewShow = onViewShow,
         goToWeb = goToWeb,
-        onRetry = onRetry
+        onRetry = onRetry,
+        dateTimeFormatter = dateTimeFormatter
     )
 }
 
@@ -90,7 +94,8 @@ private fun ScreenScaffold(
     onBack: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    dateTimeFormatter: DateTimeFormatter
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -151,7 +156,7 @@ private fun ScreenScaffold(
                         }
                     }
 
-                    is ArtistScreenData.Success -> ArtistDetails(Modifier.padding(innerPadding), data, onViewShow, goToWeb)
+                    is ArtistScreenData.Success -> ArtistDetails(Modifier.padding(innerPadding), data, onViewShow, goToWeb, dateTimeFormatter)
                 }
             }
         }
@@ -165,6 +170,7 @@ private fun ArtistDetails(
     data: ArtistScreenData.Success,
     onViewShow: (showId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
+    dateTimeFormatter: DateTimeFormatter
 ) {
     Column(
         modifier = modifier
@@ -228,7 +234,8 @@ private fun ArtistDetails(
             ShowRow(
                 modifier = Modifier.testTag(ArtistScreenArtistRowTag.plus(show.id)),
                 show = show,
-                onShowSelected = onViewShow
+                onShowSelected = onViewShow,
+                dateTimeFormatter = dateTimeFormatter,
             )
         }
     }
