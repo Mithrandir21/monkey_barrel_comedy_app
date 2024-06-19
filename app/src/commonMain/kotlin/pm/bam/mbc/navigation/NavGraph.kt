@@ -17,6 +17,7 @@ import pm.bam.mbc.feature.artists.navigation.artistsScreen
 import pm.bam.mbc.feature.blogs.navigation.blogPostScreen
 import pm.bam.mbc.feature.blogs.navigation.blogScreen
 import pm.bam.mbc.feature.home.navigation.homeScreen
+import pm.bam.mbc.feature.merch.navigation.merchScreen
 import pm.bam.mbc.feature.news.navigation.newsItemScreen
 import pm.bam.mbc.feature.news.navigation.newsScreen
 import pm.bam.mbc.feature.podcasts.navigation.podcastEpisodeScreen
@@ -159,6 +160,12 @@ internal fun NavGraph(
             onViewShow = { navActions.navigateToShow(it) },
             onViewArtist = { navActions.navigateToArtist(it) }
         )
+
+        merchScreen(
+            route = NavigationDestinations.MERCH_ROUTE,
+            bottomNavConfig = merchNavConfig,
+            onViewMerchItem = { /*navActions.navigateToMerchItem(it)*/ }
+        )
     }
 }
 
@@ -172,5 +179,5 @@ private fun createNavigationBarConfig(
     onShowsSelected = { navActions.navigateToShows() },
     onArtistsSelected = { navActions.navigateToArtists() },
     onPodcastsSelected = { navActions.navigateToPodcasts() },
-    onMerchSelected = { }
+    onMerchSelected = { navActions.navigateToMerch() }
 )

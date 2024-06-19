@@ -28,12 +28,12 @@ internal class MerchRepositoryImpl(
         merchQueries.selectAll()
             .asFlow()
             .mapToList(Dispatchers.IO)
-            .map { databaseMerch -> databaseMerch.map { it.toMerch() } }
+            .map { databaseMerch -> databaseMerch.map { it.toMerch(serializer) } }
 
     override fun getMerch(merchId: Long): Merch =
         merchQueries.selectById(merchId)
             .executeAsOne()
-            .toMerch()
+            .toMerch(serializer)
 
     override fun observeMerchItems(merchId: Long): Flow<List<MerchItem>> =
         merchItemQueries.selectByMerchId(merchId)
@@ -48,7 +48,7 @@ internal class MerchRepositoryImpl(
 
     override suspend fun refreshMerch() =
         remoteMerchDataSource.getAllMerch()
-            .map { it.toDatabaseMerch() }
+            .map { it.toDatabaseMerch(serializer) }
             .toList()
             .let { merch ->
                 merchQueries.transaction {

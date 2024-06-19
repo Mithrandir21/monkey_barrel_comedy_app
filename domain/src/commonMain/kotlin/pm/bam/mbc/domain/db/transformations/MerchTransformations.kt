@@ -10,16 +10,18 @@ import pm.bam.mbc.remote.models.RemoteMerchItem
 import pmbammbcdomain.DatabaseMerch
 import pmbammbcdomain.DatabaseMerchItem
 
-internal fun RemoteMerch.toDatabaseMerch(): DatabaseMerch = DatabaseMerch(
+internal fun RemoteMerch.toDatabaseMerch(serializer: Serializer): DatabaseMerch = DatabaseMerch(
     id = id,
     name = name,
-    description = description
+    description = description,
+    images = serializer.serialize(images)
 )
 
-internal fun DatabaseMerch.toMerch(): Merch = Merch(
+internal fun DatabaseMerch.toMerch(serializer: Serializer): Merch = Merch(
     id = id,
     name = name,
-    description = description
+    description = description,
+    images = serializer.deserialize(images)
 )
 
 

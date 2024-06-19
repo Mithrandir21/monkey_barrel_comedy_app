@@ -4,6 +4,7 @@ import androidx.navigation.NavHostController
 import pm.bam.mbc.navigation.NavigationDestinations.ARTISTS_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinations.BLOG_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinations.HOME_SCREEN_ROUTE
+import pm.bam.mbc.navigation.NavigationDestinations.MERCH_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinations.NEWS_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinations.PODCASTS_ROUTE
 import pm.bam.mbc.navigation.NavigationDestinations.SHOWS_ROUTE
@@ -21,6 +22,7 @@ import pm.bam.mbc.navigation.NavigationScreens.ARTIST_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.BLOG_POST_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.BLOG_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.HOME_SCREEN
+import pm.bam.mbc.navigation.NavigationScreens.MERCH_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.NEWS_ITEM_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.NEWS_SCREEN
 import pm.bam.mbc.navigation.NavigationScreens.PODCASTS_SCREEN
@@ -47,6 +49,7 @@ private object NavigationScreens {
     const val ARTIST_SCREEN = "artist"
     const val PODCASTS_SCREEN = "podcasts"
     const val PODCAST_SCREEN = "podcast"
+    const val MERCH_SCREEN = "merch"
     const val PODCAST_EPISODE_SCREEN = "podcastEpisode"
 }
 
@@ -81,6 +84,7 @@ internal object NavigationDestinations {
     const val PODCASTS_ROUTE = PODCASTS_SCREEN
     const val PODCAST_ROUTE = "$PODCAST_SCREEN?$PODCAST_ID_ARG={$PODCAST_ID_ARG}&$PODCAST_HEADER_TITLE_ARG={$PODCAST_HEADER_TITLE_ARG}"
     const val PODCAST_EPISODE_ROUTE = "$PODCAST_EPISODE_SCREEN?$PODCAST_EPISODE_ID_ARG={$PODCAST_EPISODE_ID_ARG}"
+    const val MERCH_ROUTE = MERCH_SCREEN
 }
 
 
@@ -192,6 +196,17 @@ internal class NavigationActions(private val navController: NavHostController) {
 
     fun navigateToPodcastEpisode(podcastEpisodeId: Long) {
         navController.navigate("$PODCAST_EPISODE_SCREEN?$PODCAST_EPISODE_ID_ARG=${podcastEpisodeId}") {
+            restoreState = true
+        }
+    }
+
+    fun navigateToMerch() {
+        navController.navigate(MERCH_ROUTE) {
+            popUpTo(HOME_SCREEN_ROUTE) {
+                saveState = true
+                inclusive = true
+            }
+            launchSingleTop = true
             restoreState = true
         }
     }

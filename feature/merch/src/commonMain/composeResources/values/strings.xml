@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="merch_screen_navigation_back_button">Back</string>
+
+    <string name="merch_screen_merch_header_label">Merchandise</string>
+    <string name="merch_screen_merch_image_content_description">%1$s Merchandise image</string>
+
+    <string name="merch_screen_loading_label">Loading…</string>
+
+    <string name="merch_screen_data_loading_error_msg">Something went wrong. Please try again.</string>
+    <string name="merch_screen_data_loading_error_retry">Retry</string>
+
+</resources>

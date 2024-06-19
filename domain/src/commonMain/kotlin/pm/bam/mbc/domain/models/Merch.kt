@@ -6,7 +6,8 @@ import kotlinx.serialization.Serializable
 data class Merch(
     val id: Long,
     val name: String,
-    val description: String
+    val description: String,
+    val images: List<String>
 )
 
 

@@ -7,7 +7,8 @@ import kotlinx.serialization.Serializable
 data class RemoteMerch(
     val id: Long,
     val name: String,
-    val description: String
+    val description: String,
+    val images: List<String>
 )
 
 
