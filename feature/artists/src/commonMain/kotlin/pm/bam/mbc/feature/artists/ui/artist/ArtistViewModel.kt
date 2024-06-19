@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -20,8 +19,10 @@ import pm.bam.mbc.common.delayOnStart
 import pm.bam.mbc.common.onError
 import pm.bam.mbc.common.toFlow
 import pm.bam.mbc.domain.models.Artist
+import pm.bam.mbc.domain.models.Merch
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.repositories.artist.ArtistRepository
+import pm.bam.mbc.domain.repositories.merch.MerchRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
 import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.logging.fatal
@@ -30,7 +31,8 @@ import pm.bam.mbc.logging.fatal
 internal class ArtistViewModel(
     private val logger: Logger,
     private val artistRepository: ArtistRepository,
-    private val showsRepository: ShowsRepository
+    private val showsRepository: ShowsRepository,
+    private val merchRepository: MerchRepository
 ) : ViewModel() {
 
     // We store and react to the artistId changes so that only a single 'artist' flow can exists
@@ -66,10 +68,12 @@ internal class ArtistViewModel(
         flowOf(artistId)
             .flatMapLatest { artistRepository.getArtist(it).toFlow() }
             .flatMapLatest<Artist, ArtistScreenData> { artist ->
-                artist.showsIds?.let { showsRepository.getShows(*it.toLongArray()) }
-                    ?.toFlow()
-                    ?.map { ArtistScreenData.Success(artist, it) }
-                    ?: flowOf(ArtistScreenData.Success(artist))
+                val shows = artist.showsIds?.let { showsRepository.getShows(*it.toLongArray()) }
+                    ?.sortedBy { it.schedule.first().start }
+                    ?: listOf()
+                val merch = artist.merchIds?.let { merchRepository.getMerch(*it.toLongArray()) } ?: listOf()
+
+                ArtistScreenData.Success(artist, shows, merch).toFlow()
             }
             .onStart { _uiState.emit(ArtistScreenData.Loading) }
             .onError { fatal(logger, it) }
@@ -83,7 +87,8 @@ internal class ArtistViewModel(
         data object Error : ArtistScreenData()
         data class Success(
             val artist: Artist,
-            val shows: List<Show> = listOf()
+            val shows: List<Show> = listOf(),
+            val merch: List<Merch> = listOf()
         ) : ArtistScreenData()
     }
 }

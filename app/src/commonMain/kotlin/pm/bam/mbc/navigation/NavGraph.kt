@@ -93,7 +93,8 @@ internal fun NavGraph(
             showIdArg = NavigationDestinationsArgs.SHOW_ID_ARG,
             goToArtists = { navActions.navigateToArtist(it) },
             goToWeb = { url: String, title: String -> navActions.navigateToWeb(url, title) },
-            goToSchedules = { navActions.navigateToShowSchedule(it) }
+            goToSchedules = { navActions.navigateToShowSchedule(it) },
+            goToMerch = { /*navActions.navigateToMerchItem(it)*/ }
         )
 
         showsScreen(
@@ -136,6 +137,7 @@ internal fun NavGraph(
             route = NavigationDestinations.ARTIST_ROUTE,
             artistIdArg = NavigationDestinationsArgs.ARTIST_ID_ARG,
             onViewShow = { navActions.navigateToShow(it) },
+            onViewMerch = { /*navActions.navigateToMerchItem(it)*/ },
             goToWeb = { url: String, title: String -> navActions.navigateToWeb(url, title) }
         )
 

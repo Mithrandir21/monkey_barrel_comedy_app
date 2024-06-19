@@ -39,6 +39,7 @@ import pm.bam.mbc.common.datetime.formatting.DateTimeFormatter
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.domain.models.Artist
 import pm.bam.mbc.domain.models.EventStatus
+import pm.bam.mbc.domain.models.Merch
 import pm.bam.mbc.domain.models.News
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.models.ShowSchedule
@@ -273,6 +274,44 @@ fun ShowScheduleRow(
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun MerchRow(
+    modifier: Modifier = Modifier,
+    merch: Merch,
+    onMerchSelected: (merchId: Long) -> Unit
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onMerchSelected(merch.id) }
+            .padding(vertical = MonkeyCustomTheme.spacing.small),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AsyncImage(
+            model = merch.images.firstOrNull(),
+            contentDescription = stringResource(Res.string.artist_image_content_description, merch.name),
+            contentScale = ContentScale.Fit,
+            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+            modifier = Modifier
+                .padding(MonkeyCustomTheme.spacing.small)
+                .height(60.dp)
+                .width(100.dp)
+                .clip(RoundedCornerShape(MonkeyCustomTheme.spacing.extraSmall))
+        )
+        Column {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
+                textAlign = TextAlign.Start,
+                text = merch.name,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }

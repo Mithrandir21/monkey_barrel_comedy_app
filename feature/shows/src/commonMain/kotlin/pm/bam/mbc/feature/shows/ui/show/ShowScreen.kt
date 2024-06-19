@@ -53,6 +53,7 @@ import monkeybarrelcomey.feature.shows.generated.resources.show_screen_loading_l
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_navigation_back_button
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_dates_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_image_content_description
+import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_merch_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_more_dates_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_performers_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_venues_label_plurals
@@ -63,6 +64,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.compose.ArtistRow
+import pm.bam.mbc.compose.MerchRow
 import pm.bam.mbc.compose.ShowScheduleRow
 import pm.bam.mbc.compose.ShowTags
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
@@ -81,6 +83,7 @@ internal fun ShowScreen(
     goToArtists: (artistId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
     goToSchedules: (showId: Long) -> Unit,
+    goToMerch: (merchId: Long) -> Unit,
     viewModel: ShowViewModel = koinViewModel<ShowViewModel>()
 ) {
     viewModel.loadShowDetails(showId)
@@ -95,6 +98,7 @@ internal fun ShowScreen(
         goToArtists = goToArtists,
         goToWeb = goToWeb,
         goToSchedules = goToSchedules,
+        goToMerch = goToMerch,
         onRetry = onRetry
     )
 }
@@ -108,6 +112,7 @@ private fun ScreenScaffold(
     goToArtists: (artistId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
     goToSchedules: (showId: Long) -> Unit,
+    goToMerch: (merchId: Long) -> Unit,
     onRetry: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -169,7 +174,7 @@ private fun ScreenScaffold(
                         }
                     }
 
-                    is ShowScreenData.Success -> ShowDetails(Modifier.padding(innerPadding), data, goToArtists, goToWeb, goToSchedules)
+                    is ShowScreenData.Success -> ShowDetails(Modifier.padding(innerPadding), data, goToArtists, goToWeb, goToSchedules, goToMerch)
                 }
             }
         }
@@ -184,6 +189,7 @@ private fun ShowDetails(
     goToArtists: (artistId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
     goToSchedules: (showId: Long) -> Unit,
+    goToMerch: (merchId: Long) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -251,10 +257,19 @@ private fun ShowDetails(
 
 
         var tabIndex by remember { mutableStateOf(0) }
-        val tabs = listOf(
-            stringResource(Res.string.show_screen_show_dates_label),
-            stringResource(Res.string.show_screen_show_performers_label)
+        val tabs = mutableListOf(
+            stringResource(Res.string.show_screen_show_dates_label)
         )
+
+        if(data.artists.isNotEmpty()) {
+            tabs.add(stringResource(Res.string.show_screen_show_performers_label))
+        }
+
+        if(data.merch.isNotEmpty()) {
+            tabs.add(stringResource(Res.string.show_screen_show_merch_label))
+        }
+
+
         Column(modifier = Modifier.fillMaxWidth()) {
             TabRow(selectedTabIndex = tabIndex) {
                 tabs.forEachIndexed { index, title ->
@@ -276,6 +291,14 @@ private fun ShowDetails(
                         modifier = Modifier.testTag(ShowScreenArtistRowTag.plus(artist.id)),
                         artist = artist,
                         onViewArtist = goToArtists
+                    )
+                }
+
+                2 -> data.merch.forEach { artist ->
+                    MerchRow(
+                        modifier = Modifier.testTag(ShowScreenMerchRowTag.plus(artist.id)),
+                        merch = artist,
+                        onMerchSelected = goToMerch
                     )
                 }
             }
@@ -324,3 +347,4 @@ internal const val ShowDetailsTitleTag = "ShowDetailsTitleTag"
 
 internal const val ShowTag = "ShowTagTag"
 internal const val ShowScreenArtistRowTag = "ShowScreenArtistRowTag"
+internal const val ShowScreenMerchRowTag = "ShowScreenMerchRowTag"

@@ -10,6 +10,8 @@ interface MerchRepository {
 
     fun getMerch(merchId: Long): Merch
 
+    fun getMerch(vararg merchId: Long): List<Merch>
+
     fun observeMerchItems(merchId: Long): Flow<List<MerchItem>>
 
     fun getMerchItem(merchItemId: Long): MerchItem

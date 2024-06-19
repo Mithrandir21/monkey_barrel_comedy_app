@@ -13,6 +13,7 @@ import pm.bam.mbc.domain.db.transformations.toMerch
 import pm.bam.mbc.domain.db.transformations.toMerchItem
 import pm.bam.mbc.domain.models.Merch
 import pm.bam.mbc.domain.models.MerchItem
+import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.remote.datasources.RemoteMerchDataSource
 import pmbammbcdomain.DatabaseMerchItemQueries
 import pmbammbcdomain.DatabaseMerchQueries
@@ -34,6 +35,11 @@ internal class MerchRepositoryImpl(
         merchQueries.selectById(merchId)
             .executeAsOne()
             .toMerch(serializer)
+
+    override fun getMerch(vararg merchId: Long): List<Merch> =
+        merchQueries.selectByIds(merchId.toList())
+            .executeAsList()
+            .map { it.toMerch(serializer) }
 
     override fun observeMerchItems(merchId: Long): Flow<List<MerchItem>> =
         merchItemQueries.selectByMerchId(merchId)

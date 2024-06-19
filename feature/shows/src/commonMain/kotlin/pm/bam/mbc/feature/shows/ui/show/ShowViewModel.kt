@@ -20,8 +20,10 @@ import pm.bam.mbc.common.delayOnStart
 import pm.bam.mbc.common.onError
 import pm.bam.mbc.common.toFlow
 import pm.bam.mbc.domain.models.Artist
+import pm.bam.mbc.domain.models.Merch
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.repositories.artist.ArtistRepository
+import pm.bam.mbc.domain.repositories.merch.MerchRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
 import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.logging.fatal
@@ -30,7 +32,8 @@ import pm.bam.mbc.logging.fatal
 internal class ShowViewModel(
     private val logger: Logger,
     private val showsRepository: ShowsRepository,
-    private val artistRepository: ArtistRepository
+    private val artistRepository: ArtistRepository,
+    private val merchRepository: MerchRepository
 ) : ViewModel() {
 
     // We store and react to the ShowId changes so that only a single 'show' flow can exists
@@ -66,10 +69,10 @@ internal class ShowViewModel(
         flowOf(showId)
             .flatMapLatest { showsRepository.getShow(it).toFlow() }
             .flatMapLatest<Show, ShowScreenData> { show ->
-                show.artistIds?.let { artistRepository.getArtists(*it.toLongArray()) }
-                    ?.toFlow()
-                    ?.map { ShowScreenData.Success(show, it) }
-                    ?: flowOf(ShowScreenData.Success(show))
+                val artists = show.artistIds?.let { artistRepository.getArtists(*it.toLongArray()) } ?: listOf()
+                val merch = show.merchIds?.let { merchRepository.getMerch(*it.toLongArray()) } ?: listOf()
+
+                ShowScreenData.Success(show, artists, merch).toFlow()
             }
             .onStart { _uiState.emit(ShowScreenData.Loading) }
             .onError { fatal(logger, it) }
@@ -83,7 +86,8 @@ internal class ShowViewModel(
         data object Error : ShowScreenData()
         data class Success(
             val show: Show,
-            val artists: List<Artist> = listOf()
+            val artists: List<Artist> = listOf(),
+            val merch: List<Merch> = listOf()
         ) : ShowScreenData()
     }
 }

@@ -13,7 +13,7 @@ import pm.bam.mbc.logging.di.LoggingModule
 val ShowsModule = module {
     includes(LoggingModule, domainModule, domainPlatformModule, commonModule)
 
-    viewModel<ShowViewModel> { ShowViewModel(get(), get(), get()) }
+    viewModel<ShowViewModel> { ShowViewModel(get(), get(), get(), get()) }
     viewModel<ShowsViewModel> { ShowsViewModel(get(), get()) }
     viewModel<ScheduleViewModel> { ScheduleViewModel(get(), get()) }
 }

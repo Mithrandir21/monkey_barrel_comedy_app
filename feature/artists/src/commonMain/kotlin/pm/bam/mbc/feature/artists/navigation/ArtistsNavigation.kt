@@ -28,6 +28,7 @@ fun NavGraphBuilder.artistScreen(
     route: String,
     artistIdArg: String,
     onViewShow: (showId: Long) -> Unit,
+    onViewMerch: (merchId: Long) -> Unit,
     goToWeb: (url: String, title: String) -> Unit
 ) {
     composable(
@@ -38,6 +39,7 @@ fun NavGraphBuilder.artistScreen(
             artistId = entry.arguments?.getLong(artistIdArg)!!,
             onBack = { navController.popBackStack() },
             onViewShow = onViewShow,
+            onViewMerch = onViewMerch,
             goToWeb = goToWeb
         )
     }

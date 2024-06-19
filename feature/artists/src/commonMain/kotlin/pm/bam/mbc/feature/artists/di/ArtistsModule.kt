@@ -12,6 +12,6 @@ import pm.bam.mbc.logging.di.LoggingModule
 val ArtistsModule = module {
     includes(LoggingModule, domainModule, domainPlatformModule, commonModule)
 
-    viewModel<ArtistViewModel> { ArtistViewModel(get(), get(), get()) }
+    viewModel<ArtistViewModel> { ArtistViewModel(get(), get(), get(), get()) }
     viewModel<ArtistsViewModel> { ArtistsViewModel(get(), get()) }
 }

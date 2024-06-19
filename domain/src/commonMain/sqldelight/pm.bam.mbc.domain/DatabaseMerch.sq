@@ -14,6 +14,12 @@ SELECT *
 FROM DatabaseMerch
 WHERE id = ?;
 
+selectByIds:
+SELECT *
+FROM DatabaseMerch
+WHERE id
+IN ?;
+
 insert:
 INSERT INTO DatabaseMerch(id, name, description, images)
 VALUES ?;

@@ -25,13 +25,18 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -46,6 +51,7 @@ import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_arti
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_data_loading_error_msg
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_loading_label
+import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_merch_label
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_navigation_back_button
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_shows_label
 import org.jetbrains.compose.resources.painterResource
@@ -55,9 +61,12 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.common.datetime.formatting.DateTimeFormatter
+import pm.bam.mbc.compose.ArtistRow
+import pm.bam.mbc.compose.MerchRow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.compose.ShowRow
+import pm.bam.mbc.domain.models.Merch
 import pm.bam.mbc.feature.artists.ui.artist.ArtistViewModel.ArtistScreenData
 
 @OptIn(KoinExperimentalAPI::class)
@@ -66,6 +75,7 @@ internal fun ArtistScreen(
     artistId: Long,
     onBack: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
+    onViewMerch: (merchId: Long) -> Unit,
     goToWeb: (url: String, title: String) -> Unit,
     viewModel: ArtistViewModel = koinViewModel<ArtistViewModel>(),
     dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
@@ -80,6 +90,7 @@ internal fun ArtistScreen(
         data = data.value,
         onBack = onBack,
         onViewShow = onViewShow,
+        onViewMerch = onViewMerch,
         goToWeb = goToWeb,
         onRetry = onRetry,
         dateTimeFormatter = dateTimeFormatter
@@ -93,6 +104,7 @@ private fun ScreenScaffold(
     data: ArtistScreenData,
     onBack: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
+    onViewMerch: (merchId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
     onRetry: () -> Unit,
     dateTimeFormatter: DateTimeFormatter
@@ -156,7 +168,7 @@ private fun ScreenScaffold(
                         }
                     }
 
-                    is ArtistScreenData.Success -> ArtistDetails(Modifier.padding(innerPadding), data, onViewShow, goToWeb, dateTimeFormatter)
+                    is ArtistScreenData.Success -> ArtistDetails(Modifier.padding(innerPadding), data, onViewShow, onViewMerch, goToWeb, dateTimeFormatter)
                 }
             }
         }
@@ -169,6 +181,7 @@ private fun ArtistDetails(
     modifier: Modifier,
     data: ArtistScreenData.Success,
     onViewShow: (showId: Long) -> Unit,
+    onViewMerch: (merchId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
     dateTimeFormatter: DateTimeFormatter
 ) {
@@ -219,24 +232,38 @@ private fun ArtistDetails(
             text = data.artist.description
         )
 
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = MonkeyCustomTheme.spacing.large),
-            textAlign = TextAlign.Start,
-            text = stringResource(Res.string.artists_screen_shows_label),
-            style = MaterialTheme.typography.titleLarge,
+        var tabIndex by remember { mutableStateOf(0) }
+        val tabs = listOf(
+            stringResource(Res.string.artists_screen_shows_label),
+            stringResource(Res.string.artists_screen_merch_label)
         )
+        Column(modifier = Modifier.fillMaxWidth()) {
+            TabRow(selectedTabIndex = tabIndex) {
+                tabs.forEachIndexed { index, title ->
+                    Tab(text = { Text(title) },
+                        selected = tabIndex == index,
+                        onClick = { tabIndex = index }
+                    )
+                }
+            }
+            when (tabIndex) {
+                0 -> data.shows.forEach { show ->
+                    ShowRow(
+                        modifier = Modifier.testTag(ArtistScreenArtistRowTag.plus(show.id)),
+                        show = show,
+                        onShowSelected = onViewShow,
+                        dateTimeFormatter = dateTimeFormatter,
+                    )
+                }
 
-        HorizontalDivider()
-
-        data.shows.forEach { show ->
-            ShowRow(
-                modifier = Modifier.testTag(ArtistScreenArtistRowTag.plus(show.id)),
-                show = show,
-                onShowSelected = onViewShow,
-                dateTimeFormatter = dateTimeFormatter,
-            )
+                1 -> data.merch.forEach { merch ->
+                    MerchRow(
+                        modifier = Modifier.testTag(ArtistScreenMerchRowTag.plus(merch.id)),
+                        merch = merch,
+                        onMerchSelected = onViewMerch
+                    )
+                }
+            }
         }
     }
 }
@@ -251,3 +278,4 @@ internal const val ArtistDetailsTitleTag = "ArtistDetailsTitleTag"
 
 internal const val ArtistTag = "ArtistTagTag"
 internal const val ArtistScreenArtistRowTag = "ArtistScreenArtistRowTag"
+internal const val ArtistScreenMerchRowTag = "ArtistScreenMerchRowTag"

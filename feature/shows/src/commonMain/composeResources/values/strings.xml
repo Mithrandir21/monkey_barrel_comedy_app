@@ -24,6 +24,7 @@
 
     <string name="show_screen_show_dates_label">Dates</string>
     <string name="show_screen_show_performers_label">Performers</string>
+    <string name="show_screen_show_merch_label">Merch</string>
     <string name="show_screen_shows_label">Shows</string>
 
     <string name="show_screen_loading_label">Loading…</string>

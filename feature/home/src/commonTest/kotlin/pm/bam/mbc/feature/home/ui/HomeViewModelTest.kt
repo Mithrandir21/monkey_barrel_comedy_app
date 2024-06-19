@@ -15,14 +15,20 @@ import pm.bam.mbc.domain.models.Artist
 import pm.bam.mbc.domain.models.BlogPost
 import pm.bam.mbc.domain.models.Categories
 import pm.bam.mbc.domain.models.EventStatus
+import pm.bam.mbc.domain.models.Merch
+import pm.bam.mbc.domain.models.MerchItem
+import pm.bam.mbc.domain.models.MerchItemStatus
+import pm.bam.mbc.domain.models.MerchItemType
 import pm.bam.mbc.domain.models.News
 import pm.bam.mbc.domain.models.Podcast
+import pm.bam.mbc.domain.models.PodcastEpisode
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.models.ShowSchedule
 import pm.bam.mbc.domain.models.ShowSearchParameters
 import pm.bam.mbc.domain.models.ShowVenues
 import pm.bam.mbc.domain.repositories.artist.ArtistRepository
 import pm.bam.mbc.domain.repositories.blog.BlogRepository
+import pm.bam.mbc.domain.repositories.merch.MerchRepository
 import pm.bam.mbc.domain.repositories.news.NewsRepository
 import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
@@ -51,6 +57,12 @@ private val baseShow = Show(1, "name", "desc", "url", listOf("images"), listOf(C
 private val blogFlow = MutableStateFlow<List<BlogPost>>(emptyList())
 private val baseBlogPost = BlogPost(1, "name", "desc", listOf("images"), listOf("tags"), "author", "date")
 
+private val merchFlow = MutableStateFlow<List<Merch>>(emptyList())
+private val baseMerch = Merch(1, "name", "desc", listOf("images"))
+
+private val merchItemFlow = MutableStateFlow<List<MerchItem>>(emptyList())
+private val baseMerchItem = MerchItem(1, "name", "desc", MerchItemStatus.IN_STOCK, listOf(MerchItemType.VINYL), 1)
+
 
 internal class HomeViewModelTest {
 
@@ -64,7 +76,7 @@ internal class HomeViewModelTest {
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
 
-        viewModel = HomeViewModel(logger, FakeNewsRepository(), FakeShowsRepository(), FakeArtistRepository(), FakePodcastRepository(), FakeBlogRepository())
+        viewModel = HomeViewModel(logger, FakeNewsRepository(), FakeShowsRepository(), FakeArtistRepository(), FakePodcastRepository(), FakeBlogRepository(), FakeMerchRepository())
     }
 
     @Test
@@ -93,7 +105,7 @@ internal class HomeViewModelTest {
     fun `error state`() = runTest {
         viewModel = HomeViewModel(logger, FakeNewsRepository(), object : FakeShowsRepository() {
             override fun observeShows(): Flow<List<Show>> = throw Exception()
-        }, FakeArtistRepository(), FakePodcastRepository(), FakeBlogRepository())
+        }, FakeArtistRepository(), FakePodcastRepository(), FakeBlogRepository(), FakeMerchRepository())
 
         viewModel.loadData()
 
@@ -141,4 +153,14 @@ private open class FakeBlogRepository : BlogRepository {
     override fun observeBlogPosts(): Flow<List<BlogPost>> = blogFlow
     override fun getBlogPost(blogPostId: Long): BlogPost = baseBlogPost
     override fun refreshBlogPosts() = Unit
+}
+
+private open class FakeMerchRepository : MerchRepository {
+    override fun observeMerch(): Flow<List<Merch>> = merchFlow
+    override fun getMerch(merchId: Long): Merch = baseMerch
+    override fun getMerch(vararg merchId: Long): List<Merch> = listOf(baseMerch)
+    override fun observeMerchItems(merchId: Long): Flow<List<MerchItem>> = merchItemFlow
+    override fun getMerchItem(merchItemId: Long): MerchItem = baseMerchItem
+    override suspend fun refreshMerch(): Unit = Unit
+    override suspend fun refreshMerchItems(): Unit = Unit
 }

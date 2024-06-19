@@ -16,7 +16,8 @@ fun NavGraphBuilder.showScreen(
     showIdArg: String,
     goToArtists: (artistId: Long) -> Unit,
     goToWeb: (url: String, title: String) -> Unit,
-    goToSchedules: (showId: Long) -> Unit
+    goToSchedules: (showId: Long) -> Unit,
+    goToMerch: (merchId: Long) -> Unit
 ) {
     composable(
         route = route,
@@ -27,7 +28,8 @@ fun NavGraphBuilder.showScreen(
             onBack = { navController.popBackStack() },
             goToArtists = goToArtists,
             goToWeb = goToWeb,
-            goToSchedules = goToSchedules
+            goToSchedules = goToSchedules,
+            goToMerch = goToMerch
         )
     }
 }

@@ -11,6 +11,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import pm.bam.mbc.domain.models.Podcast
+import pm.bam.mbc.domain.models.PodcastEpisode
 import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
 import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.testing.TestingLoggingListener
