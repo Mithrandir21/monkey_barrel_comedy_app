@@ -25,13 +25,18 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -45,8 +50,10 @@ import monkeybarrelcomey.feature.news.generated.resources.Res
 import monkeybarrelcomey.feature.news.generated.resources.news_screen_data_loading_error_msg
 import monkeybarrelcomey.feature.news.generated.resources.news_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.news.generated.resources.news_screen_loading_label
+import monkeybarrelcomey.feature.news.generated.resources.news_screen_merch_label
 import monkeybarrelcomey.feature.news.generated.resources.news_screen_navigation_back_button
 import monkeybarrelcomey.feature.news.generated.resources.news_screen_news_image_content_description
+import monkeybarrelcomey.feature.news.generated.resources.news_screen_podcast_episodes_label
 import monkeybarrelcomey.feature.news.generated.resources.news_screen_shows_label
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -55,6 +62,8 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.common.datetime.formatting.DateTimeFormatter
+import pm.bam.mbc.compose.MerchRow
+import pm.bam.mbc.compose.PodcastEpisodeRow
 import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
@@ -67,8 +76,7 @@ internal fun NewsItemScreen(
     onBack: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
     goToWeb: (url: String, title: String) -> Unit,
-    viewModel: NewsItemViewModel = koinViewModel<NewsItemViewModel>(),
-    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
+    viewModel: NewsItemViewModel = koinViewModel<NewsItemViewModel>()
 ) {
     viewModel.loadNewsDetails(artistId)
 
@@ -81,8 +89,7 @@ internal fun NewsItemScreen(
         onBack = onBack,
         onViewShow = onViewShow,
         goToWeb = goToWeb,
-        onRetry = onRetry,
-        dateTimeFormatter = dateTimeFormatter
+        onRetry = onRetry
     )
 }
 
@@ -94,8 +101,7 @@ private fun ScreenScaffold(
     onBack: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
-    onRetry: () -> Unit,
-    dateTimeFormatter: DateTimeFormatter
+    onRetry: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -156,7 +162,7 @@ private fun ScreenScaffold(
                         }
                     }
 
-                    is NewsItemScreenData.Success -> NewsDetails(Modifier.padding(innerPadding), data, onViewShow, goToWeb, dateTimeFormatter)
+                    is NewsItemScreenData.Success -> NewsDetails(Modifier.padding(innerPadding), data, onViewShow, goToWeb)
                 }
             }
         }
@@ -170,7 +176,7 @@ private fun NewsDetails(
     data: NewsItemScreenData.Success,
     onViewShow: (showId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
-    dateTimeFormatter: DateTimeFormatter
+    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
 ) {
     Column(
         modifier = modifier
@@ -219,28 +225,67 @@ private fun NewsDetails(
             text = data.newsItem.description
         )
 
+        var tabIndex by remember { mutableStateOf(0) }
+        val tabs = mutableListOf<Pair<String, TabType>>()
+
         if (data.shows.isNotEmpty()) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MonkeyCustomTheme.spacing.large),
-                textAlign = TextAlign.Start,
-                text = stringResource(Res.string.news_screen_shows_label),
-                style = MaterialTheme.typography.titleLarge,
-            )
+            tabs.add(stringResource(Res.string.news_screen_shows_label) to TabType.Shows)
+        }
 
-            HorizontalDivider()
+        if (data.episodes.isNotEmpty()) {
+            tabs.add(stringResource(Res.string.news_screen_podcast_episodes_label) to TabType.Episodes)
+        }
 
-            data.shows.forEach { show ->
-                ShowRow(
-                    modifier = Modifier.testTag(NewsScreenNewsRowTag.plus(show.id)),
-                    show = show,
-                    onShowSelected = onViewShow,
-                    dateTimeFormatter = dateTimeFormatter,
-                )
+        if (data.merch.isNotEmpty()) {
+            tabs.add(stringResource(Res.string.news_screen_merch_label) to TabType.Merch)
+        }
+
+        if (tabs.isNotEmpty()) {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                TabRow(selectedTabIndex = tabIndex) {
+                    tabs.forEachIndexed { index, pair ->
+                        Tab(text = { Text(pair.first) },
+                            selected = tabIndex == index,
+                            onClick = { tabIndex = index }
+                        )
+                    }
+                }
+
+                when (tabs[tabIndex].second) {
+                    TabType.Shows -> data.shows.forEach { show ->
+                        ShowRow(
+                            modifier = Modifier.testTag(NewsScreenNewsRowTag.plus(show.id)),
+                            show = show,
+                            onShowSelected = onViewShow,
+                            dateTimeFormatter = dateTimeFormatter,
+                        )
+                    }
+
+                    TabType.Episodes -> data.episodes.forEach { episode ->
+                        PodcastEpisodeRow(
+                            modifier = Modifier.testTag(NewsScreenEpisodeRowTag.plus(episode.id)),
+                            podcastEpisode = episode,
+                            onViewPodcastEpisode = { }
+                        )
+                    }
+
+                    TabType.Merch -> data.merch.forEach { merch ->
+                        MerchRow(
+                            modifier = Modifier.testTag(NewsScreenMerchRowTag.plus(merch.id)),
+                            merch = merch,
+                            onMerchSelected = { }
+                        )
+                    }
+                }
             }
         }
     }
+}
+
+private enum class TabType {
+    Shows,
+    Episodes,
+    Merch
 }
 
 
@@ -253,3 +298,5 @@ internal const val NewsDetailsTitleTag = "NewsDetailsTitleTag"
 
 internal const val NewsTag = "NewsTagTag"
 internal const val NewsScreenNewsRowTag = "NewsScreenNewsRowTag"
+internal const val NewsScreenEpisodeRowTag = "NewsScreenEpisodeRowTag"
+internal const val NewsScreenMerchRowTag = "NewsScreenMerchRowTag"

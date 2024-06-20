@@ -70,8 +70,7 @@ internal fun PodcastEpisodeScreen(
     onBack: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewArtist: (artistId: Long) -> Unit,
-    viewModel: PodcastEpisodeViewModel = koinViewModel<PodcastEpisodeViewModel>(),
-    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
+    viewModel: PodcastEpisodeViewModel = koinViewModel<PodcastEpisodeViewModel>()
 ) {
     viewModel.loadPodcastEpisodeDetails(podcastEpisodeId)
 
@@ -84,8 +83,7 @@ internal fun PodcastEpisodeScreen(
         onBack = onBack,
         onViewShow = onViewShow,
         onViewArtist = onViewArtist,
-        onRetry = onRetry,
-        dateTimeFormatter = dateTimeFormatter
+        onRetry = onRetry
     )
 }
 
@@ -97,8 +95,7 @@ private fun ScreenScaffold(
     onBack: () -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewArtist: (artistId: Long) -> Unit,
-    onRetry: () -> Unit,
-    dateTimeFormatter: DateTimeFormatter
+    onRetry: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -159,7 +156,7 @@ private fun ScreenScaffold(
                         }
                     }
 
-                    is PodcastEpisodeScreenData.Success -> PodcastEpisodeDetails(Modifier.padding(innerPadding), data, onViewShow, onViewArtist, dateTimeFormatter)
+                    is PodcastEpisodeScreenData.Success -> PodcastEpisodeDetails(Modifier.padding(innerPadding), data, onViewShow, onViewArtist)
                 }
             }
         }
@@ -173,7 +170,7 @@ private fun PodcastEpisodeDetails(
     data: PodcastEpisodeScreenData.Success,
     onViewShow: (showId: Long) -> Unit,
     onViewArtist: (artistId: Long) -> Unit,
-    dateTimeFormatter: DateTimeFormatter
+    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
 ) {
     Column(
         modifier = modifier

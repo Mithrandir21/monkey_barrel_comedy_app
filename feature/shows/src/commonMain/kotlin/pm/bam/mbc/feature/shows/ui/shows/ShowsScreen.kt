@@ -82,8 +82,7 @@ import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenStatus.LOADIN
 internal fun ShowsScreen(
     bottomNavConfig: NavigationBarConfig,
     goToShow: (showId: Long) -> Unit,
-    viewModel: ShowsViewModel = koinViewModel<ShowsViewModel>(),
-    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
+    viewModel: ShowsViewModel = koinViewModel<ShowsViewModel>()
 ) {
     val data = viewModel.uiState.collectAsStateWithLifecycleFix()
 
@@ -137,8 +136,7 @@ internal fun ShowsScreen(
         bottomNavConfig = bottomNavConfig,
         searchConfig = showsSearchConfig,
         onViewShow = goToShow,
-        onRetry = onRetry,
-        dateTimeFormatter = dateTimeFormatter
+        onRetry = onRetry
     )
 
 
@@ -153,8 +151,7 @@ private fun Screen(
     bottomNavConfig: NavigationBarConfig,
     searchConfig: ShowsSearchConfig,
     onViewShow: (artistId: Long) -> Unit,
-    onRetry: () -> Unit,
-    dateTimeFormatter: DateTimeFormatter
+    onRetry: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -173,8 +170,7 @@ private fun Screen(
                         innerPadding = innerPadding,
                         data = data,
                         searchConfig = searchConfig,
-                        onViewShow = onViewShow,
-                        dateTimeFormatter = dateTimeFormatter
+                        onViewShow = onViewShow
                     )
                 }
             }
@@ -203,8 +199,7 @@ private fun ScreenData(
     innerPadding: PaddingValues,
     data: ShowsScreenData,
     searchConfig: ShowsSearchConfig,
-    onViewShow: (artistId: Long) -> Unit,
-    dateTimeFormatter: DateTimeFormatter
+    onViewShow: (artistId: Long) -> Unit
 ) {
     if (data.state == EMPTY) {
         showEmpty(Modifier.padding(innerPadding), searchConfig)
@@ -214,7 +209,7 @@ private fun ScreenData(
             columns = GridCells.Fixed(2),
             content = {
                 items(data.shows.size) { index ->
-                    ShowCard(data.shows[index], onViewShow, dateTimeFormatter)
+                    ShowCard(data.shows[index], onViewShow)
                 }
             }
         )
@@ -292,7 +287,7 @@ private fun showEmpty(
 private fun ShowCard(
     show: Show,
     onViewShow: (artistId: Long) -> Unit,
-    dateTimeFormatter: DateTimeFormatter
+    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
 ) {
     Card(
         modifier = Modifier

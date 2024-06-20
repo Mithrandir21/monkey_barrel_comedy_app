@@ -5,7 +5,10 @@
     <string name="news_screen_news_header_label">News</string>
     <string name="news_screen_news_image_content_description">%1$s News image</string>
     <string name="news_screen_show_venue_label">Venue: %1$s</string>
+
     <string name="news_screen_shows_label">Shows</string>
+    <string name="news_screen_podcast_episodes_label">Episodes</string>
+    <string name="news_screen_merch_label">Merch</string>
 
     <string name="news_screen_loading_label">Loading…</string>
 

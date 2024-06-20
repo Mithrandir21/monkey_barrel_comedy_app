@@ -257,36 +257,34 @@ private fun ShowDetails(
 
 
         var tabIndex by remember { mutableStateOf(0) }
-        val tabs = mutableListOf(
-            stringResource(Res.string.show_screen_show_dates_label)
-        )
+        val tabs = mutableListOf(stringResource(Res.string.show_screen_show_dates_label) to TabType.Schedule)
 
         if(data.artists.isNotEmpty()) {
-            tabs.add(stringResource(Res.string.show_screen_show_performers_label))
+            tabs.add(stringResource(Res.string.show_screen_show_performers_label) to TabType.Artists)
         }
 
         if(data.merch.isNotEmpty()) {
-            tabs.add(stringResource(Res.string.show_screen_show_merch_label))
+            tabs.add(stringResource(Res.string.show_screen_show_merch_label) to TabType.Merch)
         }
 
 
         Column(modifier = Modifier.fillMaxWidth()) {
             TabRow(selectedTabIndex = tabIndex) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(text = { Text(title) },
+                tabs.forEachIndexed { index, tab ->
+                    Tab(text = { Text(tab.first) },
                         selected = tabIndex == index,
                         onClick = { tabIndex = index }
                     )
                 }
             }
-            when (tabIndex) {
-                0 -> showSchedule(
+            when (tabs[tabIndex].second) {
+                TabType.Schedule -> showSchedule(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     show = data.show,
                     goToSchedules = goToSchedules
                 )
 
-                1 -> data.artists.forEach { artist ->
+                TabType.Artists -> data.artists.forEach { artist ->
                     ArtistRow(
                         modifier = Modifier.testTag(ShowScreenArtistRowTag.plus(artist.id)),
                         artist = artist,
@@ -294,7 +292,7 @@ private fun ShowDetails(
                     )
                 }
 
-                2 -> data.merch.forEach { artist ->
+                TabType.Merch -> data.merch.forEach { artist ->
                     MerchRow(
                         modifier = Modifier.testTag(ShowScreenMerchRowTag.plus(artist.id)),
                         merch = artist,
@@ -304,6 +302,12 @@ private fun ShowDetails(
             }
         }
     }
+}
+
+private enum class TabType {
+    Schedule,
+    Artists,
+    Merch
 }
 
 @Composable

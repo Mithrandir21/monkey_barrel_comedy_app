@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -61,12 +60,10 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import pm.bam.mbc.common.collectAsStateWithLifecycleFix
 import pm.bam.mbc.common.datetime.formatting.DateTimeFormatter
-import pm.bam.mbc.compose.ArtistRow
 import pm.bam.mbc.compose.MerchRow
+import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
-import pm.bam.mbc.compose.ShowRow
-import pm.bam.mbc.domain.models.Merch
 import pm.bam.mbc.feature.artists.ui.artist.ArtistViewModel.ArtistScreenData
 
 @OptIn(KoinExperimentalAPI::class)
@@ -77,8 +74,7 @@ internal fun ArtistScreen(
     onViewShow: (showId: Long) -> Unit,
     onViewMerch: (merchId: Long) -> Unit,
     goToWeb: (url: String, title: String) -> Unit,
-    viewModel: ArtistViewModel = koinViewModel<ArtistViewModel>(),
-    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
+    viewModel: ArtistViewModel = koinViewModel<ArtistViewModel>()
 ) {
     viewModel.loadArtistDetails(artistId)
 
@@ -92,8 +88,7 @@ internal fun ArtistScreen(
         onViewShow = onViewShow,
         onViewMerch = onViewMerch,
         goToWeb = goToWeb,
-        onRetry = onRetry,
-        dateTimeFormatter = dateTimeFormatter
+        onRetry = onRetry
     )
 }
 
@@ -106,8 +101,7 @@ private fun ScreenScaffold(
     onViewShow: (showId: Long) -> Unit,
     onViewMerch: (merchId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
-    onRetry: () -> Unit,
-    dateTimeFormatter: DateTimeFormatter
+    onRetry: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -168,7 +162,7 @@ private fun ScreenScaffold(
                         }
                     }
 
-                    is ArtistScreenData.Success -> ArtistDetails(Modifier.padding(innerPadding), data, onViewShow, onViewMerch, goToWeb, dateTimeFormatter)
+                    is ArtistScreenData.Success -> ArtistDetails(Modifier.padding(innerPadding), data, onViewShow, onViewMerch, goToWeb)
                 }
             }
         }
@@ -183,7 +177,7 @@ private fun ArtistDetails(
     onViewShow: (showId: Long) -> Unit,
     onViewMerch: (merchId: Long) -> Unit,
     goToWeb: (url: String, showTitle: String) -> Unit,
-    dateTimeFormatter: DateTimeFormatter
+    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
 ) {
     Column(
         modifier = modifier
@@ -234,20 +228,20 @@ private fun ArtistDetails(
 
         var tabIndex by remember { mutableStateOf(0) }
         val tabs = listOf(
-            stringResource(Res.string.artists_screen_shows_label),
-            stringResource(Res.string.artists_screen_merch_label)
+            stringResource(Res.string.artists_screen_shows_label) to TabType.Shows,
+            stringResource(Res.string.artists_screen_merch_label) to TabType.Merch
         )
         Column(modifier = Modifier.fillMaxWidth()) {
             TabRow(selectedTabIndex = tabIndex) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(text = { Text(title) },
+                tabs.forEachIndexed { index, tab ->
+                    Tab(text = { Text(tab.first) },
                         selected = tabIndex == index,
                         onClick = { tabIndex = index }
                     )
                 }
             }
-            when (tabIndex) {
-                0 -> data.shows.forEach { show ->
+            when (tabs[tabIndex].second) {
+                TabType.Shows -> data.shows.forEach { show ->
                     ShowRow(
                         modifier = Modifier.testTag(ArtistScreenArtistRowTag.plus(show.id)),
                         show = show,
@@ -256,7 +250,7 @@ private fun ArtistDetails(
                     )
                 }
 
-                1 -> data.merch.forEach { merch ->
+                TabType.Merch -> data.merch.forEach { merch ->
                     MerchRow(
                         modifier = Modifier.testTag(ArtistScreenMerchRowTag.plus(merch.id)),
                         merch = merch,
@@ -266,6 +260,11 @@ private fun ArtistDetails(
             }
         }
     }
+}
+
+private enum class TabType {
+    Shows,
+    Merch
 }
 
 

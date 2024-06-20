@@ -3,34 +3,19 @@ package pm.bam.mbc.feature.home.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.EmojiPeople
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.MicExternalOn
-import androidx.compose.material.icons.filled.Sell
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -50,19 +35,13 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import monkeybarrelcomey.feature.home.generated.resources.Res
-import monkeybarrelcomey.feature.home.generated.resources.artists
 import monkeybarrelcomey.feature.home.generated.resources.blog
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_artists_section_title
-import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_card_artists_title
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_card_blogs_title
-import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_card_comedy_shows_title
-import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_card_podcast_episodes_title
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_loading_error_msg
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_news_section_title
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_show_section_title_upcoming_shows
-import monkeybarrelcomey.feature.home.generated.resources.microphone
-import monkeybarrelcomey.feature.home.generated.resources.podcast
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -88,8 +67,7 @@ internal fun HomeScreen(
     onViewArtist: (artistId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     goToBlog: () -> Unit,
-    viewModel: HomeViewModel = koinViewModel<HomeViewModel>(),
-    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
+    viewModel: HomeViewModel = koinViewModel<HomeViewModel>()
 ) {
     val data = viewModel.uiState.collectAsStateWithLifecycleFix()
 
@@ -100,8 +78,7 @@ internal fun HomeScreen(
         onViewArtist = onViewArtist,
         onViewShow = onViewShow,
         onViewBlogs = goToBlog,
-        onRetry = { viewModel.loadData() },
-        dateTimeFormatter = dateTimeFormatter
+        onRetry = { viewModel.loadData() }
     )
 }
 
@@ -113,8 +90,7 @@ private fun Screen(
     onViewArtist: (artistId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewBlogs: () -> Unit,
-    onRetry: () -> Unit,
-    dateTimeFormatter: DateTimeFormatter
+    onRetry: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -158,8 +134,7 @@ private fun Screen(
                             onViewNewsItem = onViewNewsItem,
                             onViewArtist = onViewArtist,
                             onViewShow = onViewShow,
-                            onViewBlogs = onViewBlogs,
-                            dateTimeFormatter = dateTimeFormatter
+                            onViewBlogs = onViewBlogs
                         )
                     }
                 }
@@ -177,7 +152,7 @@ private fun ScreenData(
     onViewArtist: (artistId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewBlogs: () -> Unit,
-    dateTimeFormatter: DateTimeFormatter
+    dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
 ) {
     LazyColumn(
         modifier = modifier,

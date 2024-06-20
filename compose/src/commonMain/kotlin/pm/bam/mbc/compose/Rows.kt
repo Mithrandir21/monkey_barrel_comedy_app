@@ -41,6 +41,7 @@ import pm.bam.mbc.domain.models.Artist
 import pm.bam.mbc.domain.models.EventStatus
 import pm.bam.mbc.domain.models.Merch
 import pm.bam.mbc.domain.models.News
+import pm.bam.mbc.domain.models.PodcastEpisode
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.models.ShowSchedule
 
@@ -76,6 +77,45 @@ fun NewsRow(
                     .padding(horizontal = MonkeyCustomTheme.spacing.small),
                 textAlign = TextAlign.Start,
                 text = news.title,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+
+@Composable
+fun PodcastEpisodeRow(
+    modifier: Modifier = Modifier,
+    podcastEpisode: PodcastEpisode,
+    onViewPodcastEpisode: (podcastEpisodeId: Long) -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onViewPodcastEpisode(podcastEpisode.id) }
+            .padding(vertical = MonkeyCustomTheme.spacing.small),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AsyncImage(
+            model = podcastEpisode.images.firstOrNull(),
+            contentDescription = stringResource(Res.string.artist_image_content_description, podcastEpisode.name),
+            contentScale = ContentScale.Fit,
+            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+            modifier = Modifier
+                .padding(MonkeyCustomTheme.spacing.small)
+                .height(60.dp)
+                .width(100.dp)
+                .clip(RoundedCornerShape(MonkeyCustomTheme.spacing.extraSmall))
+        )
+        Column {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = MonkeyCustomTheme.spacing.small),
+                textAlign = TextAlign.Start,
+                text = podcastEpisode.name,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )

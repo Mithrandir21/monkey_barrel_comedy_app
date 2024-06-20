@@ -12,6 +12,6 @@ import pm.bam.mbc.logging.di.LoggingModule
 val NewsModule = module {
     includes(LoggingModule, domainModule, domainPlatformModule, commonModule)
 
-    viewModel<NewsItemViewModel> { NewsItemViewModel(get(), get(), get()) }
+    viewModel<NewsItemViewModel> { NewsItemViewModel(get(), get(), get(), get(), get()) }
     viewModel<NewsViewModel> { NewsViewModel(get(), get()) }
 }

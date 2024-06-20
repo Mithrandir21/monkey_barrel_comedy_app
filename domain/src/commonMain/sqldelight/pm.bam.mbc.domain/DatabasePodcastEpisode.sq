@@ -25,6 +25,12 @@ SELECT *
 FROM DatabasePodcastEpisode
 WHERE podcastId = ?;
 
+selectByIds:
+SELECT *
+FROM DatabasePodcastEpisode
+WHERE id
+IN ?;
+
 insert:
 INSERT INTO DatabasePodcastEpisode(id, name, description, images, links, duration, releaseDate, podcastId, showId, artistId)
 VALUES ?;

@@ -46,6 +46,11 @@ internal class PodcastRepositoryImpl(
             .executeAsOne()
             .toPodcastEpisode(serializer)
 
+    override fun getEpisodes(vararg episodeId: Long): List<PodcastEpisode> =
+        podcastEpisodeQueries.selectByIds(episodeId.toList())
+            .executeAsList()
+            .map { it.toPodcastEpisode(serializer) }
+
     override suspend fun refreshPodcasts() =
         remotePodcastDataSource.getAllPodcasts()
             .map { it.toDatabasePodcast(serializer) }

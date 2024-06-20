@@ -19,9 +19,13 @@ import kotlinx.coroutines.launch
 import pm.bam.mbc.common.delayOnStart
 import pm.bam.mbc.common.onError
 import pm.bam.mbc.common.toFlow
+import pm.bam.mbc.domain.models.Merch
 import pm.bam.mbc.domain.models.News
+import pm.bam.mbc.domain.models.PodcastEpisode
 import pm.bam.mbc.domain.models.Show
+import pm.bam.mbc.domain.repositories.merch.MerchRepository
 import pm.bam.mbc.domain.repositories.news.NewsRepository
+import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
 import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.logging.fatal
@@ -30,7 +34,9 @@ import pm.bam.mbc.logging.fatal
 internal class NewsItemViewModel(
     private val logger: Logger,
     private val newsRepository: NewsRepository,
-    private val showsRepository: ShowsRepository
+    private val showsRepository: ShowsRepository,
+    private val podcastRepository: PodcastRepository,
+    private val merchRepository: MerchRepository
 ) : ViewModel() {
 
     // We store and react to the newsId changes so that only a single 'news' flow can exists
@@ -66,10 +72,11 @@ internal class NewsItemViewModel(
         flowOf(newsId)
             .flatMapLatest { newsRepository.getNews(it).toFlow() }
             .flatMapLatest<News, NewsItemScreenData> { news ->
-                news.showsIds?.let { showsRepository.getShows(*it.toLongArray()) }
-                    ?.toFlow()
-                    ?.map { NewsItemScreenData.Success(news, it) }
-                    ?: flowOf(NewsItemScreenData.Success(news))
+                val shows = news.showsIds?.let { showsRepository.getShows(*it.toLongArray()) } ?: listOf()
+                val episodes = news.podcastsIds?.let { podcastRepository.getEpisodes(*it.toLongArray()) } ?: listOf()
+                val merch = news.merchIds?.let { merchRepository.getMerch(*it.toLongArray()) } ?: listOf()
+
+                NewsItemScreenData.Success(news, shows, episodes, merch).toFlow()
             }
             .onStart { _uiState.emit(NewsItemScreenData.Loading) }
             .onError { fatal(logger, it) }
@@ -83,7 +90,9 @@ internal class NewsItemViewModel(
         data object Error : NewsItemScreenData()
         data class Success(
             val newsItem: News,
-            val shows: List<Show> = listOf()
+            val shows: List<Show> = listOf(),
+            val episodes: List<PodcastEpisode> = listOf(),
+            val merch: List<Merch> = listOf()
         ) : NewsItemScreenData()
     }
 }
