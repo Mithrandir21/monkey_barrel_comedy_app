@@ -12,14 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -43,14 +39,13 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import monkeybarrelcomey.common.generated.resources.data_loading_error_msg
+import monkeybarrelcomey.common.generated.resources.data_loading_error_retry
 import monkeybarrelcomey.feature.home.generated.resources.Res
 import monkeybarrelcomey.feature.home.generated.resources.blog
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_artists_section_title
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_card_blogs_title
-import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.home.generated.resources.home_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_news_section_title
-import monkeybarrelcomey.feature.home.generated.resources.home_screen_show_section_title_upcoming_shows
 import monkeybarrelcomey.feature.home.generated.resources.home_screen_title
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -67,6 +62,7 @@ import pm.bam.mbc.compose.NewsRow
 import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -129,8 +125,8 @@ private fun Screen(
                 ) { innerPadding: PaddingValues ->
                     when (data) {
                         HomeViewModel.HomeScreenData.Error -> {
-                            val message = stringResource(Res.string.home_screen_data_loading_error_msg)
-                            val actionLabel = stringResource(Res.string.home_screen_data_loading_error_retry)
+                            val message = stringResource(CommonRes.string.data_loading_error_msg)
+                            val actionLabel = stringResource(CommonRes.string.data_loading_error_retry)
 
                             LaunchedEffect(snackbarHostState) {
                                 val results = snackbarHostState.showSnackbar(

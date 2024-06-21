@@ -1,20 +1,9 @@
 <resources>
 
-    <string name="podcasts_screen_navigation_back_button">Back</string>
-
     <string name="podcasts_screen_podcasts_header_label">Podcasts</string>
-    <string name="podcasts_screen_podcasts_image_content_description">%1$s Podcasts image</string>
-    <string name="podcasts_screen_podcast_image_content_description">%1$s Podcast image</string>
-    <string name="podcasts_screen_show_image_content_description">%1$s Show image</string>
-    <string name="podcasts_screen_artist_image_content_description">%1$s Artist image</string>
     <string name="podcasts_screen_show_venue_label">Venue: %1$s</string>
 
-    <string name="podcasts_screen_loading_label">Loading…</string>
     <string name="podcasts_screen_show_label">Show</string>
     <string name="podcasts_screen_artists_label">Comedians</string>
-
-
-    <string name="podcasts_screen_data_loading_error_msg">Something went wrong. Please try again.</string>
-    <string name="podcasts_screen_data_loading_error_retry">Retry</string>
 
 </resources>

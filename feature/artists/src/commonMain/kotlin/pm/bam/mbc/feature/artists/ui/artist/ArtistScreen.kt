@@ -44,14 +44,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import monkeybarrelcomey.common.generated.resources.artist_image_content_description
+import monkeybarrelcomey.common.generated.resources.data_loading_error_msg
+import monkeybarrelcomey.common.generated.resources.data_loading_error_retry
 import monkeybarrelcomey.common.generated.resources.image_placeholder
+import monkeybarrelcomey.common.generated.resources.loading_label
+import monkeybarrelcomey.common.generated.resources.navigation_back_button
 import monkeybarrelcomey.feature.artists.generated.resources.Res
-import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_artists_image_content_description
-import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_data_loading_error_retry
-import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_loading_label
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_merch_label
-import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_navigation_back_button
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_shows_label
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -65,6 +65,7 @@ import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.feature.artists.ui.artist.ArtistViewModel.ArtistScreenData
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -107,7 +108,7 @@ private fun ScreenScaffold(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val title = when (data) {
-        ArtistScreenData.Loading, ArtistScreenData.Error -> stringResource(Res.string.artists_screen_loading_label)
+        ArtistScreenData.Loading, ArtistScreenData.Error -> stringResource(CommonRes.string.loading_label)
         is ArtistScreenData.Success -> data.artist.getFullName()
     }
 
@@ -129,7 +130,7 @@ private fun ScreenScaffold(
                             ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = stringResource(Res.string.artists_screen_navigation_back_button)
+                                    contentDescription = stringResource(CommonRes.string.navigation_back_button)
                                 )
                             }
                         },
@@ -148,8 +149,8 @@ private fun ScreenScaffold(
                     )
 
                     ArtistScreenData.Error -> {
-                        val message = stringResource(Res.string.artists_screen_data_loading_error_msg)
-                        val actionLabel = stringResource(Res.string.artists_screen_data_loading_error_retry)
+                        val message = stringResource(CommonRes.string.data_loading_error_msg)
+                        val actionLabel = stringResource(CommonRes.string.data_loading_error_retry)
 
                         LaunchedEffect(snackbarHostState) {
                             val results = snackbarHostState.showSnackbar(
@@ -193,7 +194,7 @@ private fun ArtistDetails(
         ) {
             AsyncImage(
                 model = data.artist.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.artists_screen_artists_image_content_description, data.artist.getFullName()),
+                contentDescription = stringResource(CommonRes.string.artist_image_content_description, data.artist.getFullName()),
                 contentScale = ContentScale.Fit,
                 error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
                 modifier = Modifier

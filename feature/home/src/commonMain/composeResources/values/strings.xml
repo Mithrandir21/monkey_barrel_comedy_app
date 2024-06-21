@@ -6,15 +6,9 @@
     <string name="home_screen_show_section_title_upcoming_shows">Upcoming Shows</string>
     <string name="home_screen_artists_section_title">Featured Artist</string>
 
-    <string name="home_screen_show_image_content_description">%1$s Show image</string>
-    <string name="home_screen_loading_label">Loading…</string>
-
     <string name="home_screen_data_card_comedy_shows_title">Shows</string>
     <string name="home_screen_data_card_artists_title">Artists</string>
     <string name="home_screen_data_card_podcast_episodes_title">Podcasts</string>
     <string name="home_screen_data_card_blogs_title">Blog</string>
-
-    <string name="home_screen_data_loading_error_msg">Something went wrong. Please try again.</string>
-    <string name="home_screen_data_loading_error_retry">Retry</string>
 
 </resources>

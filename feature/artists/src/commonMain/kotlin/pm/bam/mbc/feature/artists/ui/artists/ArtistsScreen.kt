@@ -34,12 +34,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import coil3.compose.AsyncImage
+import monkeybarrelcomey.common.generated.resources.artist_image_content_description
+import monkeybarrelcomey.common.generated.resources.data_loading_error_msg
+import monkeybarrelcomey.common.generated.resources.data_loading_error_retry
 import monkeybarrelcomey.common.generated.resources.image_placeholder
 import monkeybarrelcomey.feature.artists.generated.resources.Res
 import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_artists_header_label
-import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_artists_image_content_description
-import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.artists.generated.resources.artists_screen_data_loading_error_retry
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -53,6 +53,7 @@ import pm.bam.mbc.domain.models.Artist
 import pm.bam.mbc.feature.artists.ui.artists.ArtistsViewModel.ArtistsScreenData
 import pm.bam.mbc.feature.artists.ui.artists.ArtistsViewModel.ArtistsScreenStatus.ERROR
 import pm.bam.mbc.feature.artists.ui.artists.ArtistsViewModel.ArtistsScreenStatus.LOADING
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -134,8 +135,8 @@ private fun Screen(
             }
 
             if (data.state == ERROR) {
-                val message = stringResource(Res.string.artists_screen_data_loading_error_msg)
-                val actionLabel = stringResource(Res.string.artists_screen_data_loading_error_retry)
+                val message = stringResource(CommonRes.string.data_loading_error_msg)
+                val actionLabel = stringResource(CommonRes.string.data_loading_error_retry)
 
                 LaunchedEffect(snackbarHostState) {
                     val results = snackbarHostState.showSnackbar(
@@ -167,9 +168,9 @@ private fun ArtistCard(
         Column {
             AsyncImage(
                 model = artist.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.artists_screen_artists_image_content_description, artist.getFullName()),
+                contentDescription = stringResource(CommonRes.string.artist_image_content_description, artist.getFullName()),
                 contentScale = ContentScale.Fit,
-                error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+                error = painterResource(CommonRes.drawable.image_placeholder),
             )
             Text(
                 modifier = Modifier

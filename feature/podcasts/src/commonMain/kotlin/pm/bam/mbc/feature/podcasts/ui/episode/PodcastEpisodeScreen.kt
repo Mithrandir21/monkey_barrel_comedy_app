@@ -40,14 +40,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import monkeybarrelcomey.common.generated.resources.data_loading_error_msg
+import monkeybarrelcomey.common.generated.resources.data_loading_error_retry
 import monkeybarrelcomey.common.generated.resources.image_placeholder
+import monkeybarrelcomey.common.generated.resources.loading_label
+import monkeybarrelcomey.common.generated.resources.navigation_back_button
+import monkeybarrelcomey.common.generated.resources.podcast_image_content_description
 import monkeybarrelcomey.feature.podcasts.generated.resources.Res
 import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_artists_label
-import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_data_loading_error_retry
-import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_loading_label
-import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_navigation_back_button
-import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_podcast_image_content_description
 import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_show_label
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -61,6 +61,7 @@ import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.feature.podcasts.ui.episode.PodcastEpisodeViewModel.PodcastEpisodeScreenData
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 
 @OptIn(KoinExperimentalAPI::class)
@@ -101,7 +102,7 @@ private fun ScreenScaffold(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val title = when (data) {
-        PodcastEpisodeScreenData.Loading, PodcastEpisodeScreenData.Error -> stringResource(Res.string.podcasts_screen_loading_label)
+        PodcastEpisodeScreenData.Loading, PodcastEpisodeScreenData.Error -> stringResource(CommonRes.string.loading_label)
         is PodcastEpisodeScreenData.Success -> data.podcastEpisode.name
     }
 
@@ -123,7 +124,7 @@ private fun ScreenScaffold(
                             ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = stringResource(Res.string.podcasts_screen_navigation_back_button)
+                                    contentDescription = stringResource(CommonRes.string.navigation_back_button)
                                 )
                             }
                         },
@@ -142,8 +143,8 @@ private fun ScreenScaffold(
                     )
 
                     PodcastEpisodeScreenData.Error -> {
-                        val message = stringResource(Res.string.podcasts_screen_data_loading_error_msg)
-                        val actionLabel = stringResource(Res.string.podcasts_screen_data_loading_error_retry)
+                        val message = stringResource(CommonRes.string.data_loading_error_msg)
+                        val actionLabel = stringResource(CommonRes.string.data_loading_error_retry)
 
                         LaunchedEffect(snackbarHostState) {
                             val results = snackbarHostState.showSnackbar(
@@ -186,9 +187,9 @@ private fun PodcastEpisodeDetails(
         ) {
             AsyncImage(
                 model = data.podcastEpisode.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.podcasts_screen_podcast_image_content_description, data.podcastEpisode.name),
+                contentDescription = stringResource(CommonRes.string.podcast_image_content_description, data.podcastEpisode.name),
                 contentScale = ContentScale.Fit,
-                error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+                error = painterResource(CommonRes.drawable.image_placeholder),
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.secondaryContainer)
                     .height(200.dp)
@@ -219,7 +220,7 @@ private fun PodcastEpisodeDetails(
             text = data.podcastEpisode.description
         )
 
-        
+
         data.shows?.takeIf { it.isNotEmpty() }?.let { shows ->
 
             HorizontalDivider()

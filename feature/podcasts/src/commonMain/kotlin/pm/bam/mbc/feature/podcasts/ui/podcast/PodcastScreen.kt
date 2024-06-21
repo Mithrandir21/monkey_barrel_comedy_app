@@ -40,12 +40,11 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import coil3.compose.AsyncImage
+import monkeybarrelcomey.common.generated.resources.data_loading_error_msg
+import monkeybarrelcomey.common.generated.resources.data_loading_error_retry
 import monkeybarrelcomey.common.generated.resources.image_placeholder
-import monkeybarrelcomey.feature.podcasts.generated.resources.Res
-import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_data_loading_error_retry
-import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_navigation_back_button
-import monkeybarrelcomey.feature.podcasts.generated.resources.podcasts_screen_podcasts_image_content_description
+import monkeybarrelcomey.common.generated.resources.navigation_back_button
+import monkeybarrelcomey.common.generated.resources.podcasts_image_content_description
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -57,6 +56,7 @@ import pm.bam.mbc.domain.models.PodcastEpisode
 import pm.bam.mbc.feature.podcasts.ui.podcast.PodcastViewModel.PodcastScreenData
 import pm.bam.mbc.feature.podcasts.ui.podcast.PodcastViewModel.PodcastScreenStatus.ERROR
 import pm.bam.mbc.feature.podcasts.ui.podcast.PodcastViewModel.PodcastScreenStatus.LOADING
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 
 @OptIn(KoinExperimentalAPI::class)
@@ -124,7 +124,7 @@ private fun Screen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                        contentDescription = stringResource(Res.string.podcasts_screen_navigation_back_button)
+                                        contentDescription = stringResource(CommonRes.string.navigation_back_button)
                                     )
                                 }
                             },
@@ -156,8 +156,8 @@ private fun Screen(
             }
 
             if (data.state == ERROR) {
-                val message = stringResource(Res.string.podcasts_screen_data_loading_error_msg)
-                val actionLabel = stringResource(Res.string.podcasts_screen_data_loading_error_retry)
+                val message = stringResource(CommonRes.string.data_loading_error_msg)
+                val actionLabel = stringResource(CommonRes.string.data_loading_error_retry)
 
                 LaunchedEffect(snackbarHostState) {
                     val results = snackbarHostState.showSnackbar(
@@ -190,9 +190,9 @@ private fun PodcastEpisodeCard(
             Box(modifier = Modifier.aspectRatio(1f).fillMaxWidth()) {
                 AsyncImage(
                     model = podcastEpisode.images.firstOrNull(),
-                    contentDescription = stringResource(Res.string.podcasts_screen_podcasts_image_content_description, podcastEpisode.name),
+                    contentDescription = stringResource(CommonRes.string.podcasts_image_content_description, podcastEpisode.name),
                     contentScale = ContentScale.Fit,
-                    error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+                    error = painterResource(CommonRes.drawable.image_placeholder),
                 )
             }
 

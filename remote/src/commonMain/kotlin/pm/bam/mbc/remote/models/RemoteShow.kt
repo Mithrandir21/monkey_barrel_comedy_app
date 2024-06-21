@@ -1,6 +1,5 @@
 package pm.bam.mbc.remote.models
 
-import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

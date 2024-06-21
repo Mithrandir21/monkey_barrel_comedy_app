@@ -28,12 +28,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
+import monkeybarrelcomey.common.generated.resources.data_loading_error_msg
+import monkeybarrelcomey.common.generated.resources.data_loading_error_retry
+import monkeybarrelcomey.common.generated.resources.loading_label
+import monkeybarrelcomey.common.generated.resources.navigation_back_button
 import monkeybarrelcomey.feature.shows.generated.resources.Res
 import monkeybarrelcomey.feature.shows.generated.resources.show_schedule_screen_empty_label
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_retry
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_loading_label
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_navigation_back_button
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -45,6 +45,7 @@ import pm.bam.mbc.feature.shows.ui.show.LoadingDataTag
 import pm.bam.mbc.feature.shows.ui.show.ShowDetailsTag
 import pm.bam.mbc.feature.shows.ui.show.TopAppBarTag
 import pm.bam.mbc.feature.shows.ui.show.TopAppNavBarTag
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -80,7 +81,7 @@ private fun ScreenData(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val title = when (data) {
-        ScheduleScreenData.Loading, ScheduleScreenData.Error, ScheduleScreenData.Empty -> stringResource(Res.string.show_screen_loading_label)
+        ScheduleScreenData.Loading, ScheduleScreenData.Error, ScheduleScreenData.Empty -> stringResource(CommonRes.string.loading_label)
         is ScheduleScreenData.Schedule -> data.show.name
     }
 
@@ -103,7 +104,7 @@ private fun ScreenData(
                             ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = stringResource(Res.string.show_screen_navigation_back_button)
+                                    contentDescription = stringResource(CommonRes.string.navigation_back_button)
                                 )
                             }
                         },
@@ -122,8 +123,8 @@ private fun ScreenData(
                     )
 
                     ScheduleScreenData.Error -> {
-                        val message = stringResource(Res.string.show_screen_data_loading_error_msg)
-                        val actionLabel = stringResource(Res.string.show_screen_data_loading_error_retry)
+                        val message = stringResource(CommonRes.string.data_loading_error_msg)
+                        val actionLabel = stringResource(CommonRes.string.data_loading_error_retry)
 
                         LaunchedEffect(snackbarHostState) {
                             val results = snackbarHostState.showSnackbar(

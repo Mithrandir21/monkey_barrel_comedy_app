@@ -11,13 +11,9 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -38,13 +34,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import coil3.compose.AsyncImage
+import monkeybarrelcomey.common.generated.resources.data_loading_error_msg
+import monkeybarrelcomey.common.generated.resources.data_loading_error_retry
 import monkeybarrelcomey.common.generated.resources.image_placeholder
+import monkeybarrelcomey.common.generated.resources.merch_image_content_description
 import monkeybarrelcomey.feature.merch.generated.resources.Res
-import monkeybarrelcomey.feature.merch.generated.resources.merch_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.merch.generated.resources.merch_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.merch.generated.resources.merch_screen_merch_header_label
-import monkeybarrelcomey.feature.merch.generated.resources.merch_screen_merch_image_content_description
-import monkeybarrelcomey.feature.merch.generated.resources.merch_screen_navigation_back_button
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -57,6 +52,7 @@ import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Merch
 import pm.bam.mbc.feature.merch.ui.MerchViewModel.MerchScreenData
 import pm.bam.mbc.feature.merch.ui.MerchViewModel.MerchScreenStatus
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -138,8 +134,8 @@ private fun Screen(
             }
 
             if (data.state == MerchScreenStatus.ERROR) {
-                val message = stringResource(Res.string.merch_screen_data_loading_error_msg)
-                val actionLabel = stringResource(Res.string.merch_screen_data_loading_error_retry)
+                val message = stringResource(CommonRes.string.data_loading_error_msg)
+                val actionLabel = stringResource(CommonRes.string.data_loading_error_retry)
 
                 LaunchedEffect(snackbarHostState) {
                     val results = snackbarHostState.showSnackbar(
@@ -171,9 +167,9 @@ private fun MerchItemCard(
         Column {
             AsyncImage(
                 model = merch.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.merch_screen_merch_image_content_description, merch.name),
+                contentDescription = stringResource(CommonRes.string.merch_image_content_description, merch.name),
                 contentScale = ContentScale.Fit,
-                error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+                error = painterResource(CommonRes.drawable.image_placeholder),
             )
             Text(
                 modifier = Modifier

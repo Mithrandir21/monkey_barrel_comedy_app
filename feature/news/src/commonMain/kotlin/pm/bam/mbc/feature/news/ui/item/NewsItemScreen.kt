@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -45,14 +44,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import monkeybarrelcomey.common.generated.resources.data_loading_error_msg
+import monkeybarrelcomey.common.generated.resources.data_loading_error_retry
 import monkeybarrelcomey.common.generated.resources.image_placeholder
+import monkeybarrelcomey.common.generated.resources.loading_label
+import monkeybarrelcomey.common.generated.resources.navigation_back_button
+import monkeybarrelcomey.common.generated.resources.news_image_content_description
 import monkeybarrelcomey.feature.news.generated.resources.Res
-import monkeybarrelcomey.feature.news.generated.resources.news_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.news.generated.resources.news_screen_data_loading_error_retry
-import monkeybarrelcomey.feature.news.generated.resources.news_screen_loading_label
 import monkeybarrelcomey.feature.news.generated.resources.news_screen_merch_label
-import monkeybarrelcomey.feature.news.generated.resources.news_screen_navigation_back_button
-import monkeybarrelcomey.feature.news.generated.resources.news_screen_news_image_content_description
 import monkeybarrelcomey.feature.news.generated.resources.news_screen_podcast_episodes_label
 import monkeybarrelcomey.feature.news.generated.resources.news_screen_shows_label
 import org.jetbrains.compose.resources.painterResource
@@ -68,6 +67,7 @@ import pm.bam.mbc.compose.ShowRow
 import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.feature.news.ui.item.NewsItemViewModel.NewsItemScreenData
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -107,7 +107,7 @@ private fun ScreenScaffold(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val title = when (data) {
-        NewsItemScreenData.Loading, NewsItemScreenData.Error -> stringResource(Res.string.news_screen_loading_label)
+        NewsItemScreenData.Loading, NewsItemScreenData.Error -> stringResource(CommonRes.string.loading_label)
         is NewsItemScreenData.Success -> data.newsItem.title
     }
 
@@ -129,7 +129,7 @@ private fun ScreenScaffold(
                             ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = stringResource(Res.string.news_screen_navigation_back_button)
+                                    contentDescription = stringResource(CommonRes.string.navigation_back_button)
                                 )
                             }
                         },
@@ -148,8 +148,8 @@ private fun ScreenScaffold(
                     )
 
                     NewsItemScreenData.Error -> {
-                        val message = stringResource(Res.string.news_screen_data_loading_error_msg)
-                        val actionLabel = stringResource(Res.string.news_screen_data_loading_error_retry)
+                        val message = stringResource(CommonRes.string.data_loading_error_msg)
+                        val actionLabel = stringResource(CommonRes.string.data_loading_error_retry)
 
                         LaunchedEffect(snackbarHostState) {
                             val results = snackbarHostState.showSnackbar(
@@ -192,9 +192,9 @@ private fun NewsDetails(
         ) {
             AsyncImage(
                 model = data.newsItem.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.news_screen_news_image_content_description, data.newsItem.title),
+                contentDescription = stringResource(CommonRes.string.news_image_content_description, data.newsItem.title),
                 contentScale = ContentScale.Fit,
-                error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+                error = painterResource(CommonRes.drawable.image_placeholder),
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.secondaryContainer)
                     .height(200.dp)

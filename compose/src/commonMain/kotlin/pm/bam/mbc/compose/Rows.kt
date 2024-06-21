@@ -28,11 +28,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import monkeybarrelcomey.common.generated.resources.artist_image_content_description
 import monkeybarrelcomey.common.generated.resources.image_placeholder
-import monkeybarrelcomey.compose.generated.resources.Res
-import monkeybarrelcomey.compose.generated.resources.artist_image_content_description
-import monkeybarrelcomey.compose.generated.resources.news_image_content_description
-import monkeybarrelcomey.compose.generated.resources.show_image_content_description
+import monkeybarrelcomey.common.generated.resources.news_image_content_description
+import monkeybarrelcomey.common.generated.resources.show_image_content_description
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pm.bam.mbc.common.datetime.formatting.DateTimeFormatter
@@ -44,6 +43,7 @@ import pm.bam.mbc.domain.models.News
 import pm.bam.mbc.domain.models.PodcastEpisode
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.models.ShowSchedule
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 
 @Composable
@@ -61,9 +61,9 @@ fun NewsRow(
     ) {
         AsyncImage(
             model = news.images.firstOrNull(),
-            contentDescription = stringResource(Res.string.news_image_content_description, news.title),
+            contentDescription = stringResource(CommonRes.string.news_image_content_description, news.title),
             contentScale = ContentScale.Fit,
-            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+            error = painterResource(CommonRes.drawable.image_placeholder),
             modifier = Modifier
                 .padding(MonkeyCustomTheme.spacing.small)
                 .height(60.dp)
@@ -100,9 +100,9 @@ fun PodcastEpisodeRow(
     ) {
         AsyncImage(
             model = podcastEpisode.images.firstOrNull(),
-            contentDescription = stringResource(Res.string.artist_image_content_description, podcastEpisode.name),
+            contentDescription = stringResource(CommonRes.string.artist_image_content_description, podcastEpisode.name),
             contentScale = ContentScale.Fit,
-            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+            error = painterResource(CommonRes.drawable.image_placeholder),
             modifier = Modifier
                 .padding(MonkeyCustomTheme.spacing.small)
                 .height(60.dp)
@@ -139,9 +139,9 @@ fun ArtistRow(
     ) {
         AsyncImage(
             model = artist.images.firstOrNull(),
-            contentDescription = stringResource(Res.string.artist_image_content_description, artist.getFullName()),
+            contentDescription = stringResource(CommonRes.string.artist_image_content_description, artist.getFullName()),
             contentScale = ContentScale.Fit,
-            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+            error = painterResource(CommonRes.drawable.image_placeholder),
             modifier = Modifier
                 .padding(MonkeyCustomTheme.spacing.small)
                 .height(60.dp)
@@ -179,9 +179,9 @@ fun ShowRow(
     ) {
         AsyncImage(
             model = show.images.firstOrNull(),
-            contentDescription = stringResource(Res.string.show_image_content_description, show.name),
+            contentDescription = stringResource(CommonRes.string.show_image_content_description, show.name),
             contentScale = ContentScale.Fit,
-            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+            error = painterResource(CommonRes.drawable.image_placeholder),
             modifier = Modifier
                 .padding(MonkeyCustomTheme.spacing.small)
                 .height(60.dp)
@@ -333,9 +333,9 @@ fun MerchRow(
     ) {
         AsyncImage(
             model = merch.images.firstOrNull(),
-            contentDescription = stringResource(Res.string.artist_image_content_description, merch.name),
+            contentDescription = stringResource(CommonRes.string.artist_image_content_description, merch.name),
             contentScale = ContentScale.Fit,
-            error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+            error = painterResource(CommonRes.drawable.image_placeholder),
             modifier = Modifier
                 .padding(MonkeyCustomTheme.spacing.small)
                 .height(60.dp)

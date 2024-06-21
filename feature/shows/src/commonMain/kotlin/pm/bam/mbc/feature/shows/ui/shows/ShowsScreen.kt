@@ -41,19 +41,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.ParagraphStyle
-import androidx.compose.ui.text.PlatformParagraphStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import monkeybarrelcomey.common.generated.resources.artist_image_content_description
+import monkeybarrelcomey.common.generated.resources.data_loading_error_msg
+import monkeybarrelcomey.common.generated.resources.data_loading_error_retry
 import monkeybarrelcomey.common.generated.resources.image_placeholder
 import monkeybarrelcomey.feature.shows.generated.resources.Res
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_artists_image_content_description
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_retry
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_search_filters_icon
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_venues_label_plurals
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_shows_label
@@ -76,6 +73,7 @@ import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenData
 import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenStatus.EMPTY
 import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenStatus.ERROR
 import pm.bam.mbc.feature.shows.ui.shows.ShowsViewModel.ShowsScreenStatus.LOADING
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -176,8 +174,8 @@ private fun Screen(
             }
 
             if (data.state == ERROR) {
-                val message = stringResource(Res.string.show_screen_data_loading_error_msg)
-                val actionLabel = stringResource(Res.string.show_screen_data_loading_error_retry)
+                val message = stringResource(CommonRes.string.data_loading_error_msg)
+                val actionLabel = stringResource(CommonRes.string.data_loading_error_retry)
 
                 LaunchedEffect(snackbarHostState) {
                     val results = snackbarHostState.showSnackbar(
@@ -299,9 +297,9 @@ private fun ShowCard(
         Column {
             AsyncImage(
                 model = show.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.show_screen_artists_image_content_description, show.name),
+                contentDescription = stringResource(CommonRes.string.artist_image_content_description, show.name),
                 contentScale = ContentScale.Fit,
-                error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+                error = painterResource(CommonRes.drawable.image_placeholder),
             )
             Text(
                 modifier = Modifier

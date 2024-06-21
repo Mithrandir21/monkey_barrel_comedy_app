@@ -1,7 +1,6 @@
 package pm.bam.mbc.feature.shows.ui.show
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -46,14 +45,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import monkeybarrelcomey.common.generated.resources.data_loading_error_msg
+import monkeybarrelcomey.common.generated.resources.data_loading_error_retry
 import monkeybarrelcomey.common.generated.resources.image_placeholder
+import monkeybarrelcomey.common.generated.resources.loading_label
+import monkeybarrelcomey.common.generated.resources.navigation_back_button
+import monkeybarrelcomey.common.generated.resources.show_image_content_description
 import monkeybarrelcomey.feature.shows.generated.resources.Res
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_data_loading_error_retry
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_loading_label
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_navigation_back_button
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_dates_label
-import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_image_content_description
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_merch_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_more_dates_label
 import monkeybarrelcomey.feature.shows.generated.resources.show_screen_show_performers_label
@@ -72,6 +71,7 @@ import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.feature.shows.ui.show.ShowViewModel.ShowScreenData
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 
 internal const val SHOW_SCHEDULE_LIMIT = 3
@@ -120,7 +120,7 @@ private fun ScreenScaffold(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val title = when (data) {
-        ShowScreenData.Loading, ShowScreenData.Error -> stringResource(Res.string.show_screen_loading_label)
+        ShowScreenData.Loading, ShowScreenData.Error -> stringResource(CommonRes.string.loading_label)
         is ShowScreenData.Success -> data.show.name
     }
 
@@ -142,7 +142,7 @@ private fun ScreenScaffold(
                             ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = stringResource(Res.string.show_screen_navigation_back_button)
+                                    contentDescription = stringResource(CommonRes.string.navigation_back_button)
                                 )
                             }
                         },
@@ -161,8 +161,8 @@ private fun ScreenScaffold(
                     )
 
                     ShowScreenData.Error -> {
-                        val message = stringResource(Res.string.show_screen_data_loading_error_msg)
-                        val actionLabel = stringResource(Res.string.show_screen_data_loading_error_retry)
+                        val message = stringResource(CommonRes.string.data_loading_error_msg)
+                        val actionLabel = stringResource(CommonRes.string.data_loading_error_retry)
 
                         LaunchedEffect(snackbarHostState) {
                             val results = snackbarHostState.showSnackbar(
@@ -206,9 +206,9 @@ private fun ShowDetails(
         ) {
             AsyncImage(
                 model = data.show.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.show_screen_show_image_content_description, data.show.name),
+                contentDescription = stringResource(CommonRes.string.show_image_content_description, data.show.name),
                 contentScale = ContentScale.Fit,
-                error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+                error = painterResource(CommonRes.drawable.image_placeholder),
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.secondaryContainer)
                     .height(200.dp)
@@ -260,11 +260,11 @@ private fun ShowDetails(
         var tabIndex by remember { mutableStateOf(0) }
         val tabs = mutableListOf(stringResource(Res.string.show_screen_show_dates_label) to TabType.Schedule)
 
-        if(data.artists.isNotEmpty()) {
+        if (data.artists.isNotEmpty()) {
             tabs.add(stringResource(Res.string.show_screen_show_performers_label) to TabType.Artists)
         }
 
-        if(data.merch.isNotEmpty()) {
+        if (data.merch.isNotEmpty()) {
             tabs.add(stringResource(Res.string.show_screen_show_merch_label) to TabType.Merch)
         }
 

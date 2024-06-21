@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -41,13 +40,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import coil3.compose.AsyncImage
+import monkeybarrelcomey.common.generated.resources.data_loading_error_msg
+import monkeybarrelcomey.common.generated.resources.data_loading_error_retry
 import monkeybarrelcomey.common.generated.resources.image_placeholder
+import monkeybarrelcomey.common.generated.resources.navigation_back_button
+import monkeybarrelcomey.common.generated.resources.podcasts_image_content_description
 import monkeybarrelcomey.feature.blogs.generated.resources.Res
-import monkeybarrelcomey.feature.blogs.generated.resources.blog_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.blogs.generated.resources.blog_screen_data_loading_error_retry
-import monkeybarrelcomey.feature.blogs.generated.resources.blog_screen_navigation_back_button
 import monkeybarrelcomey.feature.blogs.generated.resources.blog_screen_podcasts_header_label
-import monkeybarrelcomey.feature.blogs.generated.resources.blog_screen_podcasts_image_content_description
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -57,7 +56,9 @@ import pm.bam.mbc.compose.theme.MonkeyCustomTheme
 import pm.bam.mbc.compose.theme.MonkeyTheme
 import pm.bam.mbc.domain.models.BlogPost
 import pm.bam.mbc.feature.blogs.ui.blog.BlogViewModel.BlogScreenData
-import pm.bam.mbc.feature.blogs.ui.blog.BlogViewModel.BlogScreenStatus.*
+import pm.bam.mbc.feature.blogs.ui.blog.BlogViewModel.BlogScreenStatus.ERROR
+import pm.bam.mbc.feature.blogs.ui.blog.BlogViewModel.BlogScreenStatus.LOADING
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 
 @OptIn(KoinExperimentalAPI::class)
@@ -121,7 +122,7 @@ private fun Screen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                        contentDescription = stringResource(Res.string.blog_screen_navigation_back_button)
+                                        contentDescription = stringResource(CommonRes.string.navigation_back_button)
                                     )
                                 }
                             },
@@ -153,8 +154,8 @@ private fun Screen(
             }
 
             if (data.state == ERROR) {
-                val message = stringResource(Res.string.blog_screen_data_loading_error_msg)
-                val actionLabel = stringResource(Res.string.blog_screen_data_loading_error_retry)
+                val message = stringResource(CommonRes.string.data_loading_error_msg)
+                val actionLabel = stringResource(CommonRes.string.data_loading_error_retry)
 
                 LaunchedEffect(snackbarHostState) {
                     val results = snackbarHostState.showSnackbar(
@@ -186,9 +187,9 @@ private fun PodcastEpisodeCard(
         Column {
             AsyncImage(
                 model = blogPost.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.blog_screen_podcasts_image_content_description, blogPost.title),
+                contentDescription = stringResource(CommonRes.string.podcasts_image_content_description, blogPost.title),
                 contentScale = ContentScale.Fit,
-                error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+                error = painterResource(CommonRes.drawable.image_placeholder),
             )
 
             Text(

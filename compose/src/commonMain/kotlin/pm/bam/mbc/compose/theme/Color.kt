@@ -2,7 +2,6 @@ package pm.bam.mbc.compose.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 
 val primaryLight = Color(0xFF585992)
 val onPrimaryLight = Color(0xFFFFFFFF)

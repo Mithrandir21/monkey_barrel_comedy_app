@@ -1,6 +1,5 @@
 package pm.bam.mbc.feature.merch.navigation
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import pm.bam.mbc.compose.NavigationBarConfig

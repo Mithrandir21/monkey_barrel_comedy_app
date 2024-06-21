@@ -38,13 +38,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import coil3.compose.AsyncImage
+import monkeybarrelcomey.common.generated.resources.data_loading_error_msg
+import monkeybarrelcomey.common.generated.resources.data_loading_error_retry
 import monkeybarrelcomey.common.generated.resources.image_placeholder
+import monkeybarrelcomey.common.generated.resources.navigation_back_button
+import monkeybarrelcomey.common.generated.resources.news_image_content_description
 import monkeybarrelcomey.feature.news.generated.resources.Res
-import monkeybarrelcomey.feature.news.generated.resources.news_screen_data_loading_error_msg
-import monkeybarrelcomey.feature.news.generated.resources.news_screen_data_loading_error_retry
-import monkeybarrelcomey.feature.news.generated.resources.news_screen_navigation_back_button
 import monkeybarrelcomey.feature.news.generated.resources.news_screen_news_header_label
-import monkeybarrelcomey.feature.news.generated.resources.news_screen_news_image_content_description
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -56,6 +56,7 @@ import pm.bam.mbc.domain.models.News
 import pm.bam.mbc.feature.news.ui.news.NewsViewModel.NewsScreenData
 import pm.bam.mbc.feature.news.ui.news.NewsViewModel.NewsScreenStatus.ERROR
 import pm.bam.mbc.feature.news.ui.news.NewsViewModel.NewsScreenStatus.LOADING
+import monkeybarrelcomey.common.generated.resources.Res as CommonRes
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -115,7 +116,7 @@ private fun Screen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                        contentDescription = stringResource(Res.string.news_screen_navigation_back_button)
+                                        contentDescription = stringResource(CommonRes.string.navigation_back_button)
                                     )
                                 }
                             },
@@ -147,8 +148,8 @@ private fun Screen(
             }
 
             if (data.state == ERROR) {
-                val message = stringResource(Res.string.news_screen_data_loading_error_msg)
-                val actionLabel = stringResource(Res.string.news_screen_data_loading_error_retry)
+                val message = stringResource(CommonRes.string.data_loading_error_msg)
+                val actionLabel = stringResource(CommonRes.string.data_loading_error_retry)
 
                 LaunchedEffect(snackbarHostState) {
                     val results = snackbarHostState.showSnackbar(
@@ -180,9 +181,9 @@ private fun NewsItemCard(
         Column {
             AsyncImage(
                 model = news.images.firstOrNull(),
-                contentDescription = stringResource(Res.string.news_screen_news_image_content_description, news.title),
+                contentDescription = stringResource(CommonRes.string.news_image_content_description, news.title),
                 contentScale = ContentScale.Fit,
-                error = painterResource(monkeybarrelcomey.common.generated.resources.Res.drawable.image_placeholder),
+                error = painterResource(CommonRes.drawable.image_placeholder),
             )
             Text(
                 modifier = Modifier
