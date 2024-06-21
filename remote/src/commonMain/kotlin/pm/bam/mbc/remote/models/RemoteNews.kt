@@ -1,5 +1,6 @@
 package pm.bam.mbc.remote.models
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
@@ -10,10 +11,13 @@ data class RemoteNews(
     val description: String,
     val images: List<String>,
     val types: List<RemoteNewsType>,
-    val showIds: List<Long>? = null,
-    val merchIds: List<Long>? = null,
-    val episodeIds: List<Long>? = null,
-    val blogPostsIds: List<Long>? = null,
+    @SerialName("show_ids")
+    val showIds: List<IDsWrapper>? = null,
+    @SerialName("merch_ids")
+    val merchIds: List<IDsWrapper>? = null,
+    @SerialName("episode_ids")
+    val episodeIds: List<IDsWrapper>? = null,
+    val blogPostsIds: List<IDsWrapper>? = null,
     val externalLinks: List<RemoteLink>? = null
 )
 

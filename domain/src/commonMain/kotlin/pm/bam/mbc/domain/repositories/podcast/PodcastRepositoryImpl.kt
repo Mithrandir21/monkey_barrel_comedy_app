@@ -53,6 +53,7 @@ internal class PodcastRepositoryImpl(
 
     override suspend fun refreshPodcasts() =
         remotePodcastDataSource.getAllPodcasts()
+            .map { it.toPodcast() }
             .map { it.toDatabasePodcast(serializer) }
             .toList()
             .let { podcasts ->
@@ -64,6 +65,7 @@ internal class PodcastRepositoryImpl(
 
     override suspend fun refreshEpisodes() =
         remotePodcastDataSource.getAllPodcastEpisodes()
+            .map { it.toPodcastEpisode() }
             .map { it.toDatabasePodcastEpisode(serializer) }
             .toList()
             .let { episodes ->

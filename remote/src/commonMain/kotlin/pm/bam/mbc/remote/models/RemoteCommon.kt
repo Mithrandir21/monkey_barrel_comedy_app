@@ -13,7 +13,9 @@ internal const val SCHEDULE = "schedule: show_schedule(*)"
 internal const val LINKS = "links: link(url, type)"
 
 @Serializable
-internal data class IDsWrapper(val id: Long)
+data class IDsWrapper(val id: Long)
+
+fun List<IDsWrapper>?.mapIds(): List<Long>? = this?.map { it.id }?.ifEmpty { null }
 
 @Serializable
 data class RemoteLink(

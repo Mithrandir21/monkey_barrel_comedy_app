@@ -37,6 +37,7 @@ internal class NewsRepositoryImpl(
 
     override suspend fun refreshNews() =
         remoteNewsDataSource.getAllNews()
+            .map { it.toNews() }
             .map { it.toDatabaseNews(serializer) }
             .toList()
             .let { news ->

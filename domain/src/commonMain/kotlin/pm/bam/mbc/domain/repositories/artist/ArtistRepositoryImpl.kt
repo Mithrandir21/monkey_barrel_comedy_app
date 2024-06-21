@@ -37,6 +37,7 @@ internal class ArtistRepositoryImpl(
 
     override suspend fun refreshArtists() =
         remoteArtistDataSource.getAllArtists()
+            .map { it.toArtist() }
             .map { it.toDatabaseArtist(serializer) }
             .toList()
             .let { artists ->

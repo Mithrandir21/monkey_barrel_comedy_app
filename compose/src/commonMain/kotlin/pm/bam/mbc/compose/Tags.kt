@@ -26,7 +26,7 @@ fun ShowTags(
     show: Show
 ) {
     Row(modifier = modifier) {
-        show.category?.forEach { category ->
+        show.categories?.forEach { category ->
             Text(
                 modifier = Modifier
                     .wrapContentSize()

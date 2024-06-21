@@ -1,18 +1,22 @@
 package pm.bam.mbc.remote.models
 
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class RemoteShow(
     val id: Long,
     val title: String,
+    val description: String,
+    @SerialName("ticket_url")
     val url: String,
     val images: List<String>,
-    val description: String,
     val categories: List<RemoteCategories>? = null,
-    val artistIds: List<Long>? = null,
-    val merchIds: List<Long>? = null,
+    @SerialName("artist_ids")
+    val artistIds: List<IDsWrapper>? = null,
+    @SerialName("merch_ids")
+    val merchIds: List<IDsWrapper>? = null,
     val schedule: List<RemoteShowSchedule>
 )
 
@@ -34,7 +38,8 @@ data class RemoteShowSchedule(
     val id: Long,
     val status: RemoteEventStatus,
     val venue: RemoteShowVenues,
-    val start: LocalDateTime,
-    val end: LocalDateTime,
+    val start: String,
+    val end: String,
+    @SerialName("status_note")
     val statusNote: String? = null
 )

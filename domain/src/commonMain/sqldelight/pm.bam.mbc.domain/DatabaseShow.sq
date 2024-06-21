@@ -1,9 +1,9 @@
 CREATE TABLE DatabaseShow (
     id INTEGER PRIMARY KEY NOT NULL,
     title TEXT NOT NULL,
+    description TEXT NOT NULL,
     url TEXT NOT NULL,
     images TEXT NOT NULL,
-    description TEXT NOT NULL,
     schedule TEXT NOT NULL,
     category TEXT,
     artistIds TEXT,

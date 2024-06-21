@@ -5,12 +5,21 @@ import pm.bam.mbc.common.serializer.deserialize
 import pm.bam.mbc.common.serializer.serialize
 import pm.bam.mbc.domain.models.Merch
 import pm.bam.mbc.domain.models.MerchItem
+import pm.bam.mbc.domain.models.toMerchItemStatus
+import pm.bam.mbc.domain.models.toMerchItemType
 import pm.bam.mbc.remote.models.RemoteMerch
 import pm.bam.mbc.remote.models.RemoteMerchItem
 import pmbammbcdomain.DatabaseMerch
 import pmbammbcdomain.DatabaseMerchItem
 
-internal fun RemoteMerch.toDatabaseMerch(serializer: Serializer): DatabaseMerch = DatabaseMerch(
+internal fun RemoteMerch.toMerch(): Merch = Merch(
+    id = id,
+    name = name,
+    description = description,
+    images = images
+)
+
+internal fun Merch.toDatabaseMerch(serializer: Serializer): DatabaseMerch = DatabaseMerch(
     id = id,
     name = name,
     description = description,
@@ -25,7 +34,16 @@ internal fun DatabaseMerch.toMerch(serializer: Serializer): Merch = Merch(
 )
 
 
-internal fun RemoteMerchItem.toDatabaseMerchItem(serializer: Serializer): DatabaseMerchItem = DatabaseMerchItem(
+internal fun RemoteMerchItem.toMerchItem(): MerchItem = MerchItem(
+    id = id,
+    name = name,
+    description = description,
+    status = status.toMerchItemStatus(),
+    itemTypes = itemTypes.map { it.toMerchItemType() },
+    merchId = merchId
+)
+
+internal fun MerchItem.toDatabaseMerchItem(serializer: Serializer): DatabaseMerchItem = DatabaseMerchItem(
     id = id,
     name = name,
     description = description,

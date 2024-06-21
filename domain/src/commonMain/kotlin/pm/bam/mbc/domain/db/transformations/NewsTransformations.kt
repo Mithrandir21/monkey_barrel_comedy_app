@@ -4,19 +4,34 @@ import pm.bam.mbc.common.serializer.Serializer
 import pm.bam.mbc.common.serializer.deserialize
 import pm.bam.mbc.common.serializer.serialize
 import pm.bam.mbc.domain.models.News
+import pm.bam.mbc.domain.models.toLink
+import pm.bam.mbc.domain.models.toNewsType
 import pm.bam.mbc.remote.models.RemoteNews
+import pm.bam.mbc.remote.models.mapIds
 import pmbammbcdomain.DatabaseNews
 
+internal fun RemoteNews.toNews(): News = News(
+    id = id,
+    title = title,
+    description = description,
+    images = images,
+    types = types.map { it.toNewsType() },
+    showsIds = showIds?.mapIds(),
+    merchIds = merchIds?.mapIds(),
+    podcastsIds = episodeIds?.mapIds(),
+    blogPostsIds = blogPostsIds?.mapIds(),
+    externalLinks = externalLinks?.map { it.toLink() }
+)
 
-internal fun RemoteNews.toDatabaseNews(serializer: Serializer): DatabaseNews = DatabaseNews(
+internal fun News.toDatabaseNews(serializer: Serializer): DatabaseNews = DatabaseNews(
     id = id,
     title = title,
     description = description,
     images = serializer.serialize(images),
     types = serializer.serialize(types),
-    showsIds = showIds?.let { serializer.serialize(it) },
+    showsIds = showsIds?.let { serializer.serialize(it) },
     merchIds = merchIds?.let { serializer.serialize(it) },
-    podcastsIds = episodeIds?.let { serializer.serialize(it) },
+    podcastsIds = podcastsIds?.let { serializer.serialize(it) },
     blogPostsIds = blogPostsIds?.let { serializer.serialize(it) },
     externalLinks = externalLinks?.let { serializer.serialize(it) }
 )

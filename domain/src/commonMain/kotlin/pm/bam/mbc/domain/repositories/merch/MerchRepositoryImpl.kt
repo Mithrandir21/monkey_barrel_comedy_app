@@ -13,7 +13,6 @@ import pm.bam.mbc.domain.db.transformations.toMerch
 import pm.bam.mbc.domain.db.transformations.toMerchItem
 import pm.bam.mbc.domain.models.Merch
 import pm.bam.mbc.domain.models.MerchItem
-import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.remote.datasources.RemoteMerchDataSource
 import pmbammbcdomain.DatabaseMerchItemQueries
 import pmbammbcdomain.DatabaseMerchQueries
@@ -54,6 +53,7 @@ internal class MerchRepositoryImpl(
 
     override suspend fun refreshMerch() =
         remoteMerchDataSource.getAllMerch()
+            .map { it.toMerch() }
             .map { it.toDatabaseMerch(serializer) }
             .toList()
             .let { merch ->
@@ -65,6 +65,7 @@ internal class MerchRepositoryImpl(
 
     override suspend fun refreshMerchItems() =
         remoteMerchDataSource.getAllMerchItem()
+            .map { it.toMerchItem() }
             .map { it.toDatabaseMerchItem(serializer) }
             .toList()
             .let { merchItems ->

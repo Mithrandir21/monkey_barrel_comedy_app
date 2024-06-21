@@ -1,6 +1,7 @@
 package pm.bam.mbc.domain.models
 
 import kotlinx.serialization.Serializable
+import pm.bam.mbc.remote.models.RemoteNewsType
 
 @Serializable
 data class News(
@@ -22,4 +23,12 @@ enum class NewsType {
     BUSINESS,
     PODCAST,
     MERCH
+}
+
+internal fun RemoteNewsType.toNewsType(): NewsType = when (this) {
+    RemoteNewsType.COMEDY -> NewsType.COMEDY
+    RemoteNewsType.STANDUP -> NewsType.STANDUP
+    RemoteNewsType.BUSINESS -> NewsType.BUSINESS
+    RemoteNewsType.PODCAST -> NewsType.PODCAST
+    RemoteNewsType.MERCH -> NewsType.MERCH
 }

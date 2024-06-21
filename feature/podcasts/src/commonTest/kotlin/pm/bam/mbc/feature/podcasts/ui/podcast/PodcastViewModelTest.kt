@@ -89,6 +89,7 @@ private open class FakePodcastRepository : PodcastRepository {
     override fun getPodcasts(podcastId: Long): Podcast = basePodcast
     override fun observeEpisodes(podcastId: Long): Flow<List<PodcastEpisode>> = flowOf(listOf(basePodcastEpisode))
     override fun getEpisode(episodeId: Long): PodcastEpisode = basePodcastEpisode
+    override fun getEpisodes(vararg episodeId: Long): List<PodcastEpisode> = listOf(basePodcastEpisode)
     override suspend fun refreshPodcasts() = Unit
     override suspend fun refreshEpisodes() = Unit
 }

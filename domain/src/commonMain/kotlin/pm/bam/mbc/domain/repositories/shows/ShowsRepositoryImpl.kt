@@ -10,6 +10,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import pm.bam.mbc.common.serializer.Serializer
+import pm.bam.mbc.domain.datetime.DateTimeParsing
 import pm.bam.mbc.domain.db.transformations.toDatabaseShow
 import pm.bam.mbc.domain.db.transformations.toShow
 import pm.bam.mbc.domain.models.Show
@@ -22,7 +23,8 @@ import pmbammbcdomain.DatabaseShowQueries
 internal class ShowsRepositoryImpl(
     private val serializer: Serializer,
     private val remoteShowDataSource: RemoteShowsDataSource,
-    private val showQueries: DatabaseShowQueries
+    private val showQueries: DatabaseShowQueries,
+    private val dateTimeParsing: DateTimeParsing
 ) : ShowsRepository {
 
     override fun observeShows(): Flow<List<Show>> =
@@ -60,7 +62,7 @@ internal class ShowsRepositoryImpl(
             }
             .let { shows ->
                 searchParameters.categories.takeIf { it.isNotEmpty() }
-                    ?.let { searchCategories -> shows.filter { show -> show.category?.any { searchCategories.contains(it) } == true } }
+                    ?.let { searchCategories -> shows.filter { show -> show.categories?.any { searchCategories.contains(it) } == true } }
                     ?: shows
             }
             .let { shows ->
@@ -105,6 +107,7 @@ internal class ShowsRepositoryImpl(
 
     override suspend fun refreshShows() =
         remoteShowDataSource.getAllShows()
+            .map { it.toShow(dateTimeParsing) }
             .map { it.toDatabaseShow(serializer) }
             .toList()
             .let { shows ->

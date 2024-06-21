@@ -5,12 +5,22 @@ import pm.bam.mbc.common.serializer.deserialize
 import pm.bam.mbc.common.serializer.serialize
 import pm.bam.mbc.domain.models.Podcast
 import pm.bam.mbc.domain.models.PodcastEpisode
+import pm.bam.mbc.domain.models.toLink
 import pm.bam.mbc.remote.models.RemotePodcast
 import pm.bam.mbc.remote.models.RemotePodcastEpisode
+import pm.bam.mbc.remote.models.mapIds
 import pmbammbcdomain.DatabasePodcast
 import pmbammbcdomain.DatabasePodcastEpisode
 
-internal fun RemotePodcast.toDatabasePodcast(serializer: Serializer): DatabasePodcast = DatabasePodcast(
+internal fun RemotePodcast.toPodcast(): Podcast = Podcast(
+    id = id,
+    name = name,
+    description = description,
+    images = images,
+    links = links.map { it.toLink() }
+)
+
+internal fun Podcast.toDatabasePodcast(serializer: Serializer): DatabasePodcast = DatabasePodcast(
     id = id,
     name = name,
     description = description,
@@ -27,7 +37,20 @@ internal fun DatabasePodcast.toPodcast(serializer: Serializer): Podcast = Podcas
 )
 
 
-internal fun RemotePodcastEpisode.toDatabasePodcastEpisode(serializer: Serializer): DatabasePodcastEpisode = DatabasePodcastEpisode(
+internal fun RemotePodcastEpisode.toPodcastEpisode(): PodcastEpisode = PodcastEpisode(
+    id = id,
+    name = name,
+    description = description,
+    images = images,
+    links = links.map { it.toLink() },
+    duration = duration,
+    releaseDate = releaseDate,
+    podcastId = podcastId,
+    showId = showId.mapIds(),
+    artistId = artistId.mapIds(),
+)
+
+internal fun PodcastEpisode.toDatabasePodcastEpisode(serializer: Serializer): DatabasePodcastEpisode = DatabasePodcastEpisode(
     id = id,
     name = name,
     description = description,

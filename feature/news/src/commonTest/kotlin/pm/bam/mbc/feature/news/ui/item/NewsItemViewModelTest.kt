@@ -6,23 +6,36 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import kotlinx.datetime.LocalDateTime
 import pm.bam.mbc.domain.models.Categories
 import pm.bam.mbc.domain.models.EventStatus
+import pm.bam.mbc.domain.models.Merch
+import pm.bam.mbc.domain.models.MerchItem
+import pm.bam.mbc.domain.models.MerchItemStatus
+import pm.bam.mbc.domain.models.MerchItemType
 import pm.bam.mbc.domain.models.News
+import pm.bam.mbc.domain.models.Podcast
+import pm.bam.mbc.domain.models.PodcastEpisode
 import pm.bam.mbc.domain.models.Show
 import pm.bam.mbc.domain.models.ShowSchedule
 import pm.bam.mbc.domain.models.ShowSearchParameters
 import pm.bam.mbc.domain.models.ShowVenues
+import pm.bam.mbc.domain.repositories.merch.MerchRepository
 import pm.bam.mbc.domain.repositories.news.NewsRepository
+import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
 import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.testing.TestingLoggingListener
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+
+private val podcastEpisodeFlow = MutableStateFlow<PodcastEpisode?>(null)
+private val basePodcastEpisode = PodcastEpisode(1, "name", "desc", listOf(), listOf(), 1234, "releaseDate", 1, listOf(1), listOf(1))
+private val basePodcast = Podcast(1, "name", "desc", listOf(), listOf())
 
 private val newsFlow = MutableStateFlow<List<News>>(emptyList())
 private val baseNews = News(1, "title", "desc", listOf(), listOf(), listOf(1))
@@ -33,6 +46,12 @@ private val baseShow = Show(
         ShowSchedule(1, EventStatus.ACTIVE, ShowVenues.MB1, LocalDateTime(2021, 1, 1, 1, 1), LocalDateTime(2021, 1, 1, 1, 1))
     )
 )
+private val merchFlow = MutableStateFlow<List<Merch>>(emptyList())
+private val baseMerch = Merch(1, "name", "desc", listOf("images"))
+
+private val merchItemFlow = MutableStateFlow<List<MerchItem>>(emptyList())
+private val baseMerchItem = MerchItem(1, "name", "desc", MerchItemStatus.IN_STOCK, listOf(MerchItemType.VINYL), 1)
+
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -46,7 +65,7 @@ internal class NewsItemViewModelTest {
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
 
-        viewModel = NewsItemViewModel(logger, FakeNewsRepository(), FakeShowsRepository())
+        viewModel = NewsItemViewModel(logger, FakeNewsRepository(), FakeShowsRepository(), FakePodcastRepository(), FakeMerchRepository())
     }
 
     @Test
@@ -59,6 +78,9 @@ internal class NewsItemViewModelTest {
     @Test
     fun `load data`() = runTest {
         newsFlow.emit(listOf(baseNews))
+        podcastEpisodeFlow.emit(basePodcastEpisode)
+        merchFlow.emit(listOf(baseMerch))
+        merchItemFlow.emit(listOf(baseMerchItem))
 
         viewModel.loadNewsDetails(1)
 
@@ -72,7 +94,7 @@ internal class NewsItemViewModelTest {
     fun `error state`() = runTest {
         viewModel = NewsItemViewModel(logger, object : FakeNewsRepository() {
             override fun getNews(newsId: Long): News = throw Exception()
-        }, FakeShowsRepository())
+        }, FakeShowsRepository(), FakePodcastRepository(), FakeMerchRepository())
 
         viewModel.loadNewsDetails(1)
 
@@ -97,4 +119,24 @@ private open class FakeShowsRepository : ShowsRepository {
     override fun getShows(vararg showId: Long): List<Show> = listOf(baseShow)
     override fun searchShows(searchParameters: ShowSearchParameters): List<Show> = listOf(baseShow)
     override suspend fun refreshShows() = Unit
+}
+
+private open class FakePodcastRepository : PodcastRepository {
+    override fun observePodcasts(): Flow<List<Podcast>> = flowOf(listOf(basePodcast))
+    override fun getPodcasts(podcastId: Long): Podcast = basePodcast
+    override fun observeEpisodes(podcastId: Long): Flow<List<PodcastEpisode>> = flowOf(listOf(basePodcastEpisode))
+    override fun getEpisode(episodeId: Long): PodcastEpisode = basePodcastEpisode
+    override fun getEpisodes(vararg episodeId: Long): List<PodcastEpisode> = listOf(basePodcastEpisode)
+    override suspend fun refreshPodcasts() = Unit
+    override suspend fun refreshEpisodes() = Unit
+}
+
+private open class FakeMerchRepository : MerchRepository {
+    override fun observeMerch(): Flow<List<Merch>> = merchFlow
+    override fun getMerch(merchId: Long): Merch = baseMerch
+    override fun getMerch(vararg merchId: Long): List<Merch> = listOf(baseMerch)
+    override fun observeMerchItems(merchId: Long): Flow<List<MerchItem>> = merchItemFlow
+    override fun getMerchItem(merchItemId: Long): MerchItem = baseMerchItem
+    override suspend fun refreshMerch(): Unit = Unit
+    override suspend fun refreshMerchItems(): Unit = Unit
 }

@@ -1,8 +1,8 @@
-package pm.bam.mbc.remote.datetime
+package pm.bam.mbc.domain.datetime
 
 import kotlinx.datetime.LocalDateTime
 
-internal interface RemoteDateTimeParsing {
+internal interface DateTimeParsing {
 
     fun parseRemoteDatabaseDateTime(value: String): LocalDateTime
 

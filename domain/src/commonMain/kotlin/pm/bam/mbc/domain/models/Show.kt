@@ -4,6 +4,10 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.properties.Properties
+import pm.bam.mbc.domain.datetime.DateTimeParsing
+import pm.bam.mbc.remote.models.RemoteEventStatus
+import pm.bam.mbc.remote.models.RemoteShowSchedule
+import pm.bam.mbc.remote.models.RemoteShowVenues
 
 @Serializable
 data class Show(
@@ -12,7 +16,7 @@ data class Show(
     val description: String,
     val url: String,
     val images: List<String>,
-    val category: List<Categories>? = null,
+    val categories: List<Categories>? = null,
     val artistIds: List<Long>? = null,
     val merchIds: List<Long>? = null,
     val schedule: List<ShowSchedule>,
@@ -25,11 +29,23 @@ enum class EventStatus {
     CANCELLED,
 }
 
+internal fun RemoteEventStatus.toEventStatus(): EventStatus = when (this) {
+    RemoteEventStatus.ACTIVE -> EventStatus.ACTIVE
+    RemoteEventStatus.CANCELLED -> EventStatus.CANCELLED
+}
+
 enum class ShowVenues {
     MB1,
     MB2,
     MB3,
     MB4
+}
+
+internal fun RemoteShowVenues.toShowVenues(): ShowVenues = when (this) {
+    RemoteShowVenues.MB1 -> ShowVenues.MB1
+    RemoteShowVenues.MB2 -> ShowVenues.MB2
+    RemoteShowVenues.MB3 -> ShowVenues.MB3
+    RemoteShowVenues.MB4 -> ShowVenues.MB4
 }
 
 /* Keep in mind that these fields names must match the ones in the RemoteShowSchedule class. */
@@ -41,6 +57,15 @@ data class ShowSchedule(
     val start: LocalDateTime,
     val end: LocalDateTime,
     val statusNote: String? = null
+)
+
+internal fun RemoteShowSchedule.toShowSchedule(dateTimeParsing: DateTimeParsing): ShowSchedule = ShowSchedule(
+    id = this.id,
+    status = this.status.toEventStatus(),
+    venue = this.venue.toShowVenues(),
+    start = dateTimeParsing.parseRemoteDatabaseDateTime(this.start),
+    end = dateTimeParsing.parseRemoteDatabaseDateTime(this.end),
+    statusNote = this.statusNote
 )
 
 @OptIn(ExperimentalSerializationApi::class)

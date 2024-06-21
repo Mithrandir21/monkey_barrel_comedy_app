@@ -4,6 +4,8 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import pm.bam.mbc.common.di.commonModule
 import pm.bam.mbc.domain.Database
+import pm.bam.mbc.domain.datetime.DateTimeParsing
+import pm.bam.mbc.domain.datetime.DateTimeParsingImpl
 import pm.bam.mbc.domain.db.DriverFactory
 import pm.bam.mbc.domain.db.createDatabase
 import pm.bam.mbc.domain.repositories.artist.ArtistRepository
@@ -36,6 +38,7 @@ val domainModule = module {
     includes(LoggingModule, remoteModule, commonModule)
 
     single<Database> { createDatabase(get<DriverFactory>()) }
+    single<DateTimeParsing> { DateTimeParsingImpl() }
 
     single<DatabaseNewsQueries> { get<Database>().databaseNewsQueries }
     single<DatabaseShowQueries> { get<Database>().databaseShowQueries }
@@ -50,6 +53,6 @@ val domainModule = module {
     single<ArtistRepository> { ArtistRepositoryImpl(get(), get(), get()) }
     single<BlogRepository> { BlogRepositoryImpl(get(), get(), get()) }
     single<PodcastRepository> { PodcastRepositoryImpl(get(), get(), get(), get()) }
-    single<ShowsRepository> { ShowsRepositoryImpl(get(), get(), get()) }
+    single<ShowsRepository> { ShowsRepositoryImpl(get(), get(), get(), get()) }
     single<MerchRepository> { MerchRepositoryImpl(get(), get(), get(), get()) }
 }
