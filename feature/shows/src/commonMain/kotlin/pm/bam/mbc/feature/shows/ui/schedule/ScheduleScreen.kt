@@ -51,6 +51,7 @@ import pm.bam.mbc.feature.shows.ui.show.TopAppNavBarTag
 internal fun ScheduleScreen(
     showId: Long,
     onBack: () -> Unit,
+    goToWeb: (url: String, title: String) -> Unit,
     viewModel: ScheduleViewModel = koinViewModel<ScheduleViewModel>()
 ) {
     viewModel.loadShowSchedule(showId)
@@ -62,6 +63,7 @@ internal fun ScheduleScreen(
     ScreenData(
         data = data.value,
         onBack = onBack,
+        goToWeb = goToWeb,
         onRetry = onRetry
     )
 }
@@ -71,6 +73,7 @@ internal fun ScheduleScreen(
 private fun ScreenData(
     data: ScheduleScreenData,
     onBack: () -> Unit,
+    goToWeb: (url: String, title: String) -> Unit,
     onRetry: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -142,7 +145,8 @@ private fun ScreenData(
 
                     is ScheduleScreenData.Schedule -> Schedules(
                         modifier = Modifier.padding(innerPadding),
-                        data = data
+                        data = data,
+                        goToWeb = goToWeb
                     )
                 }
             }
@@ -153,7 +157,8 @@ private fun ScreenData(
 @Composable
 private fun Schedules(
     modifier: Modifier = Modifier,
-    data: ScheduleScreenData.Schedule
+    data: ScheduleScreenData.Schedule,
+    goToWeb: (url: String, title: String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -163,7 +168,7 @@ private fun Schedules(
                 modifier = Modifier.testTag(ShowDetailsTag),
                 show = data.show,
                 showSchedule = data.schedule[index],
-                onShowSelected = { /* TODO: Implement */ }
+                onShowSelected = { goToWeb(data.show.url, data.show.name) }
             )
         }
     }

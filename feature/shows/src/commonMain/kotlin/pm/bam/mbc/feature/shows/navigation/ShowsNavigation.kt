@@ -50,7 +50,8 @@ fun NavGraphBuilder.showsScreen(
 fun NavGraphBuilder.showScheduleScreen(
     navController: NavController,
     route: String,
-    showIdArg: String
+    showIdArg: String,
+    goToWeb: (url: String, title: String) -> Unit
 ) {
     composable(
         route = route,
@@ -58,7 +59,8 @@ fun NavGraphBuilder.showScheduleScreen(
     ) { entry ->
         ScheduleScreen(
             showId = entry.arguments?.getLong(showIdArg)!!,
-            onBack = { navController.popBackStack() }
+            onBack = { navController.popBackStack() },
+            goToWeb = goToWeb
         )
     }
 }

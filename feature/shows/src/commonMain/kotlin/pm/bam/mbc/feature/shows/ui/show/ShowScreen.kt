@@ -1,6 +1,7 @@
 package pm.bam.mbc.feature.shows.ui.show
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -281,6 +282,7 @@ private fun ShowDetails(
                 TabType.Schedule -> showSchedule(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     show = data.show,
+                    goToWeb = goToWeb,
                     goToSchedules = goToSchedules
                 )
 
@@ -314,6 +316,7 @@ private enum class TabType {
 private fun showSchedule(
     modifier: Modifier = Modifier,
     show: Show,
+    goToWeb: (url: String, showTitle: String) -> Unit,
     goToSchedules: (showId: Long) -> Unit
 ) {
     show.schedule.take(SHOW_SCHEDULE_LIMIT).forEach {
@@ -321,7 +324,7 @@ private fun showSchedule(
             modifier = Modifier.testTag(ShowDetailsTag),
             show = show,
             showSchedule = it,
-            onShowSelected = { /* TODO: Implement */ }
+            onShowSelected = { goToWeb(show.url, show.name) }
         )
     }
 

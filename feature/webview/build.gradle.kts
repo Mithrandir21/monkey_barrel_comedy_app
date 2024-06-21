@@ -53,6 +53,10 @@ kotlin {
             implementation(libs.koin.core)
 
             implementation(libs.napier)
+
+            api(libs.webview.compose)
+
+            implementation(project(":compose"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -37,6 +37,8 @@ sqldelight = "2.0.2"
 
 supabase = "2.5.0"
 
+webview-compose = "1.9.12"
+
 kotest = "5.9.1"
 kotest-plugin = "5.0.2"
 turbine = "1.1.0"
@@ -89,6 +91,8 @@ sqldelight-extensions-coroutines = { module = "app.cash.sqldelight:coroutines-ex
 
 supabase-bom-kt = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase" }
 supabase-postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
+
+webview-compose = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "webview-compose" }
 
 # Testing Libraries
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }

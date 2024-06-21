@@ -17,3 +17,9 @@ captures
 !*.xcodeproj/project.xcworkspace/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
+
+# Ignore for Desktop WebView
+app/cache
+app/DawnCache
+app/kcef-bundle
+app/GPUCache

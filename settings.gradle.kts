@@ -26,6 +26,9 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+
+        // Required by the WebView project for Desktop target
+        maven("https://jogamp.org/deployment/maven")
     }
 }
 

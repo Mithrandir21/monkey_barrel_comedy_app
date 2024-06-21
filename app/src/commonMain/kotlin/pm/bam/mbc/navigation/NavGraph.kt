@@ -4,6 +4,10 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -59,7 +63,9 @@ internal fun NavGraph(
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        modifier = modifier,
+        modifier = modifier
+            .windowInsetsPadding(WindowInsets.safeContent)
+            .fillMaxSize(),
         enterTransition = { fadeIn(animationSpec = tween(500)) },
         exitTransition = { fadeOut(animationSpec = tween(500)) }
     ) {
@@ -107,6 +113,7 @@ internal fun NavGraph(
             navController = navController,
             route = NavigationDestinations.SHOW_SCHEDULE_ROUTE,
             showIdArg = NavigationDestinationsArgs.SHOW_ID_ARG,
+            goToWeb = { url, title -> navActions.navigateToWeb(url, title) }
         )
 
         blogScreen(
@@ -123,7 +130,9 @@ internal fun NavGraph(
 
         webviewScreen(
             navController = navController,
-            route = NavigationDestinations.WEBVIEW_ROUTE
+            route = NavigationDestinations.WEBVIEW_ROUTE,
+            titleArg = NavigationDestinationsArgs.WEB_TITLE_ARG,
+            urlArg = NavigationDestinationsArgs.WEB_URL_ARG
         )
 
         artistsScreen(
