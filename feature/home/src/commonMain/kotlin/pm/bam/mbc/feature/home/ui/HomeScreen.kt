@@ -211,17 +211,17 @@ private fun ScreenData(
                 }
             }
 
-            item {
-
-                HorizontalDivider()
-
-                HomeCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    title = stringResource(Res.string.home_screen_data_card_blogs_title),
-                    onClick = { onViewBlogs() },
-                    backgroundDrawableRes = Res.drawable.blog
-                )
-            }
+//            item {
+//
+//                HorizontalDivider()
+//
+//                HomeCard(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    title = stringResource(Res.string.home_screen_data_card_blogs_title),
+//                    onClick = { onViewBlogs() },
+//                    backgroundDrawableRes = Res.drawable.blog
+//                )
+//            }
         }
     )
 }

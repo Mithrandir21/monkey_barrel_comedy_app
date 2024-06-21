@@ -228,10 +228,12 @@ private fun ArtistDetails(
         )
 
         var tabIndex by remember { mutableStateOf(0) }
-        val tabs = listOf(
-            stringResource(Res.string.artists_screen_shows_label) to TabType.Shows,
-            stringResource(Res.string.artists_screen_merch_label) to TabType.Merch
-        )
+        val tabs = mutableListOf(stringResource(Res.string.artists_screen_shows_label) to TabType.Shows)
+
+        if (data.merch.isNotEmpty()) {
+            tabs.add(stringResource(Res.string.artists_screen_merch_label) to TabType.Merch)
+        }
+
         Column(modifier = Modifier.fillMaxWidth()) {
             TabRow(selectedTabIndex = tabIndex) {
                 tabs.forEachIndexed { index, tab ->
