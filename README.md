@@ -20,25 +20,25 @@ Because of the excellent integration between Compose and **ViewModels** (Nativel
 
 ### **[Material Designs](https://m3.material.io/)**
 Design is difficult on any platform, let alone across multiple platforms.
-Material Designs has been used because it provides platform consistent, well designed, best-in-class design UI components, that work as expected out-of-the-box, while also provided the most amount of flexibility and customization.
+Material Designs has been used because it provides platform consistent, well designed, best-in-class design UI components, that work as expected out-of-the-box, while also providing the most amount of flexibility and customization.
 In addition to the UI components, the tools and environment around Material Designs are comprehensive and well integrated with existing tools. Everything from complete [Figma UI elements](https://www.figma.com/community/file/1035203688168086460) available for use in any Figma project, to [Material Icons](https://m3.material.io/styles/icons/applying-icons) and [extraordinary integration](https://m3.material.io/develop/android/jetpack-compose) with Compose, makes Material Designs the only real cross-platform choice at the moment.
 [Material Designs - Why](https://m2.material.io/design/platform-guidance/cross-platform-adaptation.html)
 
 ### **[Koin](https://insert-koin.io/docs/reference/koin-mp/kmp/)**
-Koin is used for Dependency Injection through the project, with an emphasis on decoupling code and using module internal *implementations*, while making *interfaces* publicly available. This is and will be especially useful for testing purposes.
+Koin is used for Dependency Injection through the project, with an emphasis on decoupling code and using module internal *implementations*, while making *interfaces* publicly available. This is and will continue to be especially useful for testing purposes.
 
 ### **[Ktor](https://ktor.io/)**
 Network is limited to the **REMOTE** module only (except for Coil, which is used for image loading). This is done so that all networking logic can be contain within a single module, enforcing the need for the different modules to only communicate using deliberately chosen app specific logic, instead of any external networking requirements.
 
 ### **[SQLDelight](https://github.com/cashapp/sqldelight)**
 Following the best practice:
-> Saving data to a local DB and letting any UI react to observations of the locally stored Data
+> Save data to a local DB and let UI react to observations of the locally stored Data
 
 SQLDelight is used not only as the SQL storage, but also to provided a lot of additional function such as defining **stored data models** and **data querying** logic.
 As SQL functionality is specific to each platform, SQLDelight provides cross platform functionality, while also using platform specific SQL drivers.
 
 ### **[SupaBase](https://supabase.com/)**
-While the functionality provided by Firebase is difficult to replace, SupaBase has made a great effort in provided replacements for some of the most popular features, and while Firebase does not provide easy or complete Kotlin Multiplatform support, SupaBase does provide KMP support via it's community library [Supabase-kt](https://github.com/supabase-community/supabase-kt).
+While the functionality provided by Firebase is difficult to replace, SupaBase has made a great effort in providing replacements for some of the most popular features. Firebase does not provide easy or complete Kotlin Multiplatform support, while SupaBase does provide KMP support via it's community library [Supabase-kt](https://github.com/supabase-community/supabase-kt).
 
 Supabase is currently used in the **REMOTE** module for read access to the SupaBase database, with future plans for integration with image storage and user authentication.
 
