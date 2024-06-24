@@ -1,0 +1,14 @@
+<resources>
+
+    <string name="home_screen_title">Monkey Barrel Comedy</string>
+
+    <string name="home_screen_news_section_title">News</string>
+    <string name="home_screen_show_section_title_upcoming_shows">Upcoming Shows</string>
+    <string name="home_screen_artists_section_title">Featured Artist</string>
+
+    <string name="home_screen_data_card_comedy_shows_title">Shows</string>
+    <string name="home_screen_data_card_artists_title">Artists</string>
+    <string name="home_screen_data_card_podcast_episodes_title">Podcasts</string>
+    <string name="home_screen_data_card_blogs_title">Blog</string>
+
+</resources>

@@ -1,0 +1,39 @@
+CREATE TABLE DatabaseNews (
+    id INTEGER PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    images TEXT NOT NULL,
+    types TEXT NOT NULL,
+    showsIds TEXT,
+    merchIds TEXT,
+    podcastsIds TEXT,
+    blogPostsIds TEXT,
+    externalLinks TEXT
+);
+
+
+selectAll:
+SELECT *
+FROM DatabaseNews;
+
+selectById:
+SELECT *
+FROM DatabaseNews
+WHERE id = ?;
+
+selectByIds:
+SELECT *
+FROM DatabaseNews
+WHERE id
+IN ?;
+
+insert:
+INSERT INTO DatabaseNews(id, title, description, images, types, showsIds, merchIds, podcastsIds, blogPostsIds, externalLinks)
+VALUES ?;
+
+delete:
+DELETE FROM DatabaseNews
+WHERE id = ?;
+
+deleteAll:
+DELETE FROM DatabaseNews;

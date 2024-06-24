@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="podcasts_screen_podcasts_header_label">Podcasts</string>
+    <string name="podcasts_screen_show_venue_label">Venue: %1$s</string>
+
+    <string name="podcasts_screen_show_label">Show</string>
+    <string name="podcasts_screen_artists_label">Comedians</string>
+
+</resources>

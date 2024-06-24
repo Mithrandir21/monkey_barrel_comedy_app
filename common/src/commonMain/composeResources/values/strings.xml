@@ -1,0 +1,17 @@
+<resources>
+
+    <string name="navigation_back_button">Back</string>
+
+    <string name="loading_label">Loading…</string>
+
+    <string name="news_image_content_description">%1$s News image</string>
+    <string name="artist_image_content_description">%1$s Artist image</string>
+    <string name="show_image_content_description">%1$s Show image</string>
+    <string name="podcasts_image_content_description">%1$s Podcasts image</string>
+    <string name="podcast_image_content_description">%1$s Podcast image</string>
+    <string name="merch_image_content_description">%1$s Merchandise image</string>
+
+    <string name="data_loading_error_msg">Something went wrong. Please try again.</string>
+    <string name="data_loading_error_retry">Retry</string>
+
+</resources>

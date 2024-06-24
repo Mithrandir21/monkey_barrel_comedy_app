@@ -1,0 +1,35 @@
+<resources>
+
+    <string name="show_screen_search_filters_icon">Filters icon</string>
+    <string name="show_screen_search_filter_price_range_label">Price Range</string>
+    <string name="show_screen_search_filter_sort_by_label">Sort By</string>
+    <string name="show_screen_search_filter_sort_by_label_description">Sort By selection</string>
+    <string name="show_screen_search_filter_venues_label">Venues</string>
+    <string name="show_screen_search_filter_venues_label_description">Venues selection</string>
+    <string name="show_screen_search_filter_categories_label">Categories</string>
+    <string name="show_screen_search_filter_categories_label_description">Categories selection</string>
+    <string name="show_screen_search_filter_exact_match_label">Exact Match</string>
+
+    <string name="show_screen_search_filter_dates_label">Dates</string>
+    <string name="show_screen_search_filter_dates_range_label">Dates: %1$s - %2$s</string>
+    <string name="show_screen_search_filter_dates_range_start_label">From: %1$s</string>
+    <string name="show_screen_search_filter_dates_range_end_label">To: %1$s</string>
+    <string name="show_screen_search_filter_dates_range_dialog_positive_label">OK</string>
+    <string name="show_screen_search_filter_dates_range_dialog_negative_label">Cancel</string>
+
+
+    <string name="show_screen_show_dates_label">Dates</string>
+    <string name="show_screen_show_performers_label">Performers</string>
+    <string name="show_screen_show_merch_label">Merch</string>
+    <string name="show_screen_shows_label">Shows</string>
+
+    <string name="show_screen_show_more_dates_label">See all dates</string>
+
+    <plurals name="show_screen_show_venues_label_plurals">
+        <item quantity="one">Venue: %1$s</item>
+        <item quantity="other">Venues: %1$s</item>
+    </plurals>
+
+    <string name="show_schedule_screen_empty_label">No schedule for this show</string>
+
+</resources>

@@ -1,0 +1,29 @@
+CREATE TABLE DatabaseBlogPost (
+    id INTEGER PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    images TEXT NOT NULL,
+    tags TEXT NOT NULL,
+    author TEXT NOT NULL,
+    releaseDate TEXT NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM DatabaseBlogPost;
+
+selectById:
+SELECT *
+FROM DatabaseBlogPost
+WHERE id = ?;
+
+insert:
+INSERT INTO DatabaseBlogPost(id, title, content, images, tags, author, releaseDate)
+VALUES ?;
+
+delete:
+DELETE FROM DatabaseBlogPost
+WHERE id = ?;
+
+deleteAll:
+DELETE FROM DatabaseBlogPost;

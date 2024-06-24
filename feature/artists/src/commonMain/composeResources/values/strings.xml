@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="artists_screen_artists_header_label">Comedians</string>
+    <string name="artists_screen_show_venue_label">Venue: %1$s</string>
+
+    <string name="artists_screen_shows_label">Shows</string>
+    <string name="artists_screen_merch_label">Merch</string>
+
+</resources>
