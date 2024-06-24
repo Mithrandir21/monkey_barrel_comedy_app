@@ -85,6 +85,7 @@ The **App** module, containing the only platform specific code for each targeted
 ## Known Issues
 
 - There is currently an issue with SQLDelight and the construction of a single table. An 'in-memory' DB is currently being used until the issue has been resolved. [Bug Report](https://github.com/cashapp/sqldelight/issues/5291)
+- iOS app is currently under development, and might not work correctly. Please feel free to contribute to a functioning iOS app.
 
 ## How to contribute
 - Take the code and do new things with it.
