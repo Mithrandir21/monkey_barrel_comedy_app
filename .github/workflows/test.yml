@@ -10,6 +10,13 @@ on:
 
 jobs:
   test:
+    strategy:
+      matrix:
+        command: [
+          'testDebugUnitTest testReleaseUnitTest',
+          'desktopTest',
+#          'iosX64Test iosSimulatorArm64Test', TODO - Look at iOS testing
+        ]
     runs-on: macos-latest
     steps:
       - name: Checkout sources
@@ -21,6 +28,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - uses: burrunan/gradle-cache-action@v1
+        name: Cache .gradle
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3.1.0
 
@@ -28,4 +38,4 @@ jobs:
         run: chmod +x gradlew
 
       - name: Test codebase
-        run: ./gradlew --no-daemon check --stacktrace --configuration-cache
+        run: ./gradlew --no-daemon ${{ matrix.command }} --stacktrace --configuration-cache

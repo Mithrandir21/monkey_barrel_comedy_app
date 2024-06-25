@@ -57,6 +57,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
 
             implementation(libs.koin.core)
+            implementation(libs.stately.common) // TODO - https://github.com/cashapp/sqldelight/issues/4357#issuecomment-1839905700
 
             implementation(project.dependencies.platform(libs.supabase.bom.kt))
             implementation(libs.supabase.postgrest.kt)

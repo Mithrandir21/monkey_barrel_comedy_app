@@ -29,6 +29,8 @@ ktorfit = "2.0.0-beta1"
 
 koin = "3.4.0"
 koinComposeMultiplatform = "1.2.0-Beta4"
+# Temporary fix for Koin transitive dependency issue
+stately = "2.0.5"
 
 napier = "2.7.1"
 slf4j = "2.0.13"
@@ -80,6 +82,7 @@ koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeMultiplatform" }
+stately-common = { module = "co.touchlab:stately-common", version.ref = "stately" }
 
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }

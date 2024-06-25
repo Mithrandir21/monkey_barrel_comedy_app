@@ -51,6 +51,7 @@ kotlin {
             implementation(libs.jetbrains.androidx.navigation.compose)
 
             implementation(libs.koin.core)
+            implementation(libs.stately.common) // TODO - https://github.com/cashapp/sqldelight/issues/4357#issuecomment-1839905700
 
             implementation(libs.napier)
 
