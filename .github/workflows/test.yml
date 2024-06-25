@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         command: [
-          'jvmTest testDebugUnitTest testReleaseUnitTest',
+          'testDebugUnitTest testReleaseUnitTest',
           'desktopTest',
           'iosX64Test iosSimulatorArm64Test',
         ]
