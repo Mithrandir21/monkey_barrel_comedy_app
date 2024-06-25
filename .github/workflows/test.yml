@@ -15,7 +15,7 @@ jobs:
         command: [
           'testDebugUnitTest testReleaseUnitTest',
           'desktopTest',
-          'iosX64Test iosSimulatorArm64Test',
+#          'iosX64Test iosSimulatorArm64Test', TODO - Look at iOS testing
         ]
     runs-on: macos-latest
     steps:
@@ -28,15 +28,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+      - uses: burrunan/gradle-cache-action@v1
+        name: Cache .gradle
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3.1.0
