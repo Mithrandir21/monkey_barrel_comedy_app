@@ -107,7 +107,7 @@ fun MonkeyTheme(
         CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
             MaterialTheme(
                 colorScheme = colorScheme,
-                typography = Typography,
+                typography = NotoTypography(),
                 content = content
             )
         }

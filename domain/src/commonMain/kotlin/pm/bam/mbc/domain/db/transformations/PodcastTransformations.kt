@@ -17,7 +17,7 @@ internal fun RemotePodcast.toPodcast(): Podcast = Podcast(
     name = name,
     description = description,
     images = images,
-    links = links.map { it.toLink() }
+    links = externalLinks.map { it.toLink() }
 )
 
 internal fun Podcast.toDatabasePodcast(serializer: Serializer): DatabasePodcast = DatabasePodcast(
@@ -42,7 +42,7 @@ internal fun RemotePodcastEpisode.toPodcastEpisode(): PodcastEpisode = PodcastEp
     name = name,
     description = description,
     images = images,
-    links = links.map { it.toLink() },
+    links = externalLinks.map { it.toLink() },
     duration = duration,
     releaseDate = releaseDate,
     podcastId = podcastId,

@@ -18,5 +18,6 @@ data class RemotePodcastEpisode(
     val showId: List<IDsWrapper>? = null,
     @SerialName("artist_ids")
     val artistId: List<IDsWrapper>? = null,
-    val links: List<RemoteLink>,
+    @SerialName("links")
+    val externalLinks: List<RemoteLink>,
 )
