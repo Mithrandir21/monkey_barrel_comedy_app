@@ -18,5 +18,6 @@ data class RemoteArtist(
     @SerialName("episode_ids")
     val podcastsEpisodeIds: List<IDsWrapper>? = null,
     val blogPostsIds: List<IDsWrapper>? = null,
+    @SerialName("links")
     val externalLinks: List<RemoteLink>? = null
 )

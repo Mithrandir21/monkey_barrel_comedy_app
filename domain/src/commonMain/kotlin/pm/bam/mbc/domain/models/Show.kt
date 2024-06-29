@@ -17,7 +17,6 @@ data class Show(
     val url: String,
     val images: List<String>,
     val categories: List<Categories>? = null,
-    val artistIds: List<Long>? = null,
     val merchIds: List<Long>? = null,
     val schedule: List<ShowSchedule>,
 )
@@ -56,6 +55,7 @@ data class ShowSchedule(
     val venue: ShowVenues,
     val start: LocalDateTime,
     val end: LocalDateTime,
+    val artistIds: List<Long>? = null,
     val statusNote: String? = null
 )
 
@@ -65,6 +65,7 @@ internal fun RemoteShowSchedule.toShowSchedule(dateTimeParsing: DateTimeParsing)
     venue = this.venue.toShowVenues(),
     start = dateTimeParsing.parseRemoteDatabaseDateTime(this.start),
     end = dateTimeParsing.parseRemoteDatabaseDateTime(this.end),
+    artistIds = this.artistIds?.map { it.id },
     statusNote = this.statusNote
 )
 
