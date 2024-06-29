@@ -12,11 +12,11 @@ data class RemoteShow(
     val url: String,
     val images: List<String>,
     val categories: List<RemoteCategories>? = null,
-    @SerialName("artist_ids")
-    val artistIds: List<IDsWrapper>? = null,
     @SerialName("merch_ids")
     val merchIds: List<IDsWrapper>? = null,
-    val schedule: List<RemoteShowSchedule>
+
+    // Not added initially, but constructed in the RemoteShowsDataSourceImpl
+    val schedule: List<RemoteShowSchedule> = emptyList()
 )
 
 
@@ -35,10 +35,14 @@ enum class RemoteShowVenues {
 @Serializable
 data class RemoteShowSchedule(
     val id: Long,
+    @SerialName("show_id")
+    val showId: Long,
     val status: RemoteEventStatus,
     val venue: RemoteShowVenues,
     val start: String,
     val end: String,
+    @SerialName("artist_ids")
+    val artistIds: List<IDsWrapper>? = null,
     @SerialName("status_note")
     val statusNote: String? = null
 )

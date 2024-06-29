@@ -34,8 +34,8 @@ private val baseArtist = Artist(1, "firstname", "lastname", "desc", listOf("imag
 
 private val showFlow = MutableStateFlow<List<Show>>(emptyList())
 private val baseShow = Show(
-    1, "name", "desc", "url", listOf("images"), listOf(Categories.COMEDY), listOf(1, 2, 3), merchIds = listOf(1), schedule = listOf(
-        ShowSchedule(1, EventStatus.ACTIVE, ShowVenues.MB1, LocalDateTime(2021, 1, 1, 1, 1), LocalDateTime(2021, 1, 1, 1, 1))
+    1, "name", "desc", "url", listOf("images"), listOf(Categories.COMEDY), merchIds = listOf(1), schedule = listOf(
+        ShowSchedule(1, EventStatus.ACTIVE, ShowVenues.MB1, LocalDateTime(2021, 1, 1, 1, 1), LocalDateTime(2021, 1, 1, 1, 1), listOf(1, 2, 3))
     )
 )
 private val merchFlow = MutableStateFlow<List<Merch>>(emptyList())

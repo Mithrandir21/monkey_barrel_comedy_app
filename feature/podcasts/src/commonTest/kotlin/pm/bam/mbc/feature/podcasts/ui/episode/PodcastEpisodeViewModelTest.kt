@@ -39,7 +39,7 @@ private val baseArtist = Artist(1, "firstname", "lastname", "desc", listOf(), li
 private val showFlow = MutableStateFlow<List<Show>>(emptyList())
 private val baseShow = Show(
     1, "name", "desc", "url", listOf("images"), listOf(Categories.COMEDY), listOf(1, 2, 3), schedule = listOf(
-        ShowSchedule(1, EventStatus.ACTIVE, ShowVenues.MB1, LocalDateTime(2021, 1, 1, 1, 1), LocalDateTime(2021, 1, 1, 1, 1))
+        ShowSchedule(1, EventStatus.ACTIVE, ShowVenues.MB1, LocalDateTime(2021, 1, 1, 1, 1), LocalDateTime(2021, 1, 1, 1, 1), listOf(1, 2, 3))
     )
 )
 

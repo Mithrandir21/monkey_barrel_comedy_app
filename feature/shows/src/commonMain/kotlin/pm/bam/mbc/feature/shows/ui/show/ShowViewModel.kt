@@ -68,7 +68,7 @@ internal class ShowViewModel(
         flowOf(showId)
             .flatMapLatest { showsRepository.getShow(it).toFlow() }
             .flatMapLatest<Show, ShowScreenData> { show ->
-                val artists = show.artistIds?.let { artistRepository.getArtists(*it.toLongArray()) } ?: listOf()
+                val artists = show.schedule.first().artistIds?.let { artistRepository.getArtists(*it.toLongArray()) } ?: listOf()
                 val merch = show.merchIds?.let { merchRepository.getMerch(*it.toLongArray()) } ?: listOf()
 
                 ShowScreenData.Success(show, artists, merch).toFlow()

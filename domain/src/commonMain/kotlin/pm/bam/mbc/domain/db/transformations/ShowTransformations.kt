@@ -18,7 +18,6 @@ internal fun RemoteShow.toShow(dateTimeParsing: DateTimeParsing): Show = Show(
     url = url,
     images = images,
     categories = categories?.map { it.toCategory() },
-    artistIds = artistIds.mapIds(),
     merchIds = merchIds.mapIds(),
     schedule = schedule.map { it.toShowSchedule(dateTimeParsing) }
 )
@@ -30,7 +29,6 @@ internal fun Show.toDatabaseShow(serializer: Serializer): DatabaseShow = Databas
     url = url,
     images = serializer.serialize(images),
     category = categories?.let { serializer.serialize(it) },
-    artistIds = artistIds?.let { serializer.serialize(it) },
     merchIds = merchIds?.let { serializer.serialize(it) },
     schedule = schedule.let { serializer.serialize(it) }
 )
@@ -42,7 +40,6 @@ internal fun DatabaseShow.toShow(serializer: Serializer): Show = Show(
     url = url,
     images = serializer.deserialize(images),
     categories = category?.let { serializer.deserialize(it) },
-    artistIds = artistIds?.let { serializer.deserialize(it) },
     merchIds = merchIds?.let { serializer.deserialize(it) },
     schedule = serializer.deserialize(schedule)
 )
