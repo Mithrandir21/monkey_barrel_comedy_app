@@ -18,6 +18,7 @@ data class RemoteNews(
     @SerialName("episode_ids")
     val episodeIds: List<IDsWrapper>? = null,
     val blogPostsIds: List<IDsWrapper>? = null,
+    @SerialName("links")
     val externalLinks: List<RemoteLink>? = null
 )
 
