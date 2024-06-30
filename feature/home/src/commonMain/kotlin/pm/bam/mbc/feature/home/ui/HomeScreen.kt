@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -84,6 +85,7 @@ internal fun HomeScreen(
         onViewArtist = onViewArtist,
         onViewShow = onViewShow,
         onViewBlogs = goToBlog,
+        onSignup = { viewModel.signUp() },
         onRetry = { viewModel.loadData() }
     )
 }
@@ -97,6 +99,7 @@ private fun Screen(
     onViewArtist: (artistId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewBlogs: () -> Unit,
+    onSignup: () -> Unit,
     onRetry: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -153,7 +156,8 @@ private fun Screen(
                             onViewNewsItem = onViewNewsItem,
                             onViewArtist = onViewArtist,
                             onViewShow = onViewShow,
-                            onViewBlogs = onViewBlogs
+                            onViewBlogs = onViewBlogs,
+                            onSignup = onSignup
                         )
                     }
                 }
@@ -171,11 +175,19 @@ private fun ScreenData(
     onViewArtist: (artistId: Long) -> Unit,
     onViewShow: (showId: Long) -> Unit,
     onViewBlogs: () -> Unit,
+    onSignup: () -> Unit,
     dateTimeFormatter: DateTimeFormatter = koinInject<DateTimeFormatter>()
 ) {
     LazyColumn(
         modifier = modifier,
         content = {
+            item {
+                SectionHeader("Signed In: ${data.userLoggedIn}")
+                Button(onClick = onSignup) {
+                    Text("Signup")
+                }
+            }
+
             if (data.topUpcomingShows.isNotEmpty()) {
                 items(data.topUpcomingShows.size) { index ->
                     ShowRow(

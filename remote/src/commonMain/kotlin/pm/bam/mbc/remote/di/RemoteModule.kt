@@ -2,6 +2,7 @@ package pm.bam.mbc.remote.di
 
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.logging.LogLevel
 import io.github.jan.supabase.postgrest.Postgrest
 import org.koin.dsl.module
@@ -22,6 +23,7 @@ import pm.bam.mbc.remote.datasources.RemoteShowsDataSource
 import pm.bam.mbc.remote.datasources.RemoteShowsDataSourceImpl
 import pm.bam.mbc.remote.secrets.Secrets
 import pm.bam.mbc.remote.secrets.getSecrets
+import pm.bam.mbc.remote.services.RemoteAuthImpl
 
 val remoteModule = module {
     includes(LoggingModule)
@@ -41,6 +43,7 @@ val remoteModule = module {
             defaultLogLevel = LogLevel.DEBUG
 
             install(Postgrest)
+            install(Auth)
 
             info(logger) { "Supabase client Configured" }
         }
@@ -52,4 +55,6 @@ val remoteModule = module {
     single<RemoteShowsDataSource> { RemoteShowsDataSourceImpl(get(), get()) }
     single<RemoteNewsDataSource> { RemoteNewsDataSourceImpl(get(), get()) }
     single<RemoteMerchDataSource> { RemoteMerchDataSourceImpl(get(), get()) }
+
+    single<pm.bam.mbc.remote.services.RemoteAuth> { RemoteAuthImpl(get(), get()) }
 }

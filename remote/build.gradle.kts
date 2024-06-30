@@ -17,7 +17,7 @@ val supabaseUrlKey = "SUPABASE_KEY"
 val supaBaseUrl = gradleLocalProperties(rootDir).getProperty(supabaseUrlUrl)
     ?: "\"https://nrsstqiixzgrsohtahyw.supabase.co\""
 val supaBaseKey = gradleLocalProperties(rootDir).getProperty(supabaseUrlKey)
-    // This a safe public key, don't worry
+    // This is a safe public key, don't worry
     ?: "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yc3N0cWlpeHpncnNvaHRhaHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgwOTgxNjgsImV4cCI6MjAzMzY3NDE2OH0.GuxRK6DidTqjM3TuWgLHvbD5mg_XmxASUjdm2YwIHxg\""
 
 
@@ -61,6 +61,7 @@ kotlin {
 
             implementation(project.dependencies.platform(libs.supabase.bom.kt))
             implementation(libs.supabase.postgrest.kt)
+            implementation(libs.supabase.auth.kt)
 
             implementation(libs.napier)
 

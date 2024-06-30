@@ -24,6 +24,7 @@ import pm.bam.mbc.domain.repositories.merch.MerchRepository
 import pm.bam.mbc.domain.repositories.news.NewsRepository
 import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
+import pm.bam.mbc.domain.services.AuthServices
 import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.logging.fatal
 
@@ -39,7 +40,8 @@ internal class HomeViewModel(
     private val artistRepository: ArtistRepository,
     private val podcastRepository: PodcastRepository,
     private val blogRepository: BlogRepository,
-    private val merchRepository: MerchRepository
+    private val merchRepository: MerchRepository,
+    private val authServices: AuthServices
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeScreenData>(HomeScreenData.Loading)
@@ -65,6 +67,12 @@ internal class HomeViewModel(
                 .collect { _uiState.emit(it) }
         }
 
+    fun signUp() {
+        viewModelScope.launch {
+            authServices.signUp("bam@test.com", "password")
+        }
+    }
+
     private fun loadHomeScreenData() =
         flow { emitAll(showsRepository.observeShows()) }
             .map { shows -> shows.take(LIMIT_SHOWS) }
@@ -74,6 +82,7 @@ internal class HomeViewModel(
                     .flatMapLatest { news -> artistRepository.observeArtists().map { artists -> news to artists } }
                     .map { (news, artists) ->
                         HomeScreenData.Success(
+                            userLoggedIn = authServices.loggedIn(),
                             topUpcomingShows = shows,
                             featuredArtist = artists.shuffled().take(LIMIT_ARTISTS),
                             news = news.take(NEWS_SHOWS)
@@ -100,6 +109,7 @@ internal class HomeViewModel(
         data object Loading : HomeScreenData()
         data object Error : HomeScreenData()
         data class Success(
+            val userLoggedIn: Boolean,
             val topUpcomingShows: List<Show>,
             val featuredArtist: List<Artist>,
             val news: List<News>,

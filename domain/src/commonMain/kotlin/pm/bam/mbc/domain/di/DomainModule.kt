@@ -20,6 +20,8 @@ import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
 import pm.bam.mbc.domain.repositories.podcast.PodcastRepositoryImpl
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepositoryImpl
+import pm.bam.mbc.domain.services.AuthServices
+import pm.bam.mbc.domain.services.AuthServicesImpl
 import pm.bam.mbc.logging.di.LoggingModule
 import pm.bam.mbc.remote.di.remoteModule
 import pmbammbcdomain.DatabaseArtistQueries
@@ -55,4 +57,6 @@ val domainModule = module {
     single<PodcastRepository> { PodcastRepositoryImpl(get(), get(), get(), get()) }
     single<ShowsRepository> { ShowsRepositoryImpl(get(), get(), get(), get()) }
     single<MerchRepository> { MerchRepositoryImpl(get(), get(), get(), get()) }
+
+    single<AuthServices> { AuthServicesImpl(get()) }
 }

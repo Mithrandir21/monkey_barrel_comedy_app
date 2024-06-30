@@ -32,6 +32,7 @@ import pm.bam.mbc.domain.repositories.merch.MerchRepository
 import pm.bam.mbc.domain.repositories.news.NewsRepository
 import pm.bam.mbc.domain.repositories.podcast.PodcastRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
+import pm.bam.mbc.domain.services.AuthServices
 import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.testing.TestingLoggingListener
 import kotlin.test.BeforeTest
@@ -76,7 +77,16 @@ internal class HomeViewModelTest {
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
 
-        viewModel = HomeViewModel(logger, FakeNewsRepository(), FakeShowsRepository(), FakeArtistRepository(), FakePodcastRepository(), FakeBlogRepository(), FakeMerchRepository())
+        viewModel = HomeViewModel(
+            logger,
+            FakeNewsRepository(),
+            FakeShowsRepository(),
+            FakeArtistRepository(),
+            FakePodcastRepository(),
+            FakeBlogRepository(),
+            FakeMerchRepository(),
+            FakeAuthServices()
+        )
     }
 
     @Test
@@ -97,7 +107,7 @@ internal class HomeViewModelTest {
 
         viewModel.uiState.test {
             awaitItem() shouldBe HomeViewModel.HomeScreenData.Loading
-            awaitItem() shouldBe HomeViewModel.HomeScreenData.Success(listOf(baseShow), listOf(baseArtist), listOf(baseNews))
+            awaitItem() shouldBe HomeViewModel.HomeScreenData.Success(true, listOf(baseShow), listOf(baseArtist), listOf(baseNews))
         }
     }
 
@@ -105,7 +115,7 @@ internal class HomeViewModelTest {
     fun `error state`() = runTest {
         viewModel = HomeViewModel(logger, FakeNewsRepository(), object : FakeShowsRepository() {
             override fun observeShows(): Flow<List<Show>> = throw Exception()
-        }, FakeArtistRepository(), FakePodcastRepository(), FakeBlogRepository(), FakeMerchRepository())
+        }, FakeArtistRepository(), FakePodcastRepository(), FakeBlogRepository(), FakeMerchRepository(), FakeAuthServices())
 
         viewModel.loadData()
 
@@ -164,4 +174,12 @@ private open class FakeMerchRepository : MerchRepository {
     override fun getMerchItem(merchItemId: Long): MerchItem = baseMerchItem
     override suspend fun refreshMerch(): Unit = Unit
     override suspend fun refreshMerchItems(): Unit = Unit
+}
+
+private open class FakeAuthServices : AuthServices {
+    override suspend fun loggedIn(): Boolean = true
+    override suspend fun signUp(email: String, password: String) = Unit
+    override suspend fun login(email: String, password: String) = Unit
+    override suspend fun logout() = Unit
+    override suspend fun resetPassword(email: String) = Unit
 }

@@ -94,6 +94,7 @@ sqldelight-extensions-coroutines = { module = "app.cash.sqldelight:coroutines-ex
 
 supabase-bom-kt = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase" }
 supabase-postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
+supabase-auth-kt = { module = "io.github.jan-tennert.supabase:gotrue-kt" }
 
 webview-compose = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "webview-compose" }
 
