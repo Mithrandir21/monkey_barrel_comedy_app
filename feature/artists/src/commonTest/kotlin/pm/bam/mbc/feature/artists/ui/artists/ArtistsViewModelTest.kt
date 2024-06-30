@@ -38,7 +38,7 @@ internal class ArtistsViewModelTest {
     }
 
     @Test
-    fun `initially loading state`() = runTest {
+    fun initiallyLoadingState() = runTest {
         viewModel.uiState.test {
             awaitItem() shouldBe ArtistsScreenData(ArtistsScreenStatus.LOADING, artists = emptyList())
             awaitItem() shouldBe ArtistsScreenData(ArtistsScreenStatus.SUCCESS, artists = emptyList())
@@ -46,7 +46,7 @@ internal class ArtistsViewModelTest {
     }
 
     @Test
-    fun `load data`() = runTest {
+    fun loadData() = runTest {
         artistFlow.emit(listOf(baseArtist))
 
         viewModel.loadData()
@@ -58,7 +58,7 @@ internal class ArtistsViewModelTest {
     }
 
     @Test
-    fun `error state`() = runTest {
+    fun errorState() = runTest {
         viewModel = ArtistsViewModel(logger, object : FakeArtistRepository() {
             override fun observeArtists(): Flow<List<Artist>> = throw Exception()
         })

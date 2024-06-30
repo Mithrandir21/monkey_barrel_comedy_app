@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -16,17 +17,18 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
 
-//        // https://youtrack.jetbrains.com/issue/KT-46452/Allow-to-run-common-tests-as-Android-Instrumentation-tests
-//        // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-test.html
-//        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-//        instrumentedTestVariant {
-//            sourceSetTree.set(KotlinSourceSetTree.test)
-//
-//            dependencies {
-//                implementation(libs.compose.test.ui.junit4)
-//                debugImplementation(libs.compose.test.ui.manifest)
-//            }
-//        }
+        // https://youtrack.jetbrains.com/issue/KT-46452/Allow-to-run-common-tests-as-Android-Instrumentation-tests
+        // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-test.html
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant {
+            sourceSetTree.set(KotlinSourceSetTree.test)
+
+            dependencies {
+                implementation(libs.compose.test.ui.junit4)
+                implementation(libs.compose.test.ui.automator)
+                debugImplementation(libs.compose.test.ui.manifest)
+            }
+        }
     }
 
     jvm("desktop")
@@ -93,8 +95,8 @@ kotlin {
 
             implementation(libs.turbine)
 
-//            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-//            implementation(compose.uiTest)
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
 
             implementation(project(":testing"))
         }
@@ -142,10 +144,19 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
 
-//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    packaging {
+        resources {
+            excludes += "**/attach_hotspot_windows.dll"
+            excludes += "/META-INF/licenses/**"
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/LICENSE-notice.md"
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }

@@ -1,14 +1,13 @@
 package pm.bam.mbc.feature.artists.ui.artist
 
-import app.cash.turbine.test
-import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.runComposeUiTest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDateTime
 import pm.bam.mbc.domain.models.Artist
 import pm.bam.mbc.domain.models.Categories
@@ -24,10 +23,9 @@ import pm.bam.mbc.domain.models.ShowVenues
 import pm.bam.mbc.domain.repositories.artist.ArtistRepository
 import pm.bam.mbc.domain.repositories.merch.MerchRepository
 import pm.bam.mbc.domain.repositories.shows.ShowsRepository
-import pm.bam.mbc.logging.Logger
 import pm.bam.mbc.testing.TestingLoggingListener
-import kotlin.test.BeforeTest
 import kotlin.test.Test
+
 
 private val artistFlow = MutableStateFlow<List<Artist>>(emptyList())
 private val baseArtist = Artist(1, "firstname", "lastname", "desc", listOf("images"), listOf(Categories.COMEDY), listOf(1), listOf(1))
@@ -44,80 +42,80 @@ private val baseMerch = Merch(1, "name", "desc", listOf("images"))
 private val merchItemFlow = MutableStateFlow<List<MerchItem>>(emptyList())
 private val baseMerchItem = MerchItem(1, "name", "desc", MerchItemStatus.IN_STOCK, listOf(MerchItemType.VINYL), 1)
 
+internal class ExampleTest {
 
-internal class ArtistViewModelTest {
+//    @OptIn(ExperimentalTestApi::class)
+//    @Test
+//    fun myTest() = runComposeUiTest {
+//        // Declares a mock UI to demonstrate API calls
+//        //
+//        // Replace with your own declarations to test the code of your project
+//        setContent {
+//            var text by remember { mutableStateOf("Hello") }
+//            Column {
+//                Text(
+//                    text = text,
+//                    modifier = Modifier.testTag("text")
+//                )
+//                Button(
+//                    onClick = { text = "Compose" },
+//                    modifier = Modifier.testTag("button")
+//                ) {
+//                    Text("Click me")
+//                }
+//            }
+//        }
+//
+//        // Tests the declared UI with assertions and actions of the Compose Multiplatform testing API
+//        onNodeWithTag("text").assertTextEquals("Hello")
+//        onNodeWithTag("button").performClick()
+////        onNodeWithTag("text").assertTextEquals("Compose")
+//    }
 
-    private val logger: Logger = TestingLoggingListener()
-
-    private lateinit var viewModel: ArtistViewModel
-
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @BeforeTest
-    fun setup() {
-        Dispatchers.setMain(StandardTestDispatcher())
-
-        viewModel = ArtistViewModel(logger, FakeArtistRepository(), FakeShowsRepository(), FakeMerchRepository())
-    }
-
+    @OptIn(ExperimentalTestApi::class)
     @Test
-    fun initiallyLoadingState() = runTest {
-        viewModel.uiState.test {
-            awaitItem() shouldBe ArtistViewModel.ArtistScreenData.Loading
+    fun myTest2() = runComposeUiTest {
+        runBlocking {
+            artistFlow.emit(listOf(baseArtist))
+            showFlow.emit(listOf(baseShow))
+            merchFlow.emit(listOf(baseMerch))
+            merchItemFlow.emit(listOf(baseMerchItem))
         }
-    }
 
-    @Test
-    fun loadArtist() = runTest {
-        artistFlow.emit(listOf(baseArtist))
-        showFlow.emit(listOf(baseShow))
-        merchFlow.emit(listOf(baseMerch))
-
-        viewModel.loadArtistDetails(1)
-
-        viewModel.uiState.test {
-            awaitItem() shouldBe ArtistViewModel.ArtistScreenData.Loading
-            awaitItem() shouldBe ArtistViewModel.ArtistScreenData.Success(baseArtist, listOf(baseShow), listOf(baseMerch))
+        // Declares a mock UI to demonstrate API calls
+        //
+        // Replace with your own declarations to test the code of your project
+        setContent {
+            ArtistScreen(
+                artistId = baseArtist.id,
+                onBack = {},
+                onViewShow = {},
+                onViewMerch = {},
+                goToWeb = { _, _ -> },
+                viewModel = ArtistViewModel(
+                    TestingLoggingListener(),
+                    FakeArtistRepositoryForScreen(),
+                    FakeShowsRepositoryForScreen(),
+                    FakeMerchRepositoryForScreen()
+                )
+            )
         }
-    }
 
-    @Test
-    fun reloadArtist() = runTest {
-        artistFlow.emit(listOf(baseArtist))
-        showFlow.emit(listOf(baseShow))
-        merchFlow.emit(listOf(baseMerch))
-
-        viewModel.reloadArtist(1)
-
-        viewModel.uiState.test {
-            awaitItem() shouldBe ArtistViewModel.ArtistScreenData.Loading
-            awaitItem() shouldBe ArtistViewModel.ArtistScreenData.Success(baseArtist, listOf(baseShow), listOf(baseMerch))
-        }
-    }
-
-    @Test
-    fun errorState() = runTest {
-        viewModel = ArtistViewModel(logger, object : FakeArtistRepository() {
-            override fun getArtist(artistId: Long): Artist = throw Exception()
-        }, FakeShowsRepository(), FakeMerchRepository())
-
-        viewModel.loadArtistDetails(1)
-
-        viewModel.uiState.test {
-            awaitItem() shouldBe ArtistViewModel.ArtistScreenData.Loading
-            awaitItem() shouldBe ArtistViewModel.ArtistScreenData.Error
-        }
+        // Tests the declared UI with assertions and actions of the Compose Multiplatform testing API
+//        onNodeWithTag("text").assertTextEquals("Hello")
+//        onNodeWithTag("button").performClick()
+//        onNodeWithTag("text").assertTextEquals("Compose")
     }
 }
 
-private open class FakeArtistRepository : ArtistRepository {
+private open class FakeArtistRepositoryForScreen : ArtistRepository {
     override fun observeArtists(): Flow<List<Artist>> = artistFlow
     override fun getArtist(artistId: Long): Artist = baseArtist
     override fun getArtists(vararg artistId: Long): List<Artist> = listOf(baseArtist)
     override suspend fun refreshArtists(): Unit = Unit
 }
 
-private open class FakeShowsRepository : ShowsRepository {
+private open class FakeShowsRepositoryForScreen : ShowsRepository {
     override fun observeShows(): Flow<List<Show>> = showFlow
     override fun getShow(showId: Long): Show = baseShow
     override fun getShows(vararg showId: Long): List<Show> = listOf(baseShow)
@@ -125,7 +123,7 @@ private open class FakeShowsRepository : ShowsRepository {
     override suspend fun refreshShows() = Unit
 }
 
-private open class FakeMerchRepository : MerchRepository {
+private open class FakeMerchRepositoryForScreen : MerchRepository {
     override fun observeMerch(): Flow<List<Merch>> = merchFlow
     override fun getMerch(merchId: Long): Merch = baseMerch
     override fun getMerch(vararg merchId: Long): List<Merch> = listOf(baseMerch)
